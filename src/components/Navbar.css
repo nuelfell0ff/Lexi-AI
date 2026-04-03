@@ -71,7 +71,7 @@
 
 /* Get Started Button */
 .btn-get-started {
-  background: #000000;
+  background: #194066;
   color: var(--text-light);
   border: 2px solid transparent;
   padding: 10px 28px;
@@ -173,7 +173,7 @@
 }
 
 .btn-sidebar-get-started {
-  background: #000000;
+  background: #194066;
   color: var(--text-light);
   border: 2px solid transparent;
   padding: 12px 20px;
