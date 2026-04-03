@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
-import './Features.css'
-import mockup1 from '../assets/IMG_5394.png';
-import mockup2 from '../assets/IMG_5396.png';
-import mockup3 from '../assets/IMG_5398.png';
-import mockup4 from '../assets/IMG_5400.png';
+import React, { useState } from 'react';
+import './Features.css';
+import mockup1 from '../assets/IMG_5394.PNG';
+import mockup2 from '../assets/IMG_5396.PNG';
+import mockup3 from '../assets/IMG_5398.PNG';
+import mockup4 from '../assets/IMG_5400.PNG';
 
 const Features = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
