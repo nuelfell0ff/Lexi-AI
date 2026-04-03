@@ -88,11 +88,11 @@ const Features = () => {
             <button className="nav-btn prev-btn" onClick={prevSlide} aria-label="Previous">
               &lt;
             </button>
-            <div className="slider-track" style={{ 
+            <div className="slider-track" style={{
               transform: `translateX(-${currentSlide * 100}%)`,
               transition: isTransitioning ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none'
             }}
-            onTransitionEnd={handleTransitionEnd}
+              onTransitionEnd={handleTransitionEnd}
             >
               {allSlides.map((feature, index) => (
                 <div key={index} className="slider-item">
