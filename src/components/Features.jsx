@@ -6,9 +6,6 @@ import mockup3 from '../assets/IMG_5398.PNG';
 import mockup4 from '../assets/IMG_5400.PNG';
 
 const Features = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-
   const features = [
     {
       img: mockup1,
@@ -34,6 +31,10 @@ const Features = () => {
 
   // Duplicate features 3 times for infinite scroll
   const allSlides = [...features, ...features, ...features];
+
+  // Start at middle copy so prev works immediately
+  const [currentSlide, setCurrentSlide] = useState(features.length);
+  const [isTransitioning, setIsTransitioning] = useState(true);
 
   const nextSlide = () => {
     setIsTransitioning(true);
