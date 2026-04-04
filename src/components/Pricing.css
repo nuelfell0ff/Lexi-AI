@@ -11,7 +11,7 @@
 /* Pricing Section */
 .pricing-section {
   background: linear-gradient(135deg, var(--primary-blue) 0%, #0d1b2a 100%);
-  padding: 100px 20px 80px;
+  padding: 100px 50px 80px;
   min-height: 100vh;
   position: relative;
   overflow: hidden;
@@ -329,7 +329,7 @@
 /* Mobile - 1 Column */
 @media (max-width: 768px) {
   .pricing-section {
-    padding: 60px 15px 50px;
+    padding: 60px 30px 50px;
   }
 
   .pricing-header {
@@ -380,7 +380,7 @@
 /* Small Phones */
 @media (max-width: 576px) {
   .pricing-section {
-    padding: 50px 12px 40px;
+    padding: 50px 20px 40px;
   }
 
   .pricing-header {
