@@ -94,16 +94,16 @@ const Pricing = () => {
               </ul>
 
               {/* Button */}
-              <button className={`plan-button ${plan.recommended ? 'primary' : 'secondary'}`}>
+              <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className={`plan-button ${plan.recommended ? 'primary' : 'secondary'}`}>
                 {plan.buttonText}
-              </button>
+              </a>
             </div>
           ))}
         </div>
 
         {/* Bottom CTA */}
         <div className="pricing-footer">
-          <button className="cta-button">Book Demo Now!</button>
+          <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className="cta-button">Book Demo Now!</a>
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import Hero from './components/Hero'
 import Features from './components/Features'
 import Pricing from './components/Pricing'
 import Faqs from './components/Faqs'
+import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -20,6 +21,9 @@ const App = () => {
       </section>
       <section id="faq">
         <Faqs />
+      </section>
+      <section id="contact">
+        <Footer />
       </section>
     </>
   )

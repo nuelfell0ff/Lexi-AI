@@ -16,8 +16,8 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="hero-buttons">
-            <button className="btn btn-primary">Start Chat on WhatsApp</button>
-            <button className="btn btn-secondary">Learn How It Works</button>
+            <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className="btn btn-primary">Start Chat on WhatsApp</a>
+            <a href="#features" className="btn btn-secondary">Learn How It Works</a>
           </div>
 
           {/* Trust Section */}

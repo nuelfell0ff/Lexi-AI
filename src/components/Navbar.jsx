@@ -32,7 +32,7 @@ const Navbar = () => {
           </div>
 
           {/* Get Started Button */}
-          <button className="btn-get-started">Get Started</button>
+          <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className="btn-get-started">Get Started</a>
 
           {/* Hamburger Menu */}
           <button className={`hamburger ${sidebarOpen ? 'open' : ''}`} onClick={toggleSidebar}>
@@ -49,7 +49,7 @@ const Navbar = () => {
         <a href="#pricing" onClick={closeSidebar} className="sidebar-item">Pricing</a>
         <a href="#faq" onClick={closeSidebar} className="sidebar-item">FAQ</a>
         <a href="#contact" onClick={closeSidebar} className="sidebar-item">Contact</a>
-        <button className="btn-sidebar-get-started" onClick={closeSidebar}>Get Started</button>
+        <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className="btn-sidebar-get-started" onClick={closeSidebar}>Get Started</a>
       </div>
 
       {/* Sidebar Overlay */}
