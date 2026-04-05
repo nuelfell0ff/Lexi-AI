@@ -16,6 +16,7 @@
   align-items: center;
   overflow: hidden;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+  margin-top: 80px;
 }
 
 .hero-container {
