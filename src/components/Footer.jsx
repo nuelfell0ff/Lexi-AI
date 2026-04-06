@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import './Footer.css'
 import logo from '../assets/Lexi-Ai-No-bg.png'
 
@@ -22,13 +23,13 @@ const Footer = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Company</h4>
             <ul className="footer-links">
-              <li><a href="#about-lexi">About Lexi AI</a></li>
-              <li><a href="#about-medxverse">About MedxVerse</a></li>
-              <li><a href="#team">Leadership & Team</a></li>
-              <li><a href="#careers">Careers</a></li>
-              <li><a href="#press">Press & Media</a></li>
-              <li><a href="#blog">Blog / Insights</a></li>
-              <li><a href="#newsroom">Newsroom</a></li>
+              <li><Link to="/about">About Lexi AI</Link></li>
+              <li><Link to="/about-medxverse">About MedxVerse</Link></li>
+              <li><Link to="/leadership">Leadership & Team</Link></li>
+              <li><Link to="/careers">Careers</Link></li>
+              <li><Link to="/press">Press & Media</Link></li>
+              <li><Link to="/blog">Blog / Insights</Link></li>
+              <li><Link to="/newsroom">Newsroom</Link></li>
             </ul>
           </div>
 
@@ -36,13 +37,13 @@ const Footer = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Products & Solutions</h4>
             <ul className="footer-links">
-              <li><a href="#symptom-checker">AI Symptom Checker</a></li>
-              <li><a href="#health-assistant">Virtual Health Assistant</a></li>
-              <li><a href="#chronic-disease">Chronic Disease Management</a></li>
-              <li><a href="#preventive">Preventive Health Monitoring</a></li>
-              <li><a href="#mental-health">Mental Health Support</a></li>
-              <li><a href="#womens-health">Women's Health</a></li>
-              <li><a href="#api">API & Developer Platform</a></li>
+              <li><Link to="/ai-symptom-checker">AI Symptom Checker</Link></li>
+              <li><Link to="/virtual-health-assistant">Virtual Health Assistant</Link></li>
+              <li><Link to="/chronic-disease-management">Chronic Disease Management</Link></li>
+              <li><Link to="/mental-health-support">Mental Health Support</Link></li>
+              <li><Link to="/womens-health">Women's Health</Link></li>
+              <li><Link to="/preventive-health-monitoring">Preventive Health Monitoring</Link></li>
+              <li><Link to="/api-developer-platform">API & Developer Platform</Link></li>
             </ul>
           </div>
 
@@ -50,13 +51,13 @@ const Footer = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Partners & Enterprise</h4>
             <ul className="footer-links">
-              <li><a href="#partner">Partner with Lexi AI</a></li>
-              <li><a href="#providers">Healthcare Providers</a></li>
-              <li><a href="#government">Governments & Public Health</a></li>
-              <li><a href="#ngos">NGOs & Global Health</a></li>
-              <li><a href="#insurance">Insurance & Fintech</a></li>
-              <li><a href="#pharma">Pharmaceutical Partnerships</a></li>
-              <li><a href="#wellness">Corporate Wellness</a></li>
+              <li><Link to="/partner-with-lexi-ai">Partner with Lexi AI</Link></li>
+              <li><Link to="/healthcare-providers">Healthcare Providers</Link></li>
+              <li><Link to="/governments-and-public-health">Governments & Public Health</Link></li>
+              <li><Link to="/ngos-and-global-health">NGOs & Global Health</Link></li>
+              <li><Link to="/insurance-and-fintech">Insurance & Fintech</Link></li>
+              <li><Link to="/pharmaceutical-partnerships">Pharmaceutical Partnerships</Link></li>
+              <li><Link to="/corporate-wellness">Corporate Wellness</Link></li>
             </ul>
           </div>
 
@@ -64,13 +65,13 @@ const Footer = () => {
           <div className="footer-section">
             <h4 className="footer-section-title">Trust & Compliance</h4>
             <ul className="footer-links">
-              <li><a href="https://medxverseapp.com/privacy-policy">Privacy Policy</a></li>
-              <li><a href="#data-protection">Data Protection & Security</a></li>
-              <li><a href="#ai-ethics">AI Ethics & Responsible AI</a></li>
-              <li><a href="#disclaimer">Medical Disclaimer</a></li>
-              <li><a href="#compliance">Regulatory Compliance</a></li>
-              <li><a href="#hipaa-gdpr">HIPAA / GDPR Alignment</a></li>
-              <li><a href="https://medxverseapp.com/terms-of-service">Terms of Service</a></li>
+              <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+              <li><Link to="/data-protection-and-security">Data Protection & Security</Link></li>
+              <li><Link to="/ai-ethics-responsible-ai">AI Ethics & Responsible AI</Link></li>
+              <li><Link to="/medical-disclaimer">Medical Disclaimer</Link></li>
+              <li><Link to="/regulatory-compliance">Regulatory Compliance</Link></li>
+              <li><Link to="/hipaa-gdpr-alignment">HIPAA / GDPR Alignment</Link></li>
+              <li><Link to="/terms-of-service">Terms of Service</Link></li>
             </ul>
           </div>
 

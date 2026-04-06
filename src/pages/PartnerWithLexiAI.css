@@ -1,0 +1,226 @@
+/* Partner with Lexi AI Page Styling */
+
+.pwl-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.pwl-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+}
+
+/* Hero Section */
+.pwl-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.pwl-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Main Content */
+.pwl-content {
+  width: 100%;
+}
+
+.pwl-text-block {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.pwl-text-block p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.pwl-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Titles */
+.pwl-section {
+  margin-bottom: 60px;
+}
+
+.pwl-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  padding-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.pwl-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #194066;
+  border-radius: 2px;
+}
+
+/* Features List */
+.pwl-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 30px 0;
+}
+
+.pwl-features-list li {
+  padding: 20px;
+  margin-bottom: 15px;
+  background-color: #f5f9fc;
+  border-left: 4px solid #194066;
+  border-radius: 2px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666;
+  font-family: 'Poppins', sans-serif;
+  text-align: justify;
+}
+
+.pwl-features-list li:last-child {
+  margin-bottom: 0;
+}
+
+.pwl-features-list li strong {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+/* Contact Block */
+.pwl-contact-block {
+  background-color: rgba(25, 64, 102, 0.05);
+  border: 2px solid #194066;
+  padding: 30px;
+  border-radius: 4px;
+}
+
+.pwl-contact-block p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666;
+  margin: 0;
+  text-align: justify;
+}
+
+.pwl-contact-block a {
+  color: #194066;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.pwl-contact-block a:hover {
+  color: #1a1a1a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .pwl-wrapper {
+    padding: 40px 40px;
+  }
+
+  .pwl-hero {
+    margin-top: 40px;
+    margin-bottom: 50px;
+  }
+
+  .pwl-title {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .pwl-section-title {
+    font-size: 1.5rem;
+  }
+
+  .pwl-features-list li {
+    font-size: 0.95rem;
+    padding: 18px;
+  }
+
+  .pwl-contact-block {
+    padding: 25px;
+  }
+
+  .pwl-contact-block p {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pwl-wrapper {
+    padding: 40px 20px;
+  }
+
+  .pwl-hero {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  .pwl-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .pwl-text-block p {
+    font-size: 0.95rem;
+    text-align: justify;
+  }
+
+  .pwl-section-title {
+    font-size: 1.3rem;
+    text-align: left;
+  }
+
+  .pwl-section-title::after {
+    left: 0;
+  }
+
+  .pwl-features-list li {
+    padding: 18px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+  .pwl-contact-block {
+    padding: 20px;
+  }
+
+  .pwl-contact-block p {
+    font-size: 0.9rem;
+  }
+
+  .pwl-section {
+    margin-bottom: 50px;
+  }
+
+  .pwl-text-block {
+    margin-bottom: 40px;
+  }
+}

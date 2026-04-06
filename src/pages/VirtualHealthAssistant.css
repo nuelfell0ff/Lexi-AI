@@ -1,0 +1,184 @@
+/* Virtual Health Assistant Page Styling */
+
+.vha-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.vha-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+}
+
+/* Hero Section */
+.vha-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.vha-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Main Content */
+.vha-content {
+  width: 100%;
+}
+
+.vha-text-block {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.vha-text-block p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.vha-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Titles */
+.vha-section {
+  margin-bottom: 60px;
+}
+
+.vha-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  padding-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.vha-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #194066;
+  border-radius: 2px;
+}
+
+/* Capabilities */
+.vha-capability {
+  margin-bottom: 35px;
+  padding-bottom: 35px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.vha-capability:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.capability-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.vha-capability p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666;
+  margin: 0;
+  text-align: justify;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vha-wrapper {
+    padding: 40px 40px;
+  }
+
+  .vha-hero {
+    margin-top: 40px;
+    margin-bottom: 50px;
+  }
+
+  .vha-title {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .vha-section-title {
+    font-size: 1.5rem;
+  }
+
+  .capability-title {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .vha-wrapper {
+    padding: 40px 20px;
+  }
+
+  .vha-hero {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  .vha-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .vha-text-block p {
+    font-size: 0.95rem;
+    text-align: justify;
+  }
+
+  .vha-section-title {
+    font-size: 1.3rem;
+    text-align: left;
+  }
+
+  .vha-section-title::after {
+    left: 0;
+  }
+
+  .capability-title {
+    font-size: 1rem;
+  }
+
+  .vha-capability p {
+    font-size: 0.9rem;
+  }
+
+  .vha-section {
+    margin-bottom: 50px;
+  }
+
+  .vha-text-block {
+    margin-bottom: 40px;
+  }
+}

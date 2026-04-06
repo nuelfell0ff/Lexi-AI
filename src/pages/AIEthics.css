@@ -1,0 +1,195 @@
+/* AI Ethics Page Styles */
+.ai-ethics-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.ai-ethics-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero Section */
+.ai-ethics-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.ai-ethics-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.ai-ethics-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.ai-ethics-content {
+  width: 100%;
+}
+
+.ai-ethics-intro {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.ai-ethics-intro p {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Section Styles */
+.ai-ethics-section {
+  margin-bottom: 80px;
+}
+
+.ai-ethics-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+/* Principles Grid */
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.principle-card {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 4px solid #007bff;
+}
+
+.principle-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.principle-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.principle-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Data Ethics Section */
+.data-ethics-section {
+  background: #f9f9f9;
+  padding: 50px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.data-ethics-box {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  margin-top: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.data-ethics-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.data-ethics-list li {
+  font-size: 1.1rem;
+  color: #333;
+  padding: 12px 0;
+  font-weight: 500;
+  border-bottom: 1px solid #eee;
+}
+
+.data-ethics-list li:last-child {
+  border-bottom: none;
+}
+
+.data-ethics-list li:before {
+  content: "✓ ";
+  color: #007bff;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .ai-ethics-wrapper {
+    padding: 20px 20px;
+  }
+
+  .ai-ethics-title {
+    font-size: 2rem;
+  }
+
+  .ai-ethics-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .ai-ethics-section-title {
+    font-size: 1.6rem;
+  }
+
+  .principles-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .principle-card {
+    padding: 20px;
+  }
+
+  .data-ethics-section {
+    padding: 30px 20px;
+  }
+
+  .data-ethics-box {
+    padding: 20px;
+  }
+
+  .data-ethics-list li {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,246 @@
+/* Leadership & Team Page Styles */
+.leadership-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.leadership-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+}
+
+/* Hero Section */
+.leadership-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.leadership-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.leadership-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.leadership-content {
+  width: 100%;
+}
+
+.leadership-section {
+  margin-bottom: 50px;
+}
+
+.leadership-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.leadership-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #194066;
+  border-radius: 2px;
+}
+
+.leadership-text-block {
+  width: 100%;
+}
+
+.leadership-text-block p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+  font-weight: 400;
+  text-align: justify;
+}
+
+.leadership-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+.leadership-bold {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+/* List Styling */
+.leadership-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.leadership-list li {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 12px;
+  padding-left: 30px;
+  position: relative;
+}
+
+.leadership-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #194066;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+/* Culture Box */
+.leadership-culture {
+  background: linear-gradient(135deg, rgba(25, 64, 102, 0.1), rgba(25, 64, 102, 0.1));
+  padding: 30px;
+  border-left: 4px solid #194066;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.leadership-culture p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #194066;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .leadership-container {
+    padding: 20px 15px;
+  }
+
+  .leadership-wrapper {
+    padding: 30px 20px;
+  }
+
+  .leadership-hero {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+  }
+
+  .leadership-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .leadership-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .leadership-section {
+    margin-bottom: 35px;
+  }
+
+  .leadership-section-title {
+    font-size: 1.4rem;
+    margin-bottom: 18px;
+  }
+
+  .leadership-text-block p {
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: left;
+  }
+
+  .leadership-list li {
+    font-size: 1rem;
+  }
+
+  .leadership-culture {
+    padding: 20px;
+  }
+
+  .leadership-culture p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .leadership-container {
+    padding: 15px 10px;
+  }
+
+  .leadership-wrapper {
+    padding: 20px 25px;
+  }
+
+  .leadership-hero {
+    margin-top: 90px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+  }
+
+  .leadership-title {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .leadership-subtitle {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .leadership-section {
+    margin-bottom: 25px;
+  }
+
+  .leadership-section-title {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .leadership-section-title::after {
+    width: 40px;
+  }
+
+  .leadership-text-block p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .leadership-list li {
+    font-size: 0.95rem;
+    padding-left: 25px;
+  }
+
+  .leadership-culture {
+    padding: 15px;
+  }
+
+  .leadership-culture p {
+    font-size: 0.95rem;
+  }
+}

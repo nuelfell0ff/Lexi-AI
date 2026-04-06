@@ -1,0 +1,212 @@
+/* Chronic Disease Management Page Styling */
+
+.cdm-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.cdm-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+}
+
+/* Hero Section */
+.cdm-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.cdm-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+/* Main Content */
+.cdm-content {
+  width: 100%;
+}
+
+.cdm-text-block {
+  width: 100%;
+  margin-bottom: 50px;
+}
+
+.cdm-text-block p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.cdm-text-block p:last-child {
+  margin-bottom: 0;
+}
+
+/* Section Titles */
+.cdm-section {
+  margin-bottom: 60px;
+}
+
+.cdm-section-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 40px;
+  padding-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.cdm-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: #194066;
+  border-radius: 2px;
+}
+
+/* Section Intro & Subheader */
+.cdm-section-intro {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.cdm-section-subheader {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+/* Features List */
+.cdm-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 50px 0;
+}
+
+.cdm-features-list li {
+  padding: 12px 0 12px 30px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  text-align: justify;
+}
+
+.cdm-features-list li:before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #194066;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cdm-wrapper {
+    padding: 40px 40px;
+  }
+
+  .cdm-hero {
+    margin-top: 40px;
+    margin-bottom: 50px;
+  }
+
+  .cdm-title {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+  }
+
+  .cdm-section-title {
+    font-size: 1.5rem;
+  }
+
+  .cdm-section-intro {
+    font-size: 0.95rem;
+  }
+
+  .cdm-section-subheader {
+    font-size: 0.95rem;
+  }
+
+  .cdm-features-list li {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .cdm-wrapper {
+    padding: 40px 20px;
+  }
+
+  .cdm-hero {
+    margin-top: 50px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+
+  .cdm-title {
+    font-size: 2rem;
+    text-align: center;
+  }
+
+  .cdm-text-block p {
+    font-size: 0.95rem;
+    text-align: justify;
+  }
+
+  .cdm-section-title {
+    font-size: 1.3rem;
+    text-align: left;
+  }
+
+  .cdm-section-title::after {
+    left: 0;
+  }
+
+  .cdm-section-intro {
+    font-size: 0.9rem;
+  }
+
+  .cdm-section-subheader {
+    font-size: 0.9rem;
+  }
+
+  .cdm-features-list li {
+    padding: 10px 0 10px 25px;
+    font-size: 0.9rem;
+  }
+
+  .cdm-section {
+    margin-bottom: 50px;
+  }
+
+  .cdm-text-block {
+    margin-bottom: 40px;
+  }
+}

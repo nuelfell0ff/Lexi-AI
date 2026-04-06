@@ -1,0 +1,237 @@
+/* Terms of Service Page Styles */
+.terms-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.terms-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero Section */
+.terms-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.terms-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.terms-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.terms-content {
+  width: 100%;
+}
+
+.terms-intro {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.terms-intro p {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Section Styles */
+.terms-section {
+  margin-bottom: 50px;
+}
+
+.terms-section-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Terms Boxes */
+.terms-box {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #007bff;
+}
+
+.terms-box.disclaimer-box {
+  border-left-color: #d32f2f;
+  background: #ffebee;
+}
+
+.terms-box.prohibited-box {
+  border-left-color: #ff6f00;
+  background: #fff3e0;
+}
+
+.terms-box.contact-box {
+  border-left-color: #4caf50;
+  background: #f1f8e9;
+  text-align: center;
+}
+
+/* Lists */
+.terms-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.terms-list li {
+  font-size: 1rem;
+  color: #555;
+  padding: 12px 0;
+  padding-left: 28px;
+  position: relative;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.terms-list li:last-child {
+  border-bottom: none;
+}
+
+.terms-list li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.prohibited-box .terms-list li:before {
+  color: #ff6f00;
+}
+
+/* Terms Text */
+.terms-text {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 15px;
+}
+
+.terms-text.warning-text {
+  margin-top: 20px;
+  font-weight: 500;
+  color: #d32f2f;
+}
+
+.terms-text.disclaimer-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d32f2f;
+}
+
+.terms-text.contact-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.terms-text.contact-text a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.terms-text.contact-text a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .terms-wrapper {
+    padding: 20px 20px;
+  }
+
+  .terms-title {
+    font-size: 2rem;
+  }
+
+  .terms-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .terms-section-title {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+  }
+
+  .terms-box {
+    padding: 20px;
+  }
+
+  .terms-list li {
+    font-size: 0.95rem;
+    padding-left: 25px;
+  }
+
+  .terms-text {
+    font-size: 1rem;
+  }
+
+  .terms-section {
+    margin-bottom: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms-wrapper {
+    padding: 15px 15px;
+  }
+
+  .terms-title {
+    font-size: 1.7rem;
+  }
+
+  .terms-subtitle {
+    font-size: 1rem;
+  }
+
+  .terms-section-title {
+    font-size: 1.2rem;
+  }
+
+  .terms-box {
+    padding: 15px;
+  }
+
+  .terms-list li {
+    font-size: 0.9rem;
+    padding-left: 22px;
+  }
+
+  .terms-text {
+    font-size: 0.95rem;
+  }
+}

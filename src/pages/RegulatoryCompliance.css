@@ -1,0 +1,194 @@
+/* Regulatory Compliance Page Styles */
+.regulatory-compliance-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.regulatory-compliance-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Hero Section */
+.regulatory-compliance-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.regulatory-compliance-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.regulatory-compliance-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.regulatory-compliance-content {
+  width: 100%;
+}
+
+.compliance-intro {
+  text-align: center;
+  margin-bottom: 60px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+.compliance-intro p {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Section Styles */
+.compliance-section {
+  margin-bottom: 60px;
+}
+
+.compliance-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Compliance Boxes */
+.compliance-box {
+  background: white;
+  padding: 35px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #007bff;
+}
+
+.compliance-box.international-box {
+  border-left-color: #4caf50;
+  background: #f1f8e9;
+}
+
+/* Lists */
+.compliance-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.compliance-list li {
+  font-size: 1.05rem;
+  color: #555;
+  padding: 14px 0;
+  padding-left: 30px;
+  position: relative;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.compliance-list li:last-child {
+  border-bottom: none;
+}
+
+.compliance-list li:before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #007bff;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.international-box .compliance-list li:before {
+  color: #4caf50;
+}
+
+/* Compliance Text */
+.compliance-text {
+  font-size: 1.05rem;
+  color: #555;
+  line-height: 1.8;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .regulatory-compliance-wrapper {
+    padding: 20px 20px;
+  }
+
+  .regulatory-compliance-title {
+    font-size: 2rem;
+  }
+
+  .regulatory-compliance-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .compliance-section-title {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .compliance-box {
+    padding: 25px;
+  }
+
+  .compliance-list li {
+    font-size: 1rem;
+    padding-left: 25px;
+  }
+
+  .compliance-text {
+    font-size: 1rem;
+  }
+
+  .compliance-section {
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .regulatory-compliance-wrapper {
+    padding: 15px 15px;
+  }
+
+  .regulatory-compliance-title {
+    font-size: 1.7rem;
+  }
+
+  .regulatory-compliance-subtitle {
+    font-size: 1rem;
+  }
+
+  .compliance-section-title {
+    font-size: 1.3rem;
+  }
+
+  .compliance-box {
+    padding: 20px;
+  }
+
+  .compliance-list li {
+    font-size: 0.95rem;
+    padding-left: 22px;
+  }
+}

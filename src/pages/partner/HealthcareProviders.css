@@ -1,0 +1,173 @@
+.hp-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+.hp-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 80px;
+}
+
+.hp-hero {
+  text-align: center;
+  padding: 60px 0 40px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-top: 60px;
+}
+
+.hp-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.hp-content {
+  padding: 40px 0;
+}
+
+.hp-intro {
+  margin-bottom: 50px;
+}
+
+.hp-text {
+  font-size: 1.05rem;
+  color: #444;
+  text-align: justify;
+  line-height: 1.8;
+  margin: 0 0 20px 0;
+}
+
+.hp-section {
+  margin-bottom: 50px;
+}
+
+.hp-section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 30px 0;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.hp-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #194066;
+}
+
+.hp-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hp-features li {
+  padding: 20px;
+  margin-bottom: 15px;
+  background-color: #f0f5f9;
+  border-left: 4px solid #194066;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+.hp-features li strong {
+  color: #194066;
+}
+
+.hp-contact-block {
+  background-color: #f0f5f9;
+  padding: 25px;
+  border-left: 4px solid #194066;
+  margin-top: 20px;
+}
+
+.hp-contact-block p {
+  margin: 0;
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.hp-contact-block a {
+  color: #194066;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.hp-contact-block a:hover {
+  text-decoration: underline;
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+  .hp-wrapper {
+    padding: 40px 40px;
+  }
+
+  .hp-hero {
+    margin-top: 40px;
+    padding: 40px 0 30px;
+  }
+
+  .hp-title {
+    font-size: 2.5rem;
+  }
+
+  .hp-section-title {
+    font-size: 1.5rem;
+  }
+
+  .hp-features li {
+    padding: 15px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .hp-wrapper {
+    padding: 40px 20px;
+  }
+
+  .hp-hero {
+    margin-top: 40px;
+    padding: 30px 0 20px;
+  }
+
+  .hp-title {
+    font-size: 2rem;
+  }
+
+  .hp-text {
+    font-size: 0.95rem;
+  }
+
+  .hp-section-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .hp-features li {
+    padding: 12px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+  }
+
+  .hp-contact-block {
+    padding: 15px;
+  }
+
+  .hp-contact-block p {
+    font-size: 0.9rem;
+  }
+}

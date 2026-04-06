@@ -1,0 +1,146 @@
+.dps-container {
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  min-height: 100vh;
+}
+
+.dps-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 80px;
+}
+
+.dps-hero {
+  text-align: center;
+  padding: 60px 0 40px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-top: 60px;
+}
+
+.dps-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.dps-content {
+  padding: 40px 0;
+}
+
+.dps-intro {
+  margin-bottom: 50px;
+}
+
+.dps-text {
+  font-size: 1.05rem;
+  color: #444;
+  text-align: justify;
+  line-height: 1.8;
+  margin: 0 0 20px 0;
+}
+
+.dps-section {
+  margin-bottom: 50px;
+}
+
+.dps-section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 30px 0;
+  padding-bottom: 15px;
+  position: relative;
+}
+
+.dps-section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #194066;
+}
+
+.dps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.dps-list li {
+  padding: 12px 0 12px 30px;
+  color: #333;
+  line-height: 1.7;
+  text-align: justify;
+  position: relative;
+  font-size: 1rem;
+}
+
+.dps-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #194066;
+  font-weight: bold;
+}
+
+.dps-list li strong {
+  color: #194066;
+}
+
+/* Tablet Responsive */
+@media (max-width: 768px) {
+  .dps-wrapper {
+    padding: 40px 40px;
+  }
+
+  .dps-hero {
+    margin-top: 40px;
+    padding: 40px 0 30px;
+  }
+
+  .dps-title {
+    font-size: 2.5rem;
+  }
+
+  .dps-section-title {
+    font-size: 1.5rem;
+  }
+
+  .dps-list li {
+    padding: 10px 0 10px 25px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .dps-wrapper {
+    padding: 40px 20px;
+  }
+
+  .dps-hero {
+    margin-top: 40px;
+    padding: 30px 0 20px;
+  }
+
+  .dps-title {
+    font-size: 2rem;
+  }
+
+  .dps-text {
+    font-size: 0.95rem;
+  }
+
+  .dps-section-title {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+  }
+
+  .dps-list li {
+    padding: 10px 0 10px 25px;
+    font-size: 0.9rem;
+  }
+}

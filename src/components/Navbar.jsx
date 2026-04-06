@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Navbar.css'
 import logo from '../assets/Lexi-Ai-No-bg.png'
 
@@ -19,7 +20,9 @@ const Navbar = () => {
         <div className="navbar-wrapper">
           {/* Logo */}
           <div className="navbar-logo">
-            <img src={logo} alt="Logo" className="logo-img" />
+            <Link to="/">
+              <img src={logo} alt="Logo" className="logo-img" />
+            </Link>
           </div>
 
           {/* Desktop Nav Items */}

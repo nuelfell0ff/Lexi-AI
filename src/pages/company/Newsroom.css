@@ -1,0 +1,269 @@
+/* Newsroom Page Styles */
+.newsroom-container {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+  padding: 40px 20px;
+}
+
+.newsroom-wrapper {
+  width: 100%;
+  padding: 40px 80px;
+  background: transparent;
+}
+
+/* Hero Section */
+.newsroom-hero {
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  padding-bottom: 40px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.newsroom-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.newsroom-subtitle {
+  font-size: 1.3rem;
+  color: #666;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Content Section */
+.newsroom-content {
+  width: 100%;
+}
+
+/* Timeline Styles */
+.news-timeline {
+  position: relative;
+  padding: 20px 0;
+}
+
+.news-timeline::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 100%;
+  background: #194066;
+  top: 0;
+}
+
+.news-item {
+  margin-bottom: 50px;
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.news-item:nth-child(odd) {
+  justify-content: flex-start;
+  padding-right: 51%;
+}
+
+.news-item:nth-child(even) {
+  justify-content: flex-end;
+  padding-left: 51%;
+}
+
+.news-marker {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border: 4px solid #194066;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 30px;
+  z-index: 10;
+}
+
+.news-content {
+  width: 45%;
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  border-left: 4px solid #194066;
+  transition: all 0.3s ease;
+}
+
+.news-item:nth-child(even) .news-content {
+  border-left: none;
+  border-right: 4px solid #194066;
+}
+
+.news-content:hover {
+  box-shadow: 0 6px 20px rgba(25, 64, 102, 0.15);
+  transform: translateY(-5px);
+}
+
+.news-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #194066;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.news-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 12px 0;
+}
+
+.news-description {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #555;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .newsroom-container {
+    padding: 20px 15px;
+  }
+
+  .newsroom-wrapper {
+    padding: 30px 20px;
+  }
+
+  .newsroom-hero {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+  }
+
+  .newsroom-title {
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .newsroom-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .news-timeline::before {
+    left: 20px;
+  }
+
+  .news-item {
+    flex-direction: column;
+    margin-bottom: 40px;
+  }
+
+  .news-item:nth-child(odd),
+  .news-item:nth-child(even) {
+    justify-content: flex-start;
+    padding-left: 60px;
+    padding-right: 0;
+  }
+
+  .news-marker {
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    border-width: 3px;
+    top: 25px;
+  }
+
+  .news-content {
+    width: 100%;
+    border-left: 4px solid #194066;
+    border-right: none;
+  }
+
+  .news-title {
+    font-size: 1.2rem;
+  }
+
+  .news-description {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsroom-container {
+    padding: 15px 10px;
+  }
+
+  .newsroom-wrapper {
+    padding: 20px 25px;
+  }
+
+  .newsroom-hero {
+    margin-top: 90px;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+  }
+
+  .newsroom-title {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .newsroom-subtitle {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .news-timeline::before {
+    left: 15px;
+  }
+
+  .news-item {
+    margin-bottom: 35px;
+  }
+
+  .news-item:nth-child(odd),
+  .news-item:nth-child(even) {
+    padding-left: 50px;
+  }
+
+  .news-marker {
+    left: 9px;
+    width: 16px;
+    height: 16px;
+    border-width: 2.5px;
+    top: 20px;
+  }
+
+  .news-content {
+    padding: 18px;
+    border-radius: 6px;
+  }
+
+  .news-date {
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+  }
+
+  .news-title {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+  }
+
+  .news-description {
+    font-size: 0.95rem;
+  }
+}
