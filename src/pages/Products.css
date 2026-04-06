@@ -68,6 +68,7 @@
 /* Section Titles */
 .symptom-section {
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .symptom-section-title {
@@ -78,6 +79,7 @@
   padding-bottom: 15px;
   border-bottom: 3px solid #194066;
   font-family: 'Poppins', sans-serif;
+  text-align: center;
   position: relative;
 }
 

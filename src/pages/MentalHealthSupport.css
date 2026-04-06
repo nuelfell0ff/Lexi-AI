@@ -57,6 +57,7 @@
 /* Section Titles */
 .mhs-section {
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .mhs-section-title {
@@ -67,6 +68,7 @@
   padding-bottom: 12px;
   font-family: 'Poppins', sans-serif;
   position: relative;
+  text-align: center;
 }
 
 .mhs-section-title::after {

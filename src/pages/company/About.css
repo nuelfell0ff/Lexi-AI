@@ -47,6 +47,7 @@
 
 .about-section {
   margin-bottom: 50px;
+  text-align: center;
 }
 
 .about-section-title {
@@ -57,6 +58,7 @@
   font-family: 'Poppins', sans-serif;
   position: relative;
   padding-bottom: 12px;
+  text-align: center;
 }
 
 .about-section-title::after {

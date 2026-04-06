@@ -62,6 +62,7 @@
 /* Section Styles */
 .alignment-section {
   margin-bottom: 50px;
+  text-align: center;
 }
 
 .alignment-section-title {
@@ -70,6 +71,7 @@
   color: #1a1a1a;
   margin-bottom: 30px;
   font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
 /* Alignment Boxes */

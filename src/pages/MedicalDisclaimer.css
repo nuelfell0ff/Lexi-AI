@@ -49,6 +49,7 @@
 /* Section Styles */
 .disclaimer-section {
   margin-bottom: 60px;
+  text-align: center;
 }
 
 .disclaimer-section-title {
@@ -57,6 +58,7 @@
   color: #1a1a1a;
   margin-bottom: 30px;
   font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
 .disclaimer-section-title.emergency-title {

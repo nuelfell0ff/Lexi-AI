@@ -14,6 +14,11 @@ const Navbar = () => {
     setSidebarOpen(false)
   }
 
+  const handleNavClick = (anchorId) => {
+    closeSidebar()
+    window.location.href = `/#${anchorId}`
+  }
+
   return (
     <>
       <nav className={`navbar-container ${sidebarOpen ? 'open' : ''}`}>
@@ -27,11 +32,11 @@ const Navbar = () => {
 
           {/* Desktop Nav Items */}
           <div className="navbar-menu">
-            <a href="#home" className="nav-item">Home</a>
-            <a href="#features" className="nav-item">Features</a>
-            <a href="#pricing" className="nav-item">Pricing</a>
-            <a href="#faq" className="nav-item">FAQ</a>
-            <a href="#contact" className="nav-item">Contact</a>
+            <a onClick={() => handleNavClick('home')} className="nav-item">Home</a>
+            <a onClick={() => handleNavClick('features')} className="nav-item">Features</a>
+            <a onClick={() => handleNavClick('pricing')} className="nav-item">Pricing</a>
+            <a onClick={() => handleNavClick('faq')} className="nav-item">FAQ</a>
+            <a onClick={() => handleNavClick('contact')} className="nav-item">Contact</a>
           </div>
 
           {/* Get Started Button */}
@@ -47,11 +52,11 @@ const Navbar = () => {
       {/* Mobile Sidebar */}
       <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <button className="close-btn" onClick={closeSidebar}>&times;</button>
-        <a href="#home" onClick={closeSidebar} className="sidebar-item">Home</a>
-        <a href="#features" onClick={closeSidebar} className="sidebar-item">Features</a>
-        <a href="#pricing" onClick={closeSidebar} className="sidebar-item">Pricing</a>
-        <a href="#faq" onClick={closeSidebar} className="sidebar-item">FAQ</a>
-        <a href="#contact" onClick={closeSidebar} className="sidebar-item">Contact</a>
+        <a onClick={() => handleNavClick('home')} className="sidebar-item">Home</a>
+        <a onClick={() => handleNavClick('features')} className="sidebar-item">Features</a>
+        <a onClick={() => handleNavClick('pricing')} className="sidebar-item">Pricing</a>
+        <a onClick={() => handleNavClick('faq')} className="sidebar-item">FAQ</a>
+        <a onClick={() => handleNavClick('contact')} className="sidebar-item">Contact</a>
         <a href="https://wa.link/7laj6q" target="_blank" rel="noopener noreferrer" className="btn-sidebar-get-started" onClick={closeSidebar}>Get Started</a>
       </div>
 
