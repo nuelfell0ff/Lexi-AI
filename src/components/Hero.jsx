@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import './Hero.css'
 import heroImage from '../assets/hero-image1.png'
-import googlePlayBtn from '../assets/imgi_8_googlePlay.84c90596.png'
-import appStoreBtn from '../assets/imgi_9_appStore.5b02addd.png'
+import googlePlayBtn from '../assets/imgi_8_googlePlay84c90596.png'
+import appStoreBtn from '../assets/imgi_9_appStore5b02addd.png'
 
 const Hero = () => {
   const [showModal, setShowModal] = useState(false)
