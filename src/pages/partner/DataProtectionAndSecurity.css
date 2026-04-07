@@ -31,58 +31,113 @@
 }
 
 .dps-intro {
-  margin-bottom: 50px;
+  margin-bottom: 80px;
+  max-width: 900px;
 }
 
 .dps-text {
   font-size: 1.05rem;
   color: #444;
-  text-align: justify;
+  text-align: left;
   line-height: 1.8;
   margin: 0 0 20px 0;
 }
 
 .dps-section {
-  margin-bottom: 60px;
-  text-align: center;
+  margin-bottom: 80px;
+  text-align: left;
 }
 
 .dps-section-title {
   font-size: 1.8rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   padding-bottom: 12px;
   font-family: 'Poppins', sans-serif;
   position: relative;
-  text-align: center;
+  text-align: left;
 }
 
 .dps-list {
   list-style: none;
   padding: 0;
   margin: 0 0 20px 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
 }
 
 .dps-list li {
-  padding: 12px 0 12px 30px;
-  color: #333;
-  line-height: 1.7;
-  text-align: justify;
+  padding: 14px 16px;
+  padding-left: 40px;
+  color: #666;
+  line-height: 1.6;
+  text-align: left;
   position: relative;
   font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  background: #f9fbfc;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.dps-list li:hover {
+  background: #f0f5f9;
+  transform: translateX(6px);
 }
 
 .dps-list li::before {
-  content: '•';
+  content: '→';
   position: absolute;
-  left: 0;
+  left: 12px;
   color: #194066;
   font-weight: bold;
+  font-size: 1rem;
 }
 
 .dps-list li strong {
   color: #194066;
+  font-weight: 600;
+}
+
+/* Cards Grid */
+.dps-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 30px;
+}
+
+.dps-card {
+  padding: 30px;
+  background: #fff;
+  border: 1px solid #e8f0f7;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.dps-card:hover {
+  border-color: #194066;
+  box-shadow: 0 8px 20px rgba(25, 64, 102, 0.08);
+  transform: translateY(-4px);
+}
+
+.dps-card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #194066;
+  margin-bottom: 12px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.dps-card-text {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  text-align: left;
 }
 
 /* Tablet Responsive */
@@ -100,13 +155,36 @@
     font-size: 2.5rem;
   }
 
+  .dps-section {
+    margin-bottom: 60px;
+  }
+
   .dps-section-title {
     font-size: 1.5rem;
+    margin-bottom: 40px;
+  }
+
+  .dps-list {
+    grid-template-columns: 1fr;
   }
 
   .dps-list li {
-    padding: 10px 0 10px 25px;
+    padding: 12px 14px;
+    padding-left: 35px;
     font-size: 0.95rem;
+  }
+
+  .dps-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .dps-card {
+    padding: 25px;
+  }
+
+  .dps-card-title {
+    font-size: 1.2rem;
   }
 }
 
@@ -129,13 +207,46 @@
     font-size: 0.95rem;
   }
 
+  .dps-intro {
+    margin-bottom: 60px;
+  }
+
+  .dps-section {
+    margin-bottom: 60px;
+  }
+
   .dps-section-title {
     font-size: 1.3rem;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    text-align: left;
+  }
+
+  .dps-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .dps-list li {
-    padding: 10px 0 10px 25px;
+    padding: 12px 12px;
+    padding-left: 33px;
     font-size: 0.9rem;
   }
-}
+
+  .dps-cards-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .dps-card {
+    padding: 20px;
+  }
+
+  .dps-card-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+
+  .dps-card-text {
+    font-size: 0.9rem;
+  }
+}}

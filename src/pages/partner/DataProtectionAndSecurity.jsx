@@ -46,24 +46,23 @@ const DataProtectionAndSecurity = () => {
             </div>
 
             <div className="dps-section">
-              <h2 className="dps-section-title">Data Residency</h2>
-              <p className="dps-text">
-                Data is stored within infrastructure subject to Nigerian jurisdiction.
-              </p>
-            </div>
+              <h2 className="dps-section-title">Key Security Features</h2>
+              <div className="dps-cards-grid">
+                <div className="dps-card">
+                  <h3 className="dps-card-title">Data Residency</h3>
+                  <p className="dps-card-text">Data is stored within infrastructure subject to Nigerian jurisdiction.</p>
+                </div>
 
-            <div className="dps-section">
-              <h2 className="dps-section-title">Breach Notification</h2>
-              <p className="dps-text">
-                Users and regulators are notified in case of a data breach in accordance with legal requirements.
-              </p>
-            </div>
+                <div className="dps-card">
+                  <h3 className="dps-card-title">Breach Notification</h3>
+                  <p className="dps-card-text">Users and regulators are notified in case of a data breach in accordance with legal requirements.</p>
+                </div>
 
-            <div className="dps-section">
-              <h2 className="dps-section-title">Third-Party Processors</h2>
-              <p className="dps-text">
-                All vendors are bound by strict data protection agreements.
-              </p>
+                <div className="dps-card">
+                  <h3 className="dps-card-title">Third-Party Processors</h3>
+                  <p className="dps-card-text">All vendors are bound by strict data protection agreements.</p>
+                </div>
+              </div>
             </div>
           </section>
         </div>
