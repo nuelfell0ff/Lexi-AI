@@ -30,24 +30,26 @@ const APIDeveloperPlatform = () => {
             <div className="api-section">
               <h2 className="api-section-title">API Capabilities</h2>
 
-              <div className="api-capability">
-                <h3 className="capability-title">Health Assessment API</h3>
-                <p>Structured AI health assessments via JSON output.</p>
-              </div>
+              <div className="api-capabilities-grid">
+                <div className="api-capability">
+                  <h3 className="capability-title">Health Assessment API</h3>
+                  <p>Structured AI health assessments via JSON output.</p>
+                </div>
 
-              <div className="api-capability">
-                <h3 className="capability-title">Telemedicine Scheduling API</h3>
-                <p>Doctor booking integration.</p>
-              </div>
+                <div className="api-capability">
+                  <h3 className="capability-title">Telemedicine Scheduling API</h3>
+                  <p>Doctor booking integration.</p>
+                </div>
 
-              <div className="api-capability">
-                <h3 className="capability-title">Health Records API</h3>
-                <p>Secure patient data access.</p>
-              </div>
+                <div className="api-capability">
+                  <h3 className="capability-title">Health Records API</h3>
+                  <p>Secure patient data access.</p>
+                </div>
 
-              <div className="api-capability">
-                <h3 className="capability-title">Medication & Pharmacy API</h3>
-                <p>Digital prescriptions and delivery integration.</p>
+                <div className="api-capability">
+                  <h3 className="capability-title">Medication & Pharmacy API</h3>
+                  <p>Digital prescriptions and delivery integration.</p>
+                </div>
               </div>
             </div>
 

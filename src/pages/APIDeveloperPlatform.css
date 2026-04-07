@@ -38,7 +38,8 @@
 
 .api-text-block {
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 80px;
+  max-width: 900px;
 }
 
 .api-text-block p {
@@ -47,7 +48,7 @@
   line-height: 1.8;
   color: #444;
   margin-bottom: 20px;
-  text-align: justify;
+  text-align: left;
 }
 
 .api-text-block p:last-child {
@@ -56,39 +57,56 @@
 
 /* Section Titles */
 .api-section {
-  margin-bottom: 60px;
-  text-align: center;
+  margin-bottom: 80px;
+  text-align: left;
 }
 
 .api-section-title {
   font-size: 1.8rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
   padding-bottom: 12px;
   font-family: 'Poppins', sans-serif;
   position: relative;
-  text-align: center;
+  text-align: left;
 }
 
 /* Capabilities */
+.api-capabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
 .api-capability {
-  margin-bottom: 35px;
-  padding-bottom: 35px;
-  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 0;
+  padding: 30px;
+  padding-bottom: 30px;
+  border-bottom: none;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e8f0f7;
+  transition: all 0.3s ease;
 }
 
 .api-capability:last-child {
   border-bottom: none;
   margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: 30px;
+}
+
+.api-capability:hover {
+  border-color: #194066;
+  box-shadow: 0 8px 20px rgba(25, 64, 102, 0.08);
 }
 
 .capability-title {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 12px;
+  color: #194066;
+  margin-bottom: 15px;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -98,7 +116,7 @@
   line-height: 1.7;
   color: #666;
   margin: 0;
-  text-align: justify;
+  text-align: left;
 }
 
 /* Features List */
@@ -113,7 +131,7 @@
 
 .api-features-list li {
   padding: 14px 16px;
-  padding-left: 42px;
+  padding-left: 35px;
   font-size: 1rem;
   line-height: 1.6;
   color: #666;
@@ -131,12 +149,13 @@
 }
 
 .api-features-list li:before {
-  content: '\u2713';
-  position: absolute;
-  left: 12px;
+  content: '\2192';
+  position: static;
+  left: auto;
   color: #194066;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  margin-right: 10px;
 }
 
 /* Pricing & Contact */
@@ -145,8 +164,8 @@
   font-size: 1rem;
   line-height: 1.7;
   color: #666;
-  text-align: justify;
-  margin-bottom: 20px;
+  text-align: left;
+  margin-bottom: 25px;
 }
 
 .api-contact {
@@ -154,7 +173,7 @@
   font-size: 1rem;
   line-height: 1.7;
   color: #666;
-  text-align: justify;
+  text-align: left;
 }
 
 .api-contact a {
@@ -184,12 +203,30 @@
     margin-bottom: 12px;
   }
 
+  .api-section {
+    margin-bottom: 60px;
+  }
+
   .api-section-title {
     font-size: 1.5rem;
+    margin-bottom: 40px;
+  }
+
+  .api-capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .api-capability {
+    padding: 25px;
   }
 
   .capability-title {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+  }
+
+  .api-features-list {
+    grid-template-columns: 1fr;
   }
 
   .api-features-list li {
@@ -219,41 +256,56 @@
     text-align: center;
   }
 
+  .api-text-block {
+    margin-bottom: 60px;
+  }
+
   .api-text-block p {
     font-size: 0.95rem;
-    text-align: justify;
+    text-align: left;
+  }
+
+  .api-section {
+    margin-bottom: 60px;
   }
 
   .api-section-title {
     font-size: 1.3rem;
     text-align: left;
+    margin-bottom: 30px;
   }
 
+  .api-capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
 
+  .api-capability {
+    padding: 20px;
+  }
 
   .capability-title {
     font-size: 1rem;
+    margin-bottom: 12px;
   }
 
   .api-capability p {
     font-size: 0.9rem;
   }
 
+  .api-features-list {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
   .api-features-list li {
-    padding: 10px 0 10px 25px;
+    padding: 12px 14px;
+    padding-left: 35px;
     font-size: 0.9rem;
   }
 
   .api-pricing-text,
   .api-contact {
     font-size: 0.9rem;
-  }
-
-  .api-section {
-    margin-bottom: 50px;
-  }
-
-  .api-text-block {
-    margin-bottom: 40px;
   }
 }
