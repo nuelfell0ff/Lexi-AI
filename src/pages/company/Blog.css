@@ -46,7 +46,7 @@
 }
 
 .blog-section {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   text-align: center;
 }
 
@@ -54,22 +54,11 @@
   font-size: 1.8rem;
   font-weight: 600;
   color: #1a1a1a;
-  margin-bottom: 24px;
+  margin-bottom: 40px;
   font-family: 'Poppins', sans-serif;
   position: relative;
   padding-bottom: 12px;
   text-align: center;
-}
-
-.blog-section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: #194066;
-  border-radius: 2px;
 }
 
 /* Topics Grid */

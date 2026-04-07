@@ -48,17 +48,16 @@
 /* Timeline Styles */
 .news-timeline {
   position: relative;
-  padding: 20px 0;
+  padding: 40px 0;
 }
 
 .news-timeline::before {
   content: '';
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 40px;
   width: 3px;
   height: 100%;
-  background: #194066;
+  background: linear-gradient(180deg, #194066 0%, rgba(25, 64, 102, 0.3) 100%);
   top: 0;
 }
 
@@ -67,74 +66,81 @@
   display: flex;
   width: 100%;
   position: relative;
+  padding-left: 120px;
+  align-items: flex-start;
 }
 
 .news-item:nth-child(odd) {
   justify-content: flex-start;
-  padding-right: 51%;
+  padding-right: 0;
 }
 
 .news-item:nth-child(even) {
-  justify-content: flex-end;
-  padding-left: 51%;
+  justify-content: flex-start;
+  padding-left: 120px;
+  padding-right: 0;
 }
 
 .news-marker {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   background: white;
   border: 4px solid #194066;
   border-radius: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 30px;
+  left: 28px;
+  top: 20px;
   z-index: 10;
 }
 
 .news-content {
-  width: 45%;
+  width: 100%;
+  max-width: 600px;
   background: white;
-  padding: 25px;
+  padding: 28px 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   border-left: 4px solid #194066;
   transition: all 0.3s ease;
 }
 
 .news-item:nth-child(even) .news-content {
-  border-left: none;
-  border-right: 4px solid #194066;
+  border-left: 4px solid #194066;
+  border-right: none;
 }
 
 .news-content:hover {
-  box-shadow: 0 6px 20px rgba(25, 64, 102, 0.15);
-  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(25, 64, 102, 0.12);
+  transform: translateY(-4px);
 }
 
 .news-date {
   font-family: 'Poppins', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: #194066;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(25, 64, 102, 0.08);
+  border-radius: 4px;
 }
 
 .news-title {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 700;
   color: #1a1a1a;
-  margin: 0 0 12px 0;
+  margin: 12px 0;
 }
 
 .news-description {
   font-family: 'Poppins', sans-serif;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: #555;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #666;
   margin: 0;
 }
 
@@ -164,41 +170,39 @@
   }
 
   .news-timeline::before {
-    left: 20px;
+    left: 28px;
   }
 
   .news-item {
-    flex-direction: column;
     margin-bottom: 40px;
+    padding-left: 80px;
   }
 
   .news-item:nth-child(odd),
   .news-item:nth-child(even) {
-    justify-content: flex-start;
-    padding-left: 60px;
+    padding-left: 80px;
     padding-right: 0;
   }
 
   .news-marker {
-    left: 12px;
-    width: 18px;
-    height: 18px;
+    left: 20px;
+    width: 20px;
+    height: 20px;
     border-width: 3px;
-    top: 25px;
+    top: 18px;
   }
 
   .news-content {
     width: 100%;
     border-left: 4px solid #194066;
-    border-right: none;
   }
 
   .news-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 
   .news-description {
-    font-size: 1rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -228,42 +232,43 @@
   }
 
   .news-timeline::before {
-    left: 15px;
+    left: 16px;
   }
 
   .news-item {
     margin-bottom: 35px;
+    padding-left: 60px;
   }
 
   .news-item:nth-child(odd),
   .news-item:nth-child(even) {
-    padding-left: 50px;
+    padding-left: 60px;
   }
 
   .news-marker {
-    left: 9px;
+    left: 8px;
     width: 16px;
     height: 16px;
     border-width: 2.5px;
-    top: 20px;
+    top: 18px;
   }
 
   .news-content {
-    padding: 18px;
+    padding: 20px;
     border-radius: 6px;
   }
 
   .news-date {
-    font-size: 0.85rem;
-    margin-bottom: 6px;
+    font-size: 0.75rem;
+    margin-bottom: 8px;
   }
 
   .news-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin-bottom: 8px;
   }
 
   .news-description {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 }

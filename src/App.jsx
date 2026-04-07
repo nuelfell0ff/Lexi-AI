@@ -10,7 +10,6 @@ import Loading from './components/Loading'
 import ScrollToTop from './components/ScrollToTop'
 import About from './pages/company/About'
 import AboutMedxVerse from './pages/company/AboutMedxVerse'
-import Leadership from './pages/company/Leadership'
 import Careers from './pages/company/Careers'
 import Press from './pages/company/Press'
 import Blog from './pages/company/Blog'
@@ -94,7 +93,6 @@ const App = () => {
         <Route path="/data-protection-and-security" element={<DataProtectionAndSecurity />} />
         <Route path="/about" element={<About />} />
         <Route path="/about-medxverse" element={<AboutMedxVerse />} />
-        <Route path="/leadership" element={<Leadership />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/press" element={<Press />} />
         <Route path="/blog" element={<Blog />} />

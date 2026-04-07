@@ -71,17 +71,6 @@
   text-align: center;
 }
 
-.phm-section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: #194066;
-  border-radius: 2px;
-}
-
 /* Section Content */
 .phm-section-content {
   width: 100%;

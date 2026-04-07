@@ -25,7 +25,6 @@ const Footer = () => {
             <ul className="footer-links">
               <li><Link to="/about">About Lexi AI</Link></li>
               <li><Link to="/about-medxverse">About MedxVerse</Link></li>
-              <li><Link to="/leadership">Leadership & Team</Link></li>
               <li><Link to="/careers">Careers</Link></li>
               <li><Link to="/press">Press & Media</Link></li>
               <li><Link to="/blog">Blog / Insights</Link></li>
