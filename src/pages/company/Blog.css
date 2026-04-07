@@ -107,10 +107,10 @@
 }
 
 .category-card {
-  background: linear-gradient(135deg, rgba(25, 64, 102, 0.15), rgba(25, 64, 102, 0.15));
+  background: transparent;
   padding: 25px;
   border-radius: 8px;
-  border-left: 4px solid #194066;
+  border-left: none;
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
@@ -132,9 +132,9 @@
 
 /* Coming Soon Box */
 .blog-coming-soon {
-  background: linear-gradient(135deg, rgba(25, 64, 102, 0.1), rgba(25, 64, 102, 0.1));
+  background: transparent;
   padding: 40px;
-  border-left: 4px solid #194066;
+  border-left: none;
   border-radius: 8px;
   text-align: center;
 }
@@ -280,9 +280,7 @@
     margin-bottom: 15px;
   }
 
-  .blog-section-title::after {
-    width: 40px;
-  }
+
 
   .blog-topics {
     grid-template-columns: 1fr;

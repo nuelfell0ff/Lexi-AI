@@ -106,9 +106,9 @@
 
 /* Compliance Box */
 .medxverse-compliance-box {
-  background: linear-gradient(135deg, rgba(25, 64, 102, 0.08), rgba(25, 64, 102, 0.08));
+  background: transparent;
   padding: 30px;
-  border-left: 4px solid #194066;
+  border-left: none;
   border-radius: 8px;
   margin-top: 20px;
 }
@@ -140,10 +140,10 @@
 }
 
 .timeline-item {
-  background: linear-gradient(135deg, rgba(25, 64, 102, 0.1), rgba(25, 64, 102, 0.1));
+  background: transparent;
   padding: 25px;
   border-radius: 8px;
-  border-left: 4px solid #194066;
+  border-left: none;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -272,9 +272,7 @@
     margin-bottom: 15px;
   }
 
-  .medxverse-section-title::after {
-    width: 40px;
-  }
+
 
   .medxverse-text-block p {
     font-size: 0.95rem;

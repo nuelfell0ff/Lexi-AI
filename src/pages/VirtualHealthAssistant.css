@@ -153,9 +153,7 @@
     text-align: left;
   }
 
-  .vha-section-title::after {
-    left: 0;
-  }
+
 
   .capability-title {
     font-size: 1rem;

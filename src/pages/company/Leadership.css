@@ -61,16 +61,7 @@
   text-align: center;
 }
 
-.leadership-section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: #194066;
-  border-radius: 2px;
-}
+
 
 .leadership-text-block {
   width: 100%;
@@ -224,9 +215,7 @@
     margin-bottom: 15px;
   }
 
-  .leadership-section-title::after {
-    width: 40px;
-  }
+
 
   .leadership-text-block p {
     font-size: 0.95rem;

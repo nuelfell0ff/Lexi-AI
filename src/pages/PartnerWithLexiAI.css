@@ -69,17 +69,6 @@
   position: relative;
 }
 
-.pwl-section-title::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 50px;
-  height: 3px;
-  background: #194066;
-  border-radius: 2px;
-}
-
 /* Features List */
 .pwl-features-list {
   list-style: none;
@@ -90,8 +79,8 @@
 .pwl-features-list li {
   padding: 20px;
   margin-bottom: 15px;
-  background-color: #f5f9fc;
-  border-left: 4px solid #194066;
+  background-color: transparent;
+  border-left: none;
   border-radius: 2px;
   font-size: 1rem;
   line-height: 1.7;
@@ -198,9 +187,7 @@
     text-align: left;
   }
 
-  .pwl-section-title::after {
-    left: 0;
-  }
+
 
   .pwl-features-list li {
     padding: 18px;

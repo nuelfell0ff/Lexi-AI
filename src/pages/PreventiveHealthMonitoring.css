@@ -141,9 +141,7 @@
     text-align: left;
   }
 
-  .phm-section-title::after {
-    left: 0;
-  }
+
 
   .phm-section-content p {
     font-size: 0.9rem;

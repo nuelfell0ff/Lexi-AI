@@ -59,9 +59,9 @@
 }
 
 .nagh-contact-block {
-  background-color: #f0f5f9;
+  background-color: transparent;
   padding: 25px;
-  border-left: 4px solid #194066;
+  border-left: none;
   margin-top: 20px;
 }
 

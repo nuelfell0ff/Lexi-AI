@@ -81,8 +81,8 @@
 .pwl-features-list li {
   padding: 20px;
   margin-bottom: 15px;
-  background-color: #f5f9fc;
-  border-left: 4px solid #194066;
+  background-color: transparent;
+  border-left: none;
   border-radius: 2px;
   font-size: 1rem;
   line-height: 1.7;
@@ -189,9 +189,7 @@
     text-align: left;
   }
 
-  .pwl-section-title::after {
-    left: 0;
-  }
+
 
   .pwl-features-list li {
     padding: 18px;
