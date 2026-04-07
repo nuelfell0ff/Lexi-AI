@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './Hero.css'
 import heroImage from '../assets/hero-image1.png'
+import googlePlayBtn from '../assets/imgi_8_googlePlay.84c90596.png'
+import appStoreBtn from '../assets/imgi_9_appStore.5b02addd.png'
 
 const Hero = () => {
+  const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    // Show modal after 1 second
+    const timer = setTimeout(() => {
+      setShowModal(true)
+    }, 1000)
+
+    return () => clearTimeout(timer)
+  }, [])
   return (
     <section className="hero">
       <div className="hero-container">
@@ -41,6 +53,20 @@ const Hero = () => {
               <p className="trust-badge">Trusted by 1000+ Patients</p>
             </div>
           </div>
+
+          {/* Download App Section */}
+          <div className="hero-download-section">
+            <h3 className="download-heading">Do you need a doctor now?</h3>
+            <p className="download-subheading">Download MedxVerse app</p>
+            <div className="download-buttons">
+              <a href="https://play.google.com/store/apps/details?id=com.medxverse" target="_blank" rel="noopener noreferrer" className="app-store-link">
+                <img src={googlePlayBtn} alt="Google Play" className="app-store-image" />
+              </a>
+              <a href="https://apps.apple.com/app/medxverse" target="_blank" rel="noopener noreferrer" className="app-store-link">
+                <img src={appStoreBtn} alt="App Store" className="app-store-image" />
+              </a>
+            </div>
+          </div>
         </div>
 
         {/* Right Image Section */}
@@ -50,6 +76,41 @@ const Hero = () => {
           </div>
         </div>
       </div>
+
+      {/* Health Support Modal */}
+      {showModal && (
+        <div className="modal-overlay" onClick={() => setShowModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close-btn" onClick={() => setShowModal(false)}>×</button>
+
+            <div className="modal-body">
+              <h2 className="modal-title">Smart Health Support, Anytime You Need It</h2>
+
+              <p className="modal-subtitle">Instant answers. Real guidance. Better health decisions.</p>
+
+              <p className="modal-description">
+                Get quick, intelligent health insights with Lexi AI — your personal AI health assistant.
+                Check symptoms, understand your condition, and know your next step in seconds.
+              </p>
+
+              <div className="modal-features">
+                <div className="feature-item">AI-powered symptom assessment</div>
+                <div className="feature-item">Personalized health recommendations</div>
+                <div className="feature-item">Instant triage (know if it's urgent or not)</div>
+                <div className="feature-item">Available 24/7, anywhere in Africa</div>
+              </div>
+
+              <p className="modal-tagline">No waiting. No confusion. Just clarity.</p>
+
+              <div className="modal-divider">⸻</div>
+
+              <button className="modal-btn" onClick={() => setShowModal(false)}>
+                Start Your Health Check
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }
