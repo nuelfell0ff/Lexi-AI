@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './Hero.css'
-import heroImage from '../assets/hero-image1.png'
+import heroImage from '../assets/group-29.png'
 import googlePlayBtn from '../assets/imgi_8_googlePlay84c90596.png'
 import appStoreBtn from '../assets/imgi_9_appStore5b02addd.png'
 
