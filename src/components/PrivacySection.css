@@ -1,0 +1,313 @@
+/* Color Variables */
+:root {
+  --primary-green: #1E844F;
+  --primary-blue: #194066;
+  --text-dark: #1a1a1a;
+  --text-light: #ffffff;
+  --text-gray: #666666;
+  --bg-light: #f8f9fa;
+}
+
+/* Privacy Section */
+.privacy-section {
+  background: var(--text-light);
+  padding: 80px 20px;
+  overflow: hidden;
+}
+
+.privacy-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.privacy-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+.privacy-content-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.privacy-image-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Privacy Content */
+.privacy-content {
+  animation: fadeInUp 0.8s ease;
+}
+
+.privacy-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary-green);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.privacy-heading {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+}
+
+.privacy-subtext {
+  font-size: 1.05rem;
+  color: var(--text-gray);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  max-width: 550px;
+}
+
+/* Features Container */
+.features-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0;
+  background: transparent;
+  border-radius: 0;
+  transition: all 0.3s ease;
+  box-shadow: none;
+}
+
+.feature-item:hover {
+  transform: translateY(0);
+  box-shadow: none;
+  background: transparent;
+}
+
+.feature-icon {
+  font-size: 2rem;
+  min-width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--primary-blue);
+  width: 50px;
+}
+
+.feature-icon svg {
+  width: 100%;
+  height: 100%;
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.feature-content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feature-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.feature-description {
+  font-size: 0.95rem;
+  color: var(--text-gray);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Image Wrapper */
+.privacy-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInRight 0.8s ease;
+}
+
+.privacy-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+}
+
+.privacy-image:hover {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .privacy-section {
+    padding: 60px 20px;
+  }
+
+  .privacy-wrapper {
+    gap: 40px;
+  }
+
+  .privacy-heading {
+    font-size: 2.4rem;
+  }
+
+  .privacy-subtext {
+    font-size: 1rem;
+  }
+
+  .features-container {
+    gap: 16px;
+  }
+
+  .feature-item {
+    padding: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .privacy-section {
+    padding: 60px 20px;
+  }
+
+  .privacy-wrapper {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .privacy-content-col {
+    order: 1;
+  }
+
+  .privacy-image-col {
+    order: 2;
+  }
+
+  .privacy-content {
+    text-align: center;
+  }
+
+  .privacy-label {
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .privacy-heading {
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .privacy-subtext {
+    font-size: 0.95rem;
+    max-width: 100%;
+    margin-bottom: 32px;
+  }
+
+  .features-container {
+    gap: 12px;
+  }
+
+  .feature-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .feature-icon {
+    margin: 0 auto;
+  }
+
+  .feature-title {
+    font-size: 1rem;
+  }
+
+  .feature-description {
+    font-size: 0.9rem;
+  }
+
+  .privacy-image-wrapper {
+    margin-top: 20px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 576px) {
+  .privacy-section {
+    padding: 40px 16px;
+  }
+
+  .privacy-heading {
+    font-size: 1.8rem;
+    margin-bottom: 12px;
+  }
+
+  .privacy-subtext {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .feature-item {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .feature-icon {
+    font-size: 1.8rem;
+    min-width: 40px;
+    height: 40px;
+  }
+
+  .feature-title {
+    font-size: 0.95rem;
+  }
+
+  .feature-description {
+    font-size: 0.85rem;
+  }
+}

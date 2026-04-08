@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
+import PrivacySection from './components/PrivacySection'
 import Pricing from './components/Pricing'
 import Faqs from './components/Faqs'
 import Footer from './components/Footer'
@@ -45,6 +46,9 @@ const Home = ({ isLoading }) => (
     </section>
     <section id="features">
       <Features />
+    </section>
+    <section id="privacy">
+      <PrivacySection />
     </section>
     <section id="pricing">
       <Pricing />

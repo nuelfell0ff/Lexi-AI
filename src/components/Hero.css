@@ -423,13 +423,6 @@
   font-weight: 500;
 }
 
-.feature-item::before {
-  content: "✓ ";
-  color: var(--primary-blue);
-  font-weight: 700;
-  margin-right: 8px;
-}
-
 .modal-tagline {
   font-size: 1rem;
   font-weight: 600;
