@@ -375,6 +375,14 @@
   text-align: center;
 }
 
+.modal-body .modal-features {
+  text-align: left !important;
+}
+
+.modal-body .feature-item {
+  text-align: left !important;
+}
+
 .modal-title {
   font-size: 1.8rem;
   font-weight: 700;
@@ -407,7 +415,12 @@
   padding: 12px;
   border-radius: 6px;
   margin: 16px 0;
-  text-align: left;
+  text-align: left !important;
+}
+
+.modal-features .feature-item {
+  text-align: left !important;
+  display: block !important;
 }
 
 .modal-image {
@@ -873,6 +886,7 @@
 
   .modal-body {
     padding: 30px 20px;
+    text-align: center;
   }
 
   .modal-title {
@@ -885,6 +899,10 @@
 
   .modal-description {
     font-size: 0.85rem;
+  }
+
+  .modal-features {
+    text-align: left;
   }
 
   .feature-item {
