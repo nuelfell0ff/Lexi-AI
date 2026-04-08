@@ -10,8 +10,8 @@
 /* Hero Section */
 .hero {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-  padding: 80px 40px 60px 40px;
-  height: 100vh;
+  padding: 80px 40px 0px 40px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   overflow: visible;
