@@ -404,9 +404,9 @@
 .modal-features {
   background: #f8f9fa;
   border-left: 4px solid var(--primary-blue);
-  padding: 16px;
+  padding: 12px;
   border-radius: 6px;
-  margin: 24px 0;
+  margin: 16px 0;
   text-align: left;
 }
 
@@ -418,7 +418,7 @@
 .feature-item {
   font-size: 0.95rem;
   color: var(--text-dark);
-  margin: 8px 0;
+  margin: 3px 0;
   line-height: 1.5;
   font-weight: 500;
 }
