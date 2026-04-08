@@ -24,7 +24,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 30px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .privacy-content-col {
@@ -37,6 +37,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  min-height: 400px;
 }
 
 /* Privacy Content */
