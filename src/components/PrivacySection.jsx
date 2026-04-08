@@ -1,6 +1,6 @@
 import React from 'react';
 import './PrivacySection.css';
-import privacyImage from '../assets/IMG_6808.png';
+import privacyImage from '../assets/IMG_6808.PNG';
 
 const PrivacySection = () => {
   const features = [
