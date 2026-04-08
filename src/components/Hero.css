@@ -326,9 +326,9 @@
   background: white;
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  max-width: 500px;
   width: 90%;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
   position: relative;
   animation: slideIn 0.3s ease;
@@ -408,6 +408,11 @@
   border-radius: 6px;
   margin: 24px 0;
   text-align: left;
+}
+
+.modal-image {
+  width: 320px;
+  height: 280px;
 }
 
 .feature-item {
