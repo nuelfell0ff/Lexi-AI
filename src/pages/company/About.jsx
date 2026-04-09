@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import './About.css'
+import aboutImage from '../../assets/IMG_6809.PNG'
 
 const About = () => {
   return (
@@ -9,6 +10,11 @@ const About = () => {
       <Navbar />
       <div className="about-container">
         <div className="about-wrapper">
+          {/* About Image */}
+          <div className="about-image-container">
+            <img src={aboutImage} alt="Lexi AI" className="about-image" />
+          </div>
+
           {/* Hero Section */}
           <section className="about-hero">
             <h1 className="about-title">About Lexi AI</h1>

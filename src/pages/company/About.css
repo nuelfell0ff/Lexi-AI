@@ -15,7 +15,7 @@
 /* Hero Section */
 .about-hero {
   text-align: center;
-  margin-top: 60px;
+  margin-top: 0px;
   margin-bottom: 60px;
   padding-bottom: 40px;
   border-bottom: 2px solid #f0f0f0;
@@ -38,6 +38,21 @@
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
+}
+
+/* About Image */
+.about-image-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+}
+
+.about-image {
+  max-width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
 }
 
 /* Content Section */
