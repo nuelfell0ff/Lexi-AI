@@ -120,6 +120,15 @@
     padding: 30px 20px;
   }
 
+  .about-image-container {
+    margin-top: 80px;
+    margin-bottom: 40px;
+  }
+
+  .about-image {
+    max-height: 300px;
+  }
+
   .about-hero {
     margin-top: 40px;
     margin-bottom: 40px;
