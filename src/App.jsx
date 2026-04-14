@@ -12,6 +12,7 @@ import ScrollToTop from './components/ScrollToTop'
 import About from './pages/company/About'
 import AboutMedxVerse from './pages/company/AboutMedxVerse'
 import Careers from './pages/company/Careers'
+import CampusAmbassador from './pages/CampusAmbassador'
 import Press from './pages/company/Press'
 import Blog from './pages/company/Blog'
 import Newsroom from './pages/company/Newsroom'
@@ -98,6 +99,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/about-medxverse" element={<AboutMedxVerse />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/campus-ambassador" element={<CampusAmbassador />} />
         <Route path="/press" element={<Press />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/newsroom" element={<Newsroom />} />
