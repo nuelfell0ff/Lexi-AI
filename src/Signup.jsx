@@ -99,6 +99,9 @@ const Signup = () => {
             <div className="auth-logo-section">
               <img
                 src={lexiLogo}
+                alt="Lexi AI"
+                className="auth-logo"
+              />
             </div>
 
             {/* Form Header */}
