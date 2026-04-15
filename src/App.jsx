@@ -37,6 +37,9 @@ import MedicalDisclaimer from './pages/MedicalDisclaimer'
 import RegulatoryCompliance from './pages/RegulatoryCompliance'
 import HIPAAGDPRAlignment from './pages/HIPAAGDPRAlignment'
 import TermsOfService from './pages/TermsOfService'
+import Signup from './Signup'
+import Signin from './Signin'
+import AdminDashboard from './AdminDashboard'
 
 const Home = ({ isLoading }) => (
   <>
@@ -108,6 +111,9 @@ const App = () => {
         <Route path="/regulatory-compliance" element={<RegulatoryCompliance />} />
         <Route path="/hipaa-gdpr-alignment" element={<HIPAAGDPRAlignment />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/admin-signup" element={<Signup />} />
+        <Route path="/admin-signin" element={<Signin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   )
