@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { auth } from './firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
+import lexiLogo from './assets/Lexi-Ai-No-bg.png'
 import './Auth.css'
 
 const Signup = () => {
@@ -97,10 +98,7 @@ const Signup = () => {
             {/* Logo */}
             <div className="auth-logo-section">
               <img
-                src="/src/assets/Lexi-Ai-No-bg.png"
-                alt="Lexi AI"
-                className="auth-logo"
-              />
+                src={lexiLogo}
             </div>
 
             {/* Form Header */}
