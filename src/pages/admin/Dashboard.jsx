@@ -88,7 +88,7 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
 
   const lineChartOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false
@@ -124,14 +124,14 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
 
   const doughnutChartOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         position: 'bottom',
         labels: {
-          padding: 20,
+          padding: 15,
           font: {
-            size: 12
+            size: 11
           }
         }
       }

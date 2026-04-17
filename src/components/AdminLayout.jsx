@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
+import LoadingSpinner from './LoadingSpinner'
 import AdminSidebar from './AdminSidebar'
 import AdminNavbar from './AdminNavbar'
 import Toast from './Toast'
@@ -22,11 +23,7 @@ const AdminLayout = ({ children }) => {
     }
   }, [currentUser, loading, navigate])
 
-  if (loading) {
-    return <div>Loading...</div>
-  }
-
-  if (!currentUser) {
+  if (!currentUser && !loading) {
     return null
   }
 
@@ -44,7 +41,7 @@ const AdminLayout = ({ children }) => {
       <div className="admin-main">
         <AdminNavbar />
         <main className="admin-content">
-          {children}
+          {loading ? <LoadingSpinner /> : children}
         </main>
       </div>
     </div>

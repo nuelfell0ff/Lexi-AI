@@ -85,7 +85,7 @@
 /* Charts Grid */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
 
@@ -95,17 +95,20 @@
   border-radius: 12px;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-card h3 {
   font-size: 18px;
   font-weight: 700;
   color: var(--text-dark);
-  margin: 0 0 20px 0;
+  margin: 0 0 16px 0;
 }
 
 .chart-card canvas {
   max-height: 300px;
+  display: block;
 }
 
 /* Responsive */
