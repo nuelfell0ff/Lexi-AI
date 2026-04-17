@@ -1,0 +1,58 @@
+/* Admin Layout Styles */
+
+:root {
+  --sidebar-width: 240px;
+  --navbar-height: 60px;
+  --primary-green: #1E844F;
+  --primary-blue: #194066;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --bg-light: #f8f9fa;
+}
+
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--bg-light);
+}
+
+.admin-main {
+  flex: 1;
+  margin-left: var(--sidebar-width);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 32px;
+  background-color: var(--bg-light);
+  margin-top: 70px;
+  overflow: visible;
+}
+
+body {
+  overflow-y: auto;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .admin-main {
+    margin-left: 60px;
+  }
+
+  .admin-content {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-main {
+    margin-left: 60px;
+  }
+
+  .admin-content {
+    padding: 16px;
+  }
+}

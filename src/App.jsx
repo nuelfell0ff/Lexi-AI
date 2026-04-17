@@ -40,6 +40,16 @@ import TermsOfService from './pages/TermsOfService'
 import Signup from './Signup'
 import Signin from './Signin'
 import AdminDashboard from './AdminDashboard'
+// Admin Pages
+import AdminLayout from './components/AdminLayout'
+import { ToastProvider } from './context/ToastContext'
+import Dashboard from './pages/admin/Dashboard'
+import Applicants from './pages/admin/Applicants'
+import Messages from './pages/admin/Messages'
+import Analytics from './pages/admin/Analytics'
+import Profile from './pages/admin/Profile'
+import Settings from './pages/admin/Settings'
+import ApplicantDetails from './pages/admin/ApplicantDetails'
 
 const Home = ({ isLoading }) => (
   <>
@@ -68,6 +78,7 @@ const Home = ({ isLoading }) => (
 
 const App = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [applicants, setApplicants] = useState([])
 
   useEffect(() => {
     // Show loading screen for 3 seconds
@@ -76,6 +87,26 @@ const App = () => {
     }, 3000)
 
     return () => clearTimeout(timer)
+  }, [])
+
+  // Fetch applicants function
+  const fetchApplicants = async () => {
+    try {
+      const { getDocs, collection } = await import('firebase/firestore')
+      const { db } = await import('./firebase')
+      const snapshot = await getDocs(collection(db, 'applicants'))
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }))
+      setApplicants(data)
+    } catch (error) {
+      console.log('Error fetching applicants:', error)
+    }
+  }
+
+  useEffect(() => {
+    fetchApplicants()
   }, [])
 
   return (
@@ -114,6 +145,57 @@ const App = () => {
         <Route path="/admin-signup" element={<Signup />} />
         <Route path="/admin-signin" element={<Signin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        {/* Admin Routes with Layout */}
+        <Route path="/admin/dashboard" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Dashboard applicants={applicants} refetchApplicants={fetchApplicants} />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/applicants" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Applicants applicants={applicants} refetchApplicants={fetchApplicants} />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/applicants/:id" element={
+          <ToastProvider>
+            <AdminLayout>
+              <ApplicantDetails />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/messages" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Messages />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/analytics" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Analytics applicants={applicants} />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/profile" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Profile />
+            </AdminLayout>
+          </ToastProvider>
+        } />
+        <Route path="/admin/settings" element={
+          <ToastProvider>
+            <AdminLayout>
+              <Settings />
+            </AdminLayout>
+          </ToastProvider>
+        } />
       </Routes>
     </Router>
   )

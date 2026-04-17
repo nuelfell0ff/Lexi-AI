@@ -41,7 +41,7 @@ const Signin = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password)
       setErrors({})
-      navigate('/admin-dashboard')
+      navigate('/admin/dashboard')
     } catch (err) {
       setErrors({ general: 'Invalid email or password' })
       console.error('Sign in error:', err)
