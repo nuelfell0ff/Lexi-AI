@@ -14,10 +14,49 @@ const CampusAmbassador = () => {
   const [level, setLevel] = useState('')
   const [city, setCity] = useState('')
   const [yearOfGraduation, setYearOfGraduation] = useState('')
+  const [cvFile, setCvFile] = useState(null)
 
+
+  const uploadCV = async (file) => {
+    try {
+      if (!file) throw new Error('No file selected')
+      if (file.type !== 'application/pdf') throw new Error('Only PDF files are allowed')
+      if (file.size > 2 * 1024 * 1024) throw new Error('File size must be less than 2MB')
+
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('upload_preset', 'lexi-ai')
+
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/datmds5xl/upload',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
+
+      if (!response.ok) throw new Error('Upload failed')
+      const data = await response.json()
+      return data.secure_url
+    } catch (error) {
+      console.error('CV Upload Error:', error.message)
+      throw error
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    let cvUrl = null
+    if (cvFile) {
+      try {
+        cvUrl = await uploadCV(cvFile)
+      } catch (error) {
+        alert(`CV Upload error: ${error.message}`)
+        return
+      }
+    }
+
     await addDoc(collection(db, 'applicants'), {
       name,
       email,
@@ -26,6 +65,7 @@ const CampusAmbassador = () => {
       level,
       city,
       yearOfGraduation,
+      cvUrl: cvUrl || null,
       createdAt: new Date()
     });
 
@@ -59,6 +99,8 @@ const CampusAmbassador = () => {
                 <input type='text' onChange={(e) => setLevel(e.target.value)} placeholder="Level" />
                 <input type='text' onChange={(e) => setCity(e.target.value)} placeholder="City" />
                 <input type='number' onChange={(e) => setYearOfGraduation(e.target.value)} placeholder="Graduation Year" />
+                <input type='file' accept=".pdf" onChange={(e) => setCvFile(e.target.files[0])} placeholder="Upload CV (PDF)" />
+                {cvFile && <p style={{ fontSize: '14px', color: '#666' }}>Selected: {cvFile.name}</p>}
 
                 <button type="submit">Submit</button>
               </form>
