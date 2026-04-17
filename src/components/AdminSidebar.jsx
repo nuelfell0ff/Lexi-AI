@@ -2,7 +2,6 @@ import React from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../firebase'
-import lexiLogo from '../assets/Lexi-Ai-No-bg.png'
 import '../styles/AdminSidebar.css'
 
 const AdminSidebar = () => {
@@ -55,12 +54,6 @@ const AdminSidebar = () => {
 
   return (
     <aside className="admin-sidebar">
-      <div className="sidebar-header">
-        <div className="sidebar-logo">
-          <img src={lexiLogo} alt="Lexi AI Logo" className="sidebar-logo-img" />
-        </div>
-      </div>
-
       <nav className="sidebar-nav">
         {menuItems.map((item) => (
           <Link

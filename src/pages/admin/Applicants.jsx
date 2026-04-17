@@ -15,7 +15,9 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
   const [sortBy, setSortBy] = useState('date')
   const [openMenu, setOpenMenu] = useState(null)
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
+  const [currentPage, setCurrentPage] = useState(1)
   const menuRefs = useRef({})
+  const applicantsPerPage = 10
 
   const filteredApplicants = applicants.filter(applicant => {
     const matchesSearch =
@@ -23,10 +25,48 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
       applicant.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       applicant.institution?.toLowerCase().includes(searchTerm.toLowerCase())
 
-    const matchesFilter = filterStatus === 'all' || applicant.status?.toLowerCase() === filterStatus.toLowerCase()
+    // Get applicant status, treating undefined/empty as 'pending'
+    const applicantStatus = (applicant.status || 'pending').toLowerCase()
+    const matchesFilter = filterStatus === 'all' || applicantStatus === filterStatus.toLowerCase()
 
     return matchesSearch && matchesFilter
   })
+
+  // Sort filtered applicants
+  const sortedApplicants = [...filteredApplicants].sort((a, b) => {
+    if (sortBy === 'date') {
+      // Sort by date - newest first
+      const dateA = a.createdAt?.toDate?.() || new Date(0)
+      const dateB = b.createdAt?.toDate?.() || new Date(0)
+      return dateB - dateA
+    } else if (sortBy === 'name') {
+      // Sort by name - alphabetically
+      return (a.name || '').localeCompare(b.name || '')
+    } else if (sortBy === 'status') {
+      // Sort by status
+      return (a.status || 'pending').localeCompare(b.status || 'pending')
+    }
+    return 0
+  })
+
+  // Pagination calculations
+  const totalPages = Math.ceil(sortedApplicants.length / applicantsPerPage)
+  const startIndex = (currentPage - 1) * applicantsPerPage
+  const endIndex = startIndex + applicantsPerPage
+  const paginatedApplicants = sortedApplicants.slice(startIndex, endIndex)
+
+  // Reset page to 1 when filters or sort changes
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [searchTerm, filterStatus, sortBy])
+
+  const handlePreviousPage = () => {
+    setCurrentPage(prev => Math.max(prev - 1, 1))
+  }
+
+  const handleNextPage = () => {
+    setCurrentPage(prev => Math.min(prev + 1, totalPages))
+  }
 
   const handleApprove = async (id) => {
     try {
@@ -176,7 +216,7 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
 
       {/* Results Count */}
       <div className="results-count">
-        Showing <strong>{filteredApplicants.length}</strong> applicant{filteredApplicants.length !== 1 ? 's' : ''}
+        Showing <strong>{paginatedApplicants.length}</strong> of <strong>{sortedApplicants.length}</strong> applicant{sortedApplicants.length !== 1 ? 's' : ''}
       </div>
 
       {/* Table */}
@@ -199,8 +239,8 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
             </tr>
           </thead>
           <tbody>
-            {filteredApplicants.length > 0 ? (
-              filteredApplicants.map((applicant) => (
+            {paginatedApplicants.length > 0 ? (
+              paginatedApplicants.map((applicant) => (
                 <tr key={applicant.id}>
                   <td className="checkbox-col">
                     <input type="checkbox" />
@@ -298,13 +338,21 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
       </div>
 
       {/* Pagination */}
-      {filteredApplicants.length > 0 && (
+      {sortedApplicants.length > 0 && (
         <div className="pagination">
-          <button className="btn-pagination" disabled>
+          <button
+            className="btn-pagination"
+            disabled={currentPage === 1}
+            onClick={handlePreviousPage}
+          >
             <i className="bi bi-chevron-left"></i> Previous
           </button>
-          <span className="pagination-info">Page 1 of 1</span>
-          <button className="btn-pagination" disabled>
+          <span className="pagination-info">Page {currentPage} of {totalPages}</span>
+          <button
+            className="btn-pagination"
+            disabled={currentPage === totalPages}
+            onClick={handleNextPage}
+          >
             Next <i className="bi bi-chevron-right"></i>
           </button>
         </div>

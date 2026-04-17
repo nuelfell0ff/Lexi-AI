@@ -30,6 +30,20 @@
   max-width: 100%;
 }
 
+/* Logo */
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.navbar-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* Search Bar */
 .navbar-search {
   display: flex;
@@ -177,6 +191,10 @@
     gap: 12px;
   }
 
+  .navbar-logo-img {
+    height: 32px;
+  }
+
   .navbar-search {
     flex: 0 1 250px;
     min-width: 150px;
@@ -198,6 +216,10 @@
 
   .navbar-container {
     padding: 10px 12px;
+  }
+
+  .navbar-logo-img {
+    height: 28px;
   }
 
   .navbar-search {

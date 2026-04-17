@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { db } from '../firebase'
-import { doc, getDoc } from 'firebase/firestore'
+import { doc, getDoc, collection, onSnapshot } from 'firebase/firestore'
+import NotificationModal from './NotificationModal'
+import lexiLogo from '../assets/Lexi-Ai-No-bg.png'
 import '../styles/AdminNavbar.css'
 
 const AdminNavbar = () => {
@@ -9,6 +11,27 @@ const AdminNavbar = () => {
   const [adminInfo, setAdminInfo] = useState({
     username: 'Super Admin'
   })
+  const [showNotificationModal, setShowNotificationModal] = useState(false)
+  const [pendingApplicants, setPendingApplicants] = useState([])
+  const [clearedNotifications, setClearedNotifications] = useState(() => {
+    // Load from localStorage on mount
+    try {
+      const saved = localStorage.getItem('clearedNotifications')
+      return saved ? JSON.parse(saved) : []
+    } catch (error) {
+      console.error('Error loading cleared notifications:', error)
+      return []
+    }
+  })
+
+  // Save cleared notifications to localStorage whenever they change
+  useEffect(() => {
+    try {
+      localStorage.setItem('clearedNotifications', JSON.stringify(clearedNotifications))
+    } catch (error) {
+      console.error('Error saving cleared notifications:', error)
+    }
+  }, [clearedNotifications])
 
   useEffect(() => {
     const fetchAdminInfo = async () => {
@@ -26,12 +49,46 @@ const AdminNavbar = () => {
     fetchAdminInfo()
   }, [currentUser])
 
+  useEffect(() => {
+    try {
+      // Get all applicants and filter on client side
+      const applicantsCollection = collection(db, 'applicants')
+      const unsubscribe = onSnapshot(applicantsCollection, (querySnapshot) => {
+        const applicants = querySnapshot.docs
+          .map(doc => ({
+            id: doc.id,
+            ...doc.data()
+          }))
+          .filter(app => !app.status || app.status === '' || app.status?.toLowerCase() === 'pending')
+        setPendingApplicants(applicants)
+      })
+      return () => unsubscribe()
+    } catch (error) {
+      console.error('Error setting up pending applicants listener:', error)
+    }
+  }, [])
+
   const adminName = adminInfo.username || 'Super Admin'
   const adminEmail = currentUser?.email || 'admin@admin.com'
+
+  // Filter out cleared notifications
+  const displayedApplicants = pendingApplicants.filter(app => !clearedNotifications.includes(app.id))
+  const pendingCount = displayedApplicants.length
+
+  const handleClearNotifications = () => {
+    // Mark all current applicants as cleared
+    const applicantIds = pendingApplicants.map(app => app.id)
+    setClearedNotifications(prev => [...prev, ...applicantIds])
+  }
 
   return (
     <nav className="admin-navbar">
       <div className="navbar-container">
+        {/* Logo */}
+        <div className="navbar-logo">
+          <img src={lexiLogo} alt="Lexi AI" className="navbar-logo-img" />
+        </div>
+
         {/* Search Bar */}
         <div className="navbar-search">
           <i className="bi bi-search"></i>
@@ -41,9 +98,12 @@ const AdminNavbar = () => {
         {/* Right Section */}
         <div className="navbar-right">
           {/* Notification Bell */}
-          <button className="navbar-icon-btn notification-btn">
+          <button
+            className="navbar-icon-btn notification-btn"
+            onClick={() => setShowNotificationModal(true)}
+          >
             <i className="bi bi-bell-fill"></i>
-            <span className="badge">1</span>
+            {pendingCount > 0 && <span className="badge">{pendingCount}</span>}
           </button>
 
           {/* Admin Profile */}
@@ -58,6 +118,15 @@ const AdminNavbar = () => {
           </div>
         </div>
       </div>
+
+      {/* Notification Modal */}
+      {showNotificationModal && (
+        <NotificationModal
+          applicants={displayedApplicants}
+          onClose={() => setShowNotificationModal(false)}
+          onClear={handleClearNotifications}
+        />
+      )}
     </nav>
   )
 }

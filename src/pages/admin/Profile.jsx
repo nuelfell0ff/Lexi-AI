@@ -5,7 +5,7 @@ import { db } from '../../firebase'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth'
 import lexiLogo from '../../assets/Lexi-Ai-No-bg.png'
-import Loading from '../../components/Loading'
+import LoadingSpinner from '../../components/LoadingSpinner'
 import '../../styles/Profile.css'
 
 const Profile = () => {
@@ -358,7 +358,7 @@ const Profile = () => {
   }
 
   if (loading) {
-    return <Loading />
+    return <LoadingSpinner />
   }
 
   return (

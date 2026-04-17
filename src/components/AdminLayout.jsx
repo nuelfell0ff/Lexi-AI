@@ -23,7 +23,21 @@ const AdminLayout = ({ children }) => {
     }
   }, [currentUser, loading, navigate])
 
-  if (!currentUser && !loading) {
+  if (loading) {
+    return (
+      <div className="admin-layout">
+        <AdminSidebar />
+        <div className="admin-main">
+          <AdminNavbar />
+          <main className="admin-content">
+            <LoadingSpinner />
+          </main>
+        </div>
+      </div>
+    )
+  }
+
+  if (!currentUser) {
     return null
   }
 
@@ -41,7 +55,7 @@ const AdminLayout = ({ children }) => {
       <div className="admin-main">
         <AdminNavbar />
         <main className="admin-content">
-          {loading ? <LoadingSpinner /> : children}
+          {children}
         </main>
       </div>
     </div>
