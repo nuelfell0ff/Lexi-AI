@@ -279,14 +279,14 @@ const Profile = () => {
       setEnable2FASentCode(code)
       const expirationTime = new Date().getTime() + 5 * 60 * 1000
       setEnable2FAExpiration(expirationTime)
-      
+
       console.log(`📧 2FA Enable Code for ${currentUser.email}: ${code}`)
       showToast(`✉️ Verification code sent to ${currentUser.email}`, 'info', 'bi bi-envelope')
-      
+
       setEnable2FAStep('2fa')
       setEnable2FAPassword('')
       setEnable2FACode('')
-      
+
     } catch (error) {
       console.error('Error verifying password:', error)
       if (error.code === 'auth/wrong-password') {
@@ -343,7 +343,7 @@ const Profile = () => {
     setEnable2FASentCode(code)
     const expirationTime = new Date().getTime() + 5 * 60 * 1000
     setEnable2FAExpiration(expirationTime)
-    
+
     console.log(`📧 2FA Enable Code for ${currentUser.email}: ${code}`)
     showToast(`✉️ Verification code resent to ${currentUser.email}`, 'info', 'bi bi-envelope')
   }
