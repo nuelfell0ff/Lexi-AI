@@ -18,7 +18,7 @@ const AdminLayout = ({ children }) => {
 
   useEffect(() => {
     if (!loading && !currentUser) {
-      navigate('/admin-signin')
+      navigate('/admin/signin')
     }
   }, [currentUser, loading, navigate])
 

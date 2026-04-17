@@ -142,8 +142,8 @@ const App = () => {
         <Route path="/regulatory-compliance" element={<RegulatoryCompliance />} />
         <Route path="/hipaa-gdpr-alignment" element={<HIPAAGDPRAlignment />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/admin-signup" element={<Signup />} />
-        <Route path="/admin-signin" element={<Signin />} />
+        <Route path="/admin/signup" element={<Signup />} />
+        <Route path="/admin/signin" element={<Signin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
         {/* Admin Routes with Layout */}

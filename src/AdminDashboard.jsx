@@ -11,7 +11,7 @@ const AdminDashboard = () => {
       console.log("Admin logged in:", user.email);
     } else {
       console.log("Not logged in");
-      Navigate('/admin-signin');
+      Navigate('/admin/signin');
     }
   });
 

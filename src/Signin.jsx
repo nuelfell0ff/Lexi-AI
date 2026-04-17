@@ -51,7 +51,7 @@ const Signin = () => {
   }
 
   const handleNavigateToSignup = () => {
-    navigate('/admin-signup')
+    navigate('/admin/signup')
   }
 
   return (

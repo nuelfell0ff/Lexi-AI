@@ -54,7 +54,7 @@ const Signup = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password)
       setErrors({})
-      navigate('/admin-signin')
+      navigate('/admin/signin')
     } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         setErrors({ general: 'This email is already registered' })
@@ -70,7 +70,7 @@ const Signup = () => {
   }
 
   const handleNavigateToSignin = () => {
-    navigate('/admin-signin')
+    navigate('/admin/signin')
   }
 
   const getPasswordStrength = () => {

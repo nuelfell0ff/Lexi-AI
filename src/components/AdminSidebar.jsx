@@ -47,7 +47,7 @@ const AdminSidebar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth)
-      navigate('/admin-signin')
+      navigate('/admin/signin')
     } catch (error) {
       console.error('Error logging out:', error)
     }
