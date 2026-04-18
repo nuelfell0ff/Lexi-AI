@@ -178,6 +178,41 @@ const ApplicantDetails = () => {
               </div>
             </div>
           )}
+
+          {/* Identification Section */}
+          {applicant.identificationType && (
+            <div className="info-section">
+              <h3>Identification Information</h3>
+              <div className="info-grid">
+                <div className="info-field">
+                  <span className="field-label">Identification Type</span>
+                  <span className="field-value">
+                    {applicant.identificationType === 'NIN' ? 'NIN (National Identification Number)' : 'School ID'}
+                  </span>
+                </div>
+              </div>
+              {applicant.identificationUrl && (
+                <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+                  <a
+                    href={applicant.identificationUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      color: '#1E844F',
+                      textDecoration: 'none',
+                      fontWeight: '500'
+                    }}
+                  >
+                    <i className="bi bi-card-image"></i>
+                    View Identification Document
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Actions Card */}

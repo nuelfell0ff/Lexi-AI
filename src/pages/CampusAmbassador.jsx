@@ -75,15 +75,17 @@ const CampusAmbassador = () => {
   const [city, setCity] = useState('')
   const [yearOfGraduation, setYearOfGraduation] = useState('')
   const [cvFile, setCvFile] = useState(null)
+  const [identificationType, setIdentificationType] = useState('')
+  const [identificationFile, setIdentificationFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
 
-  const uploadCV = async (file) => {
+  const uploadFile = async (file, allowedTypes = ['application/pdf']) => {
     try {
       if (!file) throw new Error('No file selected')
-      if (file.type !== 'application/pdf') throw new Error('Only PDF files are allowed')
-      if (file.size > 2 * 1024 * 1024) throw new Error('File size must be less than 2MB')
+      if (!allowedTypes.includes(file.type)) throw new Error('Invalid file type')
+      if (file.size > 5 * 1024 * 1024) throw new Error('File size must be less than 5MB')
 
       const formData = new FormData()
       formData.append('file', file)
@@ -101,7 +103,7 @@ const CampusAmbassador = () => {
       const data = await response.json()
       return data.secure_url
     } catch (error) {
-      console.error('CV Upload Error:', error.message)
+      console.error('File Upload Error:', error.message)
       throw error
     }
   }
@@ -111,14 +113,32 @@ const CampusAmbassador = () => {
     setLoading(true)
 
     let cvUrl = null
+    let identificationUrl = null
+
+    // Upload CV if provided (optional)
     if (cvFile) {
       try {
-        cvUrl = await uploadCV(cvFile)
+        cvUrl = await uploadFile(cvFile, ['application/pdf'])
       } catch (error) {
         alert(`CV Upload error: ${error.message}`)
         setLoading(false)
         return
       }
+    }
+
+    // Upload Identification (required)
+    if (!identificationFile) {
+      alert('Please upload your identification document')
+      setLoading(false)
+      return
+    }
+
+    try {
+      identificationUrl = await uploadFile(identificationFile, ['application/pdf', 'image/png', 'image/jpeg', 'image/jpg'])
+    } catch (error) {
+      alert(`Identification Upload error: ${error.message}`)
+      setLoading(false)
+      return
     }
 
     try {
@@ -131,6 +151,8 @@ const CampusAmbassador = () => {
         city,
         yearOfGraduation,
         cvUrl: cvUrl || null,
+        identificationType,
+        identificationUrl,
         createdAt: new Date()
       })
 
@@ -143,6 +165,8 @@ const CampusAmbassador = () => {
       setCity('')
       setYearOfGraduation('')
       setCvFile(null)
+      setIdentificationType('')
+      setIdentificationFile(null)
 
       setTimeout(() => setSuccess(false), 5000)
     } catch (error) {
@@ -276,7 +300,40 @@ const CampusAmbassador = () => {
                 </div>
 
                 <div className="form-group">
-                  <label className="form-label">Upload CV (PDF) *</label>
+                  <label className="form-label">Identification Type *</label>
+                  <select
+                    className="form-input"
+                    value={identificationType}
+                    onChange={(e) => setIdentificationType(e.target.value)}
+                    required
+                  >
+                    <option value="">Select identification type</option>
+                    <option value="NIN">NIN (National Identification Number)</option>
+                    <option value="SCHOOL_ID">School ID</option>
+                  </select>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Upload Identification (Image or PDF) *</label>
+                  <div className="file-input-wrapper">
+                    <input
+                      type='file'
+                      id="identification-file"
+                      className="file-input"
+                      accept=".pdf,.png,.jpg,.jpeg"
+                      onChange={(e) => setIdentificationFile(e.target.files[0])}
+                      required
+                    />
+                    <label htmlFor="identification-file" className="file-input-label">
+                      <i className="bi bi-cloud-upload"></i>
+                      <span>{identificationFile ? identificationFile.name : 'Click to upload or drag and drop'}</span>
+                      <small>PDF or Image files (PNG, JPG), max 5MB</small>
+                    </label>
+                  </div>
+                </div>
+
+                <div className="form-group">
+                  <label className="form-label">Upload CV (PDF)</label>
                   <div className="file-input-wrapper">
                     <input
                       type='file'
@@ -284,12 +341,11 @@ const CampusAmbassador = () => {
                       className="file-input"
                       accept=".pdf"
                       onChange={(e) => setCvFile(e.target.files[0])}
-                      required
                     />
                     <label htmlFor="cv-file" className="file-input-label">
                       <i className="bi bi-cloud-upload"></i>
                       <span>{cvFile ? cvFile.name : 'Click to upload or drag and drop'}</span>
-                      <small>PDF files only, max 2MB</small>
+                      <small>PDF files only, max 2MB (Optional)</small>
                     </label>
                   </div>
                 </div>
