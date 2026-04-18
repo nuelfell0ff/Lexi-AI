@@ -12,7 +12,7 @@ const ApplicantDetails = () => {
   const { showToast } = useToast()
   const [applicant, setApplicant] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [status, setStatus] = useState('PENDING')
+  const [status, setStatus] = useState('pending')
   const [notes, setNotes] = useState('')
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const ApplicantDetails = () => {
         if (docSnap.exists()) {
           const data = docSnap.data()
           setApplicant({ id: docSnap.id, ...data })
-          setStatus(data.status || 'PENDING')
+          setStatus((data.status || 'pending').toLowerCase())
           setNotes(data.notes || '')
         } else {
           showToast('Applicant not found', 'error', 'bi bi-exclamation-circle')
@@ -226,9 +226,9 @@ const ApplicantDetails = () => {
               onChange={(e) => handleStatusUpdate(e.target.value)}
               className="form-control"
             >
-              <option value="PENDING">Pending</option>
-              <option value="APPROVED">Approved</option>
-              <option value="REJECTED">Rejected</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
             </select>
           </div>
 

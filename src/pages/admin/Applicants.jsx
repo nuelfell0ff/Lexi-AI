@@ -71,7 +71,7 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
   const handleApprove = async (id) => {
     try {
       await updateDoc(doc(db, 'applicants', id), {
-        status: 'APPROVED'
+        status: 'approved'
       })
       setOpenMenu(null)
       showToast('Applicant approved successfully!', 'success', 'bi bi-check-circle')
@@ -85,7 +85,7 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
   const handleReject = async (id) => {
     try {
       await updateDoc(doc(db, 'applicants', id), {
-        status: 'REJECTED'
+        status: 'rejected'
       })
       setOpenMenu(null)
       showToast('Applicant rejected successfully!', 'error', 'bi bi-x-circle')
@@ -259,7 +259,7 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
                   <td>
                     <div className="status-cell">
                       <div className={`status-indicator ${applicant.status?.toLowerCase() || 'pending'}`}></div>
-                      <span className={`status-badge ${applicant.status?.toLowerCase()}`}>
+                      <span className={`status-badge ${applicant.status?.toLowerCase() || 'pending'}`}>
                         {applicant.status || 'PENDING'}
                       </span>
                     </div>

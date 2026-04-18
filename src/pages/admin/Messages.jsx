@@ -9,62 +9,85 @@ import '../../styles/Messages.css'
 
 const NIGERIAN_UNIVERSITIES = [
   'University of Ibadan',
-  'University of Lagos',
-  'University of Benin',
-  'Ahmadu Bello University',
   'University of Nigeria, Nsukka',
   'Obafemi Awolowo University',
+  'Ahmadu Bello University',
+  'University of Lagos',
+  'University of Benin',
+  'Bayero University, Kano',
+  'University of Calabar',
   'University of Ilorin',
-  'Federal University of Technology, Minna',
+  'University of Jos',
+  'University of Maiduguri',
+  'Usmanu Danfodiyo University',
+  'University of Port Harcourt',
   'Federal University of Technology, Owerri',
   'Federal University of Technology, Akure',
-  'Lagos State University',
-  'Covenant University',
-  'University of Calabar',
-  'Bayero University, Kano',
-  'University of Maiduguri',
-  'University of Port Harcourt',
-  'Ekiti State University',
-  'Ondo State University of Science and Technology',
-  'Ladoke Akintola University of Technology',
-  'Osun State University',
-  'Kwara State University',
-  'University of Uyo',
-  'Abia State University',
-  'Enugu State University of Science and Technology',
-  'Nnamdi Azikiwe University',
-  'University of Jos',
+  'Modibbo Adama University, Yola',
+  'Federal University of Technology, Minna',
+  'Nigerian Defence Academy',
   'University of Abuja',
-  'Federal University, Dutsin-Ma',
-  'Federal University, Kashere',
-  'Federal University, Lafia',
-  'Federal University, Lokoja',
-  'Federal University, Otuoke',
-  'Federal University, Oye-Ekiti',
-  'Federal University, Wukari',
-  'Federal University, Ndifu-Alike',
-  'Federal University, Birnin Kebbi',
+  'Abubakar Tafawa Balewa University',
+  'Federal University of Agriculture, Abeokuta',
+  'University of Agriculture, Makurdi',
+  'Michael Okpara University of Agriculture',
+  'Nnamdi Azikiwe University',
+  'University of Uyo',
   'National Open University of Nigeria',
-  'American University of Nigeria',
-  'Pan-Atlantic University',
-  'Lagos Business School',
-  'Redeemer\'s University',
-  'Bowen University',
-  'Babcock University',
-  'Joseph Ayo Babalola University',
-  'Afe Babalola University',
-  'Benson Idahosa University',
-  'Caleb University',
-  'Ajayi Crowther University',
-  'Westland University',
-  'Bells University of Technology',
-  'Nigerian-Turkish Nile University',
-  'Al-Hikmah University',
-  'Elizade University',
-  'Fountain University',
-  'Madonna University',
-  'Karshi University of Science and Technology',
-  'Other'
+  'Federal University of Petroleum Resources, Effurun',
+  'Federal University, Lokoja',
+  'Federal University, Lafia',
+  'Federal University, Kashere',
+  'Federal University, Wukari',
+  'Federal University, Dutsin-Ma',
+  'Federal University, Dutse',
+  'Federal University, Birnin Kebbi',
+  'Federal University, Gusau',
+  'Federal University, Gashua',
+  'Federal University, Oye-Ekiti',
+  'Federal University, Ndifu-Alike',
+  'Federal University, Otuoke',
+  'Federal University of Health Sciences',
+  'Abia State University',
+  'Adamawa State University',
+  'Adekunle Ajasin University',
+  'Akwa Ibom State University',
+  'Ambrose Alli University',
+  'Chukwuemeka Odumegwu Ojukwu University',
+  'Bauchi State University',
+  'Benue State University',
+  'Delta State University',
+  'Ebonyi State University',
+  'Edo State University (Iyamho)',
+  'Ekiti State University',
+  'Enugu State University of Science and Technology',
+  'Gombe State University',
+  'Ibrahim Badamasi Babangida University',
+  'Ignatius Ajuru University of Education',
+  'Imo State University',
+  'Kaduna State University',
+  'Kano University of Science & Technology',
+  'Kebbi State University of Science and Technology',
+  'Kogi State University',
+  'Kwara State University',
+  'Lagos State University',
+  'Ladoke Akintola University of Technology',
+  'Nasarawa State University',
+  'Niger Delta University',
+  'Olabisi Onabanjo University',
+  'Ondo State University of Science and Technology',
+  'Osun State University',
+  'Plateau State University',
+  'Rivers State University',
+  'Sokoto State University',
+  'Taraba State University',
+  'Umaru Musa Yar\'Adua University',
+  'Yobe State University',
+  'Zamfara State University',
+  'Tai Solarin University of Education',
+  'Confluence University of Science and Technology',
+  'University of Delta',
+  'Dennis Osadebay University'
 ]
 
 // Email Templates
@@ -212,9 +235,9 @@ const Messages = () => {
     if (recipient === 'all') {
       recipients = users
     } else if (recipient === 'approved') {
-      recipients = users.filter(u => u.status === 'APPROVED')
+      recipients = users.filter(u => u.status && u.status.toLowerCase() === 'approved')
     } else if (recipient === 'pending') {
-      recipients = users.filter(u => u.status === 'PENDING')
+      recipients = users.filter(u => !u.status || u.status.toLowerCase() === 'pending')
     } else if (recipient === 'university') {
       recipients = users.filter(u => u.institution === selectedUniversity)
     } else if (recipient === 'specific') {
@@ -501,8 +524,8 @@ const Messages = () => {
               className="form-control"
             >
               <option value="all">All Ambassadors ({users.length})</option>
-              <option value="approved">Approved Only ({users.filter(u => u.status === 'APPROVED').length})</option>
-              <option value="pending">Pending Only ({users.filter(u => u.status === 'PENDING').length})</option>
+              <option value="approved">Approved Only ({users.filter(u => u.status && u.status.toLowerCase() === 'approved').length})</option>
+              <option value="pending">Pending Only ({users.filter(u => !u.status || u.status.toLowerCase() === 'pending').length})</option>
               <option value="university">Filter by University</option>
               <option value="specific">Specific Ambassador</option>
             </select>

@@ -157,7 +157,7 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
   const handleApprove = async (id) => {
     try {
       await updateDoc(doc(db, 'applicants', id), {
-        status: 'APPROVED'
+        status: 'approved'
       })
       setOpenMenu(null)
       showToast('Applicant approved successfully!', 'success', 'bi bi-check-circle')
@@ -171,7 +171,7 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
   const handleReject = async (id) => {
     try {
       await updateDoc(doc(db, 'applicants', id), {
-        status: 'REJECTED'
+        status: 'rejected'
       })
       setOpenMenu(null)
       showToast('Applicant rejected successfully!', 'error', 'bi bi-x-circle')
