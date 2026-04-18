@@ -3,6 +3,7 @@ import { useAuth } from '../context/AuthContext'
 import { db } from '../firebase'
 import { doc, getDoc, collection, onSnapshot } from 'firebase/firestore'
 import NotificationModal from './NotificationModal'
+import SearchModal from './SearchModal'
 import lexiLogo from '../assets/Lexi-Ai-No-bg.png'
 import '../styles/AdminNavbar.css'
 
@@ -12,6 +13,7 @@ const AdminNavbar = () => {
     username: 'Super Admin'
   })
   const [showNotificationModal, setShowNotificationModal] = useState(false)
+  const [showSearchModal, setShowSearchModal] = useState(false)
   const [pendingApplicants, setPendingApplicants] = useState([])
   const [clearedNotifications, setClearedNotifications] = useState(() => {
     // Load from localStorage on mount
@@ -90,9 +92,9 @@ const AdminNavbar = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="navbar-search">
+        <div className="navbar-search" onClick={() => setShowSearchModal(true)}>
           <i className="bi bi-search"></i>
-          <input type="text" placeholder="Search applications..." />
+          <input type="text" placeholder="Search applications..." readOnly style={{ cursor: 'pointer' }} />
         </div>
 
         {/* Right Section */}
@@ -126,6 +128,11 @@ const AdminNavbar = () => {
           onClose={() => setShowNotificationModal(false)}
           onClear={handleClearNotifications}
         />
+      )}
+
+      {/* Search Modal */}
+      {showSearchModal && (
+        <SearchModal onClose={() => setShowSearchModal(false)} />
       )}
     </nav>
   )
