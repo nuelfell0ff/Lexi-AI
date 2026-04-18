@@ -77,6 +77,28 @@
   color: #999;
 }
 
+/* Mobile Search Icon */
+.navbar-mobile-search {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text-dark);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.navbar-mobile-search:hover {
+  background-color: var(--bg-light);
+  color: var(--primary-blue);
+}
+
 /* Right Section */
 .navbar-right {
   display: flex;
@@ -224,6 +246,10 @@
 
   .navbar-search {
     display: none;
+  }
+
+  .navbar-mobile-search {
+    display: flex;
   }
 
   .navbar-right {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import { db } from '../firebase'
 import { doc, getDoc, collection, onSnapshot } from 'firebase/firestore'
 import NotificationModal from './NotificationModal'
@@ -9,6 +10,7 @@ import '../styles/AdminNavbar.css'
 
 const AdminNavbar = () => {
   const { currentUser } = useAuth()
+  const navigate = useNavigate()
   const [adminInfo, setAdminInfo] = useState({
     username: 'Super Admin'
   })
@@ -97,6 +99,15 @@ const AdminNavbar = () => {
           <input type="text" placeholder="Search applications..." readOnly style={{ cursor: 'pointer' }} />
         </div>
 
+        {/* Mobile Search Icon */}
+        <button
+          className="navbar-mobile-search"
+          onClick={() => setShowSearchModal(true)}
+          title="Search"
+        >
+          <i className="bi bi-search"></i>
+        </button>
+
         {/* Right Section */}
         <div className="navbar-right">
           {/* Notification Bell */}
@@ -109,7 +120,10 @@ const AdminNavbar = () => {
           </button>
 
           {/* Admin Profile */}
-          <div className="admin-profile">
+          <div 
+            className="admin-profile"
+            onClick={() => navigate('/admin/profile')}
+          >
             <div className="profile-info">
               <span className="profile-name">{adminName}</span>
               <small className="profile-role">{adminEmail}</small>
