@@ -7,6 +7,66 @@ import { useToast } from '../../context/ToastContext'
 import { useAuth } from '../../context/AuthContext'
 import '../../styles/Messages.css'
 
+const NIGERIAN_UNIVERSITIES = [
+  'University of Ibadan',
+  'University of Lagos',
+  'University of Benin',
+  'Ahmadu Bello University',
+  'University of Nigeria, Nsukka',
+  'Obafemi Awolowo University',
+  'University of Ilorin',
+  'Federal University of Technology, Minna',
+  'Federal University of Technology, Owerri',
+  'Federal University of Technology, Akure',
+  'Lagos State University',
+  'Covenant University',
+  'University of Calabar',
+  'Bayero University, Kano',
+  'University of Maiduguri',
+  'University of Port Harcourt',
+  'Ekiti State University',
+  'Ondo State University of Science and Technology',
+  'Ladoke Akintola University of Technology',
+  'Osun State University',
+  'Kwara State University',
+  'University of Uyo',
+  'Abia State University',
+  'Enugu State University of Science and Technology',
+  'Nnamdi Azikiwe University',
+  'University of Jos',
+  'University of Abuja',
+  'Federal University, Dutsin-Ma',
+  'Federal University, Kashere',
+  'Federal University, Lafia',
+  'Federal University, Lokoja',
+  'Federal University, Otuoke',
+  'Federal University, Oye-Ekiti',
+  'Federal University, Wukari',
+  'Federal University, Ndifu-Alike',
+  'Federal University, Birnin Kebbi',
+  'National Open University of Nigeria',
+  'American University of Nigeria',
+  'Pan-Atlantic University',
+  'Lagos Business School',
+  'Redeemer\'s University',
+  'Bowen University',
+  'Babcock University',
+  'Joseph Ayo Babalola University',
+  'Afe Babalola University',
+  'Benson Idahosa University',
+  'Caleb University',
+  'Ajayi Crowther University',
+  'Westland University',
+  'Bells University of Technology',
+  'Nigerian-Turkish Nile University',
+  'Al-Hikmah University',
+  'Elizade University',
+  'Fountain University',
+  'Madonna University',
+  'Karshi University of Science and Technology',
+  'Other'
+]
+
 // Email Templates
 const templates = {
   welcome: {
@@ -35,6 +95,7 @@ const Messages = () => {
   const [subject, setSubject] = useState('')
   const [recipient, setRecipient] = useState('all')
   const [specificUser, setSpecificUser] = useState('')
+  const [selectedUniversity, setSelectedUniversity] = useState('')
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [sendingEmail, setSendingEmail] = useState(false)
@@ -107,7 +168,8 @@ const Messages = () => {
           id: doc.id,
           name: doc.data().name,
           email: doc.data().email,
-          status: doc.data().status
+          status: doc.data().status,
+          institution: doc.data().institution || ''
         }))
         setUsers(userData)
       } catch (error) {
@@ -153,6 +215,8 @@ const Messages = () => {
       recipients = users.filter(u => u.status === 'APPROVED')
     } else if (recipient === 'pending') {
       recipients = users.filter(u => u.status === 'PENDING')
+    } else if (recipient === 'university') {
+      recipients = users.filter(u => u.institution === selectedUniversity)
     } else if (recipient === 'specific') {
       const user = users.find(u => u.id === specificUser)
       recipients = user ? [user] : []
@@ -439,9 +503,31 @@ const Messages = () => {
               <option value="all">All Ambassadors ({users.length})</option>
               <option value="approved">Approved Only ({users.filter(u => u.status === 'APPROVED').length})</option>
               <option value="pending">Pending Only ({users.filter(u => u.status === 'PENDING').length})</option>
+              <option value="university">Filter by University</option>
               <option value="specific">Specific Ambassador</option>
             </select>
           </div>
+
+          {recipient === 'university' && (
+            <div className="form-group">
+              <label>Select University</label>
+              <select
+                value={selectedUniversity}
+                onChange={(e) => setSelectedUniversity(e.target.value)}
+                className="form-control"
+              >
+                <option value="">Choose a university...</option>
+                {NIGERIAN_UNIVERSITIES.map(uni => {
+                  const count = users.filter(u => u.institution === uni).length
+                  return (
+                    <option key={uni} value={uni}>
+                      {uni} ({count})
+                    </option>
+                  )
+                })}
+              </select>
+            </div>
+          )}
 
           {recipient === 'specific' && (
             <div className="form-group">

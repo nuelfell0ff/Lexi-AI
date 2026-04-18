@@ -3,6 +3,66 @@ import { db } from '../firebase'
 import { collection, addDoc } from 'firebase/firestore'
 import '../pages/CampusAmbassador.css'
 
+const NIGERIAN_UNIVERSITIES = [
+  'University of Ibadan',
+  'University of Lagos',
+  'University of Benin',
+  'Ahmadu Bello University',
+  'University of Nigeria, Nsukka',
+  'Obafemi Awolowo University',
+  'University of Ilorin',
+  'Federal University of Technology, Minna',
+  'Federal University of Technology, Owerri',
+  'Federal University of Technology, Akure',
+  'Lagos State University',
+  'Covenant University',
+  'University of Calabar',
+  'Bayero University, Kano',
+  'University of Maiduguri',
+  'University of Port Harcourt',
+  'Ekiti State University',
+  'Ondo State University of Science and Technology',
+  'Ladoke Akintola University of Technology',
+  'Osun State University',
+  'Kwara State University',
+  'University of Uyo',
+  'Abia State University',
+  'Enugu State University of Science and Technology',
+  'Nnamdi Azikiwe University',
+  'University of Jos',
+  'University of Abuja',
+  'Federal University, Dutsin-Ma',
+  'Federal University, Kashere',
+  'Federal University, Lafia',
+  'Federal University, Lokoja',
+  'Federal University, Otuoke',
+  'Federal University, Oye-Ekiti',
+  'Federal University, Wukari',
+  'Federal University, Ndifu-Alike',
+  'Federal University, Birnin Kebbi',
+  'National Open University of Nigeria',
+  'American University of Nigeria',
+  'Pan-Atlantic University',
+  'Lagos Business School',
+  'Redeemer\'s University',
+  'Bowen University',
+  'Babcock University',
+  'Joseph Ayo Babalola University',
+  'Afe Babalola University',
+  'Benson Idahosa University',
+  'Caleb University',
+  'Ajayi Crowther University',
+  'Westland University',
+  'Bells University of Technology',
+  'Nigerian-Turkish Nile University',
+  'Al-Hikmah University',
+  'Elizade University',
+  'Fountain University',
+  'Madonna University',
+  'Karshi University of Science and Technology',
+  'Other'
+]
+
 const CampusAmbassadorSection = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -143,14 +203,19 @@ const CampusAmbassadorSection = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Institution *</label>
-                  <input
-                    type='text'
+                  <select
                     className="form-input"
                     value={institution}
                     onChange={(e) => setInstitution(e.target.value)}
-                    placeholder="Your university name"
                     required
-                  />
+                  >
+                    <option value="">Select your university</option>
+                    {NIGERIAN_UNIVERSITIES.map((uni) => (
+                      <option key={uni} value={uni}>
+                        {uni}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 <div className="form-group">

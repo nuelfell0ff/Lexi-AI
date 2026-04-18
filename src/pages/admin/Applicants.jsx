@@ -173,9 +173,6 @@ const Applicants = ({ applicants = [], refetchApplicants }) => {
           <h1>Applicants</h1>
           <p>Manage campus ambassador applications</p>
         </div>
-        <button className="btn-primary btn-lg">
-          <i className="bi bi-plus-circle"></i> Add Applicant
-        </button>
       </div>
 
       {/* Filters Section */}
