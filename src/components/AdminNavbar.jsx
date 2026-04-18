@@ -120,7 +120,7 @@ const AdminNavbar = () => {
           </button>
 
           {/* Admin Profile */}
-          <div 
+          <div
             className="admin-profile"
             onClick={() => navigate('/admin/profile')}
           >
