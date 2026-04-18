@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../firebase'
+import { useAuth } from '../context/AuthContext'
 import '../styles/NotificationModal.css'
 
 const NotificationModal = ({ applicants, onClose, onClear }) => {
   const navigate = useNavigate()
+  const { currentUser } = useAuth()
+  const [dashboardNotificationsEnabled, setDashboardNotificationsEnabled] = useState(true)
+
+  // Fetch dashboard notifications setting
+  useEffect(() => {
+    const fetchSettings = async () => {
+      if (!currentUser) return
+      try {
+        const settingsRef = doc(db, 'adminSettings', currentUser.uid)
+        const settingsSnap = await getDoc(settingsRef)
+        if (settingsSnap.exists()) {
+          setDashboardNotificationsEnabled(settingsSnap.data().dashboardNotifications !== false)
+        }
+      } catch (error) {
+        console.error('Error fetching settings:', error)
+      }
+    }
+    fetchSettings()
+  }, [currentUser])
 
   const handleSeeOptions = () => {
     navigate('/admin/applicants')
@@ -37,6 +59,41 @@ const NotificationModal = ({ applicants, onClose, onClear }) => {
         </div>
 
         <div className="notification-modal-content">
+          {!dashboardNotificationsEnabled && (
+            <div style={{
+              backgroundColor: '#fff3cd',
+              border: '1px solid #ffc107',
+              borderRadius: '8px',
+              padding: '15px',
+              marginBottom: '15px',
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '10px'
+            }}>
+              <i className="bi bi-exclamation-triangle" style={{ fontSize: '16px', color: '#ff9800', marginTop: '3px' }}></i>
+              <div>
+                <strong style={{ fontSize: '14px' }}>Dashboard Notifications are disabled</strong>
+                <p style={{ margin: '5px 0 0 0', fontSize: '13px', color: '#666' }}>
+                  Turn on Dashboard Notifications in{' '}
+                  <button
+                    onClick={() => navigate('/admin/settings')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#1E844F',
+                      textDecoration: 'underline',
+                      cursor: 'pointer',
+                      fontWeight: '600',
+                      padding: 0
+                    }}
+                  >
+                    Settings
+                  </button>
+                  {' '}to see new applications.
+                </p>
+              </div>
+            </div>
+          )}
           {applicants.length === 0 ? (
             <div className="no-notifications">
               <p>No new applications</p>

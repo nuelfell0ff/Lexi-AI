@@ -6,6 +6,7 @@ import Features from './components/Features'
 import PrivacySection from './components/PrivacySection'
 import Pricing from './components/Pricing'
 import Faqs from './components/Faqs'
+import CampusAmbassadorSection from './components/CampusAmbassadorSection'
 import Footer from './components/Footer'
 import Loading from './components/Loading'
 import ScrollToTop from './components/ScrollToTop'
@@ -69,6 +70,9 @@ const Home = ({ isLoading }) => (
     </section>
     <section id="faq">
       <Faqs />
+    </section>
+    <section id="campus-ambassador">
+      <CampusAmbassadorSection />
     </section>
     <section id="contact">
       <Footer />

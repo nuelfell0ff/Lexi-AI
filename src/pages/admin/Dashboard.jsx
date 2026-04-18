@@ -214,8 +214,62 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
       showToast('Applicant suspended successfully!', 'warning', 'bi bi-hand-thumbsdown')
       if (refetchApplicants) await refetchApplicants()
     } catch (error) {
-      console.error('Error suspending applicant:', error)
       showToast('Failed to suspend applicant', 'error', 'bi bi-hand-thumbsdown')
+    }
+  }
+
+  const handleExportData = () => {
+    if (!applicants || applicants.length === 0) {
+      showToast('No applicants to export', 'warning', 'bi bi-exclamation-circle')
+      return
+    }
+
+    try {
+      // Prepare data for export
+      const exportData = applicants.map(applicant => ({
+        'Name': applicant.name || 'N/A',
+        'Email': applicant.email || 'N/A',
+        'Institution': applicant.institution || 'N/A',
+        'Course of Study': applicant.courseOfStudy || 'N/A',
+        'Level': applicant.level || 'N/A',
+        'City': applicant.city || 'N/A',
+        'Year of Graduation': applicant.yearOfGraduation || 'N/A',
+        'Status': applicant.status || 'PENDING',
+        'CV URL': applicant.cvUrl || 'N/A',
+        'Application Date': applicant.createdAt?.toDate?.()?.toLocaleString() || 'N/A',
+        'Notes': applicant.notes || 'N/A'
+      }))
+
+      // Convert to CSV
+      const headers = Object.keys(exportData[0])
+      const csvContent = [
+        headers.join(','),
+        ...exportData.map(row =>
+          headers.map(header =>
+            // Escape CSV fields that contain commas or quotes
+            typeof row[header] === 'string' && (row[header].includes(',') || row[header].includes('"'))
+              ? `"${row[header].replace(/"/g, '""')}"`
+              : row[header]
+          ).join(',')
+        )
+      ].join('\n')
+
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+      const link = document.createElement('a')
+      const url = URL.createObjectURL(blob)
+
+      link.setAttribute('href', url)
+      link.setAttribute('download', `lexi-ai-applicants-${new Date().toISOString().split('T')[0]}.csv`)
+      link.style.visibility = 'hidden'
+
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      showToast(`Exported ${applicants.length} applicants successfully!`, 'success', 'bi bi-check-circle')
+    } catch (error) {
+      showToast('Failed to export data', 'error', 'bi bi-x-circle')
     }
   }
 
@@ -244,7 +298,7 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
           <p>Monitoring the Lexi AI ambassador ecosystem.</p>
         </div>
         <div className="header-actions">
-          <button className="btn-export">
+          <button className="btn-export" onClick={handleExportData}>
             <i className="bi bi-download"></i> Export Data
           </button>
           <button className="btn-invite">

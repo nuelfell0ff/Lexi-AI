@@ -140,11 +140,33 @@
   .sidebar-nav-link span {
     display: none;
   }
+
+  .sidebar-logout-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar-logout-btn span {
+    display: none !important;
+  }
 }
 
 @media (max-width: 576px) {
   .admin-sidebar {
     width: 60px;
     z-index: 500;
+    overflow: hidden;
+  }
+
+  .sidebar-logout-btn {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
   }
 }

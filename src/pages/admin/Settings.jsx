@@ -1,7 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { db } from '../../firebase'
+import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../context/ToastContext'
 import '../../styles/Settings.css'
 
 const Settings = () => {
+  const { currentUser } = useAuth()
+  const { showToast } = useToast()
+  const [loading, setLoading] = useState(true)
   const [settings, setSettings] = useState({
     emailNotifications: true,
     dashboardNotifications: true,
@@ -11,11 +18,45 @@ const Settings = () => {
     marketingEmails: false
   })
 
-  const handleToggle = (key) => {
-    setSettings(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }))
+  // Fetch settings from Firebase
+  useEffect(() => {
+    const fetchSettings = async () => {
+      if (!currentUser) return
+
+      try {
+        const settingsRef = doc(db, 'adminSettings', currentUser.uid)
+        const settingsSnap = await getDoc(settingsRef)
+
+        if (settingsSnap.exists()) {
+          setSettings(settingsSnap.data())
+        }
+      } catch (error) {
+        console.error('Error fetching settings:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchSettings()
+  }, [currentUser])
+
+  const handleToggle = async (key) => {
+    const newSettings = {
+      ...settings,
+      [key]: !settings[key]
+    }
+    setSettings(newSettings)
+
+    // Save to Firebase
+    if (currentUser) {
+      try {
+        const settingsRef = doc(db, 'adminSettings', currentUser.uid)
+        await setDoc(settingsRef, newSettings, { merge: true })
+        showToast('Settings saved successfully', 'success', 'bi bi-check-circle')
+      } catch (error) {
+        showToast('Failed to save settings', 'error', 'bi bi-x-circle')
+      }
+    }
   }
 
   return (
