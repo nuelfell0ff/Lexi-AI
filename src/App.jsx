@@ -25,6 +25,7 @@ import WomensHealth from './pages/WomensHealth'
 import PreventiveHealthMonitoring from './pages/PreventiveHealthMonitoring'
 import APIDeveloperPlatform from './pages/APIDeveloperPlatform'
 import BrandingKit from './pages/BrandingKit'
+import SocialMediaAssets from './pages/SocialMediaAssets'
 import AmbassadorGuide from './pages/AmbassadorGuide'
 import PartnerWithLexiAI from './pages/partner/PartnerWithLexiAI'
 import HealthcareProviders from './pages/partner/HealthcareProviders'
@@ -141,6 +142,7 @@ const App = () => {
         <Route path="/careers" element={<Careers />} />
         <Route path="/campus-ambassador" element={<CampusAmbassador />} />
         <Route path="/branding-kit" element={<BrandingKit />} />
+        <Route path="/social-media-assets" element={<SocialMediaAssets />} />
         <Route path="/ambassador-guide" element={<AmbassadorGuide />} />
         <Route path="/press" element={<Press />} />
         <Route path="/blog" element={<Blog />} />

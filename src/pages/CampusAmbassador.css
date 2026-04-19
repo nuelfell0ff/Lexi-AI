@@ -139,7 +139,7 @@
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 16px;
 }
 
 .gallery-item {
@@ -849,7 +849,7 @@ select.form-input {
 
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 8px;
   }
 
   .gallery-item {
@@ -902,7 +902,7 @@ select.form-input {
 
   .gallery-grid {
     grid-template-columns: 1fr;
-    gap: 12px;
+    gap: 8px;
   }
 
   .gallery-item {

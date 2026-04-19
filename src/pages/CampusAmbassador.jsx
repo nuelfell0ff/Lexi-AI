@@ -6,6 +6,9 @@ import './CampusAmbassador.css'
 import { db } from '../firebase'
 import { collection, query, orderBy, onSnapshot } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
+import galleryImg1 from '../assets/IMG-20260418-WA0063.jpg'
+import galleryImg2 from '../assets/IMG-20260418-WA0064.jpg'
+import galleryImg3 from '../assets/IMG-20260418-WA0065.jpg'
 
 const NIGERIAN_UNIVERSITIES = [
   'University of Ibadan',
@@ -142,8 +145,8 @@ const CampusAmbassador = () => {
       id: 2,
       title: 'Social Media Assets',
       description: 'Access templates, graphics, and content for social media promotion.',
-      icon: 'bi-share2',
-      link: '#',
+      icon: 'bi-share',
+      link: '/social-media-assets',
       linkText: 'Explore Assets'
     },
     {
@@ -161,19 +164,19 @@ const CampusAmbassador = () => {
     {
       id: 1,
       title: 'Campus Outreach',
-      url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
+      url: galleryImg1,
       description: 'Ambassadors engaging with students'
     },
     {
       id: 2,
       title: 'Health Awareness',
-      url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop',
+      url: galleryImg2,
       description: 'Healthcare initiative at campus'
     },
     {
       id: 3,
       title: 'Team Building',
-      url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
+      url: galleryImg3,
       description: 'Ambassador team collaboration'
     }
   ]
