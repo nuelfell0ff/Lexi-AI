@@ -56,150 +56,150 @@ import ApplicantDetails from './pages/admin/ApplicantDetails'
 import Campaigns from './pages/admin/Campaigns'
 
 const Home = ({ isLoading }) => (
-  <>
-    {isLoading && <Loading />}
-    <Navbar />
-    <section id="home">
-      <Hero />
-    </section>
-    <section id="features">
-      <Features />
-    </section>
-    <section id="privacy">
-      <PrivacySection />
-    </section>
-    <section id="pricing">
-      <Pricing />
-    </section>
-    <section id="faq">
-      <Faqs />
-    </section>
-    <section id="campus-ambassador">
-      <CampusAmbassadorSection />
-    </section>
-    <section id="contact">
-      <Footer />
-    </section>
-  </>
+    <>
+        {isLoading && <Loading />}
+        <Navbar />
+        <section id="home">
+            <Hero />
+        </section>
+        <section id="features">
+            <Features />
+        </section>
+        <section id="privacy">
+            <PrivacySection />
+        </section>
+        <section id="pricing">
+            <Pricing />
+        </section>
+        <section id="faq">
+            <Faqs />
+        </section>
+        <section id="campus-ambassador">
+            <CampusAmbassadorSection />
+        </section>
+        <section id="contact">
+            <Footer />
+        </section>
+    </>
 )
 
 const App = () => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [applicants, setApplicants] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [applicants, setApplicants] = useState([])
 
-  useEffect(() => {
-    // Show loading screen for 3 seconds
-    const timer = setTimeout(() => {
-      setIsLoading(false)
-    }, 3000)
+    useEffect(() => {
+        // Show loading screen for 3 seconds
+        const timer = setTimeout(() => {
+            setIsLoading(false)
+        }, 3000)
 
-    return () => clearTimeout(timer)
-  }, [])
+        return () => clearTimeout(timer)
+    }, [])
 
-  // Fetch applicants function
-  const fetchApplicants = async () => {
-    try {
-      const { getDocs, collection } = await import('firebase/firestore')
-      const { db } = await import('./firebase')
-      const snapshot = await getDocs(collection(db, 'applicants'))
-      const data = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setApplicants(data)
-    } catch (error) {
-      console.log('Error fetching applicants:', error)
+    // Fetch applicants function
+    const fetchApplicants = async () => {
+        try {
+            const { getDocs, collection } = await import('firebase/firestore')
+            const { db } = await import('./firebase')
+            const snapshot = await getDocs(collection(db, 'applicants'))
+            const data = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }))
+            setApplicants(data)
+        } catch (error) {
+            console.log('Error fetching applicants:', error)
+        }
     }
-  }
 
-  useEffect(() => {
-    fetchApplicants()
-  }, [])
+    useEffect(() => {
+        fetchApplicants()
+    }, [])
 
-  return (
-    <Router>
-      <ScrollToTop />
-      <Routes>
-        <Route path="/" element={<Home isLoading={isLoading} />} />
-        <Route path="/ai-symptom-checker" element={<AISymptomChecker />} />
-        <Route path="/virtual-health-assistant" element={<VirtualHealthAssistant />} />
-        <Route path="/chronic-disease-management" element={<ChronicDiseaseManagement />} />
-        <Route path="/mental-health-support" element={<MentalHealthSupport />} />
-        <Route path="/womens-health" element={<WomensHealth />} />
-        <Route path="/preventive-health-monitoring" element={<PreventiveHealthMonitoring />} />
-        <Route path="/api-developer-platform" element={<APIDeveloperPlatform />} />
-        <Route path="/partner-with-lexi-ai" element={<PartnerWithLexiAI />} />
-        <Route path="/healthcare-providers" element={<HealthcareProviders />} />
-        <Route path="/governments-and-public-health" element={<GovernmentsAndPublicHealth />} />
-        <Route path="/ngos-and-global-health" element={<NGOsAndGlobalHealth />} />
-        <Route path="/insurance-and-fintech" element={<InsuranceAndFintech />} />
-        <Route path="/pharmaceutical-partnerships" element={<PharmaceuticalPartnerships />} />
-        <Route path="/corporate-wellness" element={<CorporateWellness />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/data-protection-and-security" element={<DataProtectionAndSecurity />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/about-medxverse" element={<AboutMedxVerse />} />
-        <Route path="/careers" element={<Careers />} />
-        <Route path="/campus-ambassador" element={<CampusAmbassador />} />
-        <Route path="/branding-kit" element={<BrandingKit />} />
-        <Route path="/social-media-assets" element={<SocialMediaAssets />} />
-        <Route path="/ambassador-guide" element={<AmbassadorGuide />} />
-        <Route path="/press" element={<Press />} />
-        <Route path="/blog" element={<Blog />} />
-        <Route path="/newsroom" element={<Newsroom />} />
-        <Route path="/ai-ethics-responsible-ai" element={<AIEthics />} />
-        <Route path="/medical-disclaimer" element={<MedicalDisclaimer />} />
-        <Route path="/regulatory-compliance" element={<RegulatoryCompliance />} />
-        <Route path="/hipaa-gdpr-alignment" element={<HIPAAGDPRAlignment />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/admin/signup" element={<Signup />} />
-        <Route path="/admin/signin" element={<Signin />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+    return (
+        <Router>
+            <ScrollToTop />
+            <Routes>
+                <Route path="/" element={<Home isLoading={isLoading} />} />
+                <Route path="/ai-symptom-checker" element={<AISymptomChecker />} />
+                <Route path="/virtual-health-assistant" element={<VirtualHealthAssistant />} />
+                <Route path="/chronic-disease-management" element={<ChronicDiseaseManagement />} />
+                <Route path="/mental-health-support" element={<MentalHealthSupport />} />
+                <Route path="/womens-health" element={<WomensHealth />} />
+                <Route path="/preventive-health-monitoring" element={<PreventiveHealthMonitoring />} />
+                <Route path="/api-developer-platform" element={<APIDeveloperPlatform />} />
+                <Route path="/partner-with-lexi-ai" element={<PartnerWithLexiAI />} />
+                <Route path="/healthcare-providers" element={<HealthcareProviders />} />
+                <Route path="/governments-and-public-health" element={<GovernmentsAndPublicHealth />} />
+                <Route path="/ngos-and-global-health" element={<NGOsAndGlobalHealth />} />
+                <Route path="/insurance-and-fintech" element={<InsuranceAndFintech />} />
+                <Route path="/pharmaceutical-partnerships" element={<PharmaceuticalPartnerships />} />
+                <Route path="/corporate-wellness" element={<CorporateWellness />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                <Route path="/data-protection-and-security" element={<DataProtectionAndSecurity />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/about-medxverse" element={<AboutMedxVerse />} />
+                <Route path="/careers" element={<Careers />} />
+                <Route path="/campus-ambassador" element={<CampusAmbassador />} />
+                <Route path="/branding-kit" element={<BrandingKit />} />
+                <Route path="/social-media-assets" element={<SocialMediaAssets />} />
+                <Route path="/ambassador-guide" element={<AmbassadorGuide />} />
+                <Route path="/press" element={<Press />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/newsroom" element={<Newsroom />} />
+                <Route path="/ai-ethics-responsible-ai" element={<AIEthics />} />
+                <Route path="/medical-disclaimer" element={<MedicalDisclaimer />} />
+                <Route path="/regulatory-compliance" element={<RegulatoryCompliance />} />
+                <Route path="/hipaa-gdpr-alignment" element={<HIPAAGDPRAlignment />} />
+                <Route path="/terms-of-service" element={<TermsOfService />} />
+                <Route path="/admin/signup" element={<Signup />} />
+                <Route path="/admin/signin" element={<Signin />} />
+                <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
-        {/* Admin Routes with Layout */}
-        <Route path="/admin/dashboard" element={
-          <AdminLayout>
-            <Dashboard applicants={applicants} refetchApplicants={fetchApplicants} />
-          </AdminLayout>
-        } />
-        <Route path="/admin/applicants" element={
-          <AdminLayout>
-            <Applicants applicants={applicants} refetchApplicants={fetchApplicants} />
-          </AdminLayout>
-        } />
-        <Route path="/admin/applicants/:id" element={
-          <AdminLayout>
-            <ApplicantDetails />
-          </AdminLayout>
-        } />
-        <Route path="/admin/campaigns" element={
-          <AdminLayout>
-            <Campaigns />
-          </AdminLayout>
-        } />
-        <Route path="/admin/messages" element={
-          <AdminLayout>
-            <Messages />
-          </AdminLayout>
-        } />
-        <Route path="/admin/analytics" element={
-          <AdminLayout>
-            <Analytics applicants={applicants} />
-          </AdminLayout>
-        } />
-        <Route path="/admin/profile" element={
-          <AdminLayout>
-            <Profile />
-          </AdminLayout>
-        } />
-        <Route path="/admin/settings" element={
-          <AdminLayout>
-            <Settings />
-          </AdminLayout>
-        } />
-      </Routes>
-    </Router>
-  )
+                {/* Admin Routes with Layout */}
+                <Route path="/admin/dashboard" element={
+                    <AdminLayout>
+                        <Dashboard applicants={applicants} refetchApplicants={fetchApplicants} />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/applicants" element={
+                    <AdminLayout>
+                        <Applicants applicants={applicants} refetchApplicants={fetchApplicants} />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/applicants/:id" element={
+                    <AdminLayout>
+                        <ApplicantDetails />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/campaigns" element={
+                    <AdminLayout>
+                        <Campaigns />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/messages" element={
+                    <AdminLayout>
+                        <Messages />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/analytics" element={
+                    <AdminLayout>
+                        <Analytics applicants={applicants} />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/profile" element={
+                    <AdminLayout>
+                        <Profile />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/settings" element={
+                    <AdminLayout>
+                        <Settings />
+                    </AdminLayout>
+                } />
+            </Routes>
+        </Router>
+    )
 }
 
 export default App
