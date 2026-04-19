@@ -1,20 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from 'firebase/firestore'
+import { collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useToast } from '../../context/ToastContext'
 import ConfirmModal from '../../components/ConfirmModal'
-import '../../styles/Dashboard.css'
+import CampaignModal from '../../components/CampaignModal'
 
 const Campaigns = () => {
   const { showToast } = useToast()
   const [campaigns, setCampaigns] = useState([])
   const [loading, setLoading] = useState(true)
-  const [showForm, setShowForm] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [confirmModal, setConfirmModal] = useState(null)
-  const [openMenu, setOpenMenu] = useState(null)
+  const [openCampaignMenu, setOpenCampaignMenu] = useState(null)
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
-  const menuRefs = useRef({})
+  const campaignMenuRefs = useRef({})
 
   const [formData, setFormData] = useState({
     title: '',
@@ -24,28 +25,37 @@ const Campaigns = () => {
     ambassadors: ''
   })
 
-  // Fetch campaigns
+  // Fetch campaigns with real-time listener
   useEffect(() => {
-    fetchCampaigns()
-  }, [])
+    console.log('Setting up campaigns listener...')
+    setLoading(true)
+    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
 
-  const fetchCampaigns = async () => {
-    try {
-      setLoading(true)
-      const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
-      const querySnapshot = await getDocs(q)
-      const campaignsData = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }))
-      setCampaigns(campaignsData)
-    } catch (error) {
-      console.error('Error fetching campaigns:', error)
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        console.log('Campaigns snapshot received, docs count:', querySnapshot.docs.length)
+        const campaignsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setCampaigns(campaignsData)
+        setLoading(false)
+      } catch (error) {
+        console.error('Error processing campaigns:', error)
+        showToast('Failed to load campaigns', 'error', 'bi bi-exclamation-circle')
+        setLoading(false)
+      }
+    }, (error) => {
+      console.error('Error listening to campaigns:', error)
       showToast('Failed to load campaigns', 'error', 'bi bi-exclamation-circle')
-    } finally {
       setLoading(false)
+    })
+
+    return () => {
+      console.log('Unsubscribing from campaigns listener')
+      unsubscribe()
     }
-  }
+  }, [])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -63,16 +73,15 @@ const Campaigns = () => {
       return
     }
 
+    setIsSubmitting(true)
     try {
       if (editingId) {
-        // Update existing campaign
         await updateDoc(doc(db, 'campaigns', editingId), {
           ...formData,
           updatedAt: new Date()
         })
         showToast('Campaign updated successfully!', 'success', 'bi bi-check-circle')
       } else {
-        // Add new campaign
         await addDoc(collection(db, 'campaigns'), {
           ...formData,
           createdAt: new Date(),
@@ -89,11 +98,12 @@ const Campaigns = () => {
         ambassadors: ''
       })
       setEditingId(null)
-      setShowForm(false)
-      await fetchCampaigns()
+      setShowModal(false)
     } catch (error) {
       console.error('Error saving campaign:', error)
       showToast('Failed to save campaign', 'error', 'bi bi-exclamation-circle')
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -106,32 +116,34 @@ const Campaigns = () => {
       ambassadors: campaign.ambassadors || ''
     })
     setEditingId(campaign.id)
-    setShowForm(true)
-    setOpenMenu(null)
+    setShowModal(true)
+    setOpenCampaignMenu(null)
   }
 
   const handleDelete = (id) => {
     setConfirmModal({
       title: 'Delete Campaign',
-      message: 'Are you sure you want to delete this campaign? This action cannot be undone.',
+      message: 'Are you sure you want to delete this campaign?',
       onConfirm: async () => {
         try {
           await deleteDoc(doc(db, 'campaigns', id))
           showToast('Campaign deleted successfully!', 'success', 'bi bi-check-circle')
           setConfirmModal(null)
-          await fetchCampaigns()
         } catch (error) {
           console.error('Error deleting campaign:', error)
           showToast('Failed to delete campaign', 'error', 'bi bi-exclamation-circle')
         }
       },
-      onCancel: () => setConfirmModal(null)
+      onCancel: () => setConfirmModal(null),
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDangerous: true
     })
-    setOpenMenu(null)
+    setOpenCampaignMenu(null)
   }
 
   const handleCancel = () => {
-    setShowForm(false)
+    setShowModal(false)
     setEditingId(null)
     setFormData({
       title: '',
@@ -145,179 +157,181 @@ const Campaigns = () => {
   const toggleMenu = (id, event) => {
     const rect = event.currentTarget.getBoundingClientRect()
     setDropdownPos({
-      top: rect.bottom + 5,
-      left: rect.left - 150
+      top: rect.bottom + 4,
+      left: rect.left - 130
     })
-    setOpenMenu(openMenu === id ? null : id)
+    setOpenCampaignMenu(openCampaignMenu === id ? null : id)
   }
 
   return (
-    <div className="admin-content">
-      <div className="admin-header">
-        <h1>Campaigns Management</h1>
+    <div style={{ maxWidth: '1600px', margin: '0 auto', padding: '20px' }}>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', gap: '20px' }}>
+        <div>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, color: '#333', margin: '0 0 8px 0' }}>Campaigns Management</h1>
+          <p style={{ margin: 0, color: '#666', fontSize: '14px' }}>Create and manage campus ambassador campaigns</p>
+        </div>
         <button
-          className="admin-btn admin-btn-primary"
-          onClick={() => {
-            if (showForm) {
-              handleCancel()
-            } else {
-              setShowForm(true)
-            }
+          onClick={() => setShowModal(true)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '10px 20px',
+            backgroundColor: '#1E844F',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: 600,
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            fontFamily: 'Poppins, sans-serif'
           }}
         >
-          <i className={`bi bi-${showForm ? 'x' : 'plus-circle'}`}></i>
-          {showForm ? 'Cancel' : 'New Campaign'}
+          <i className="bi bi-plus-circle"></i>
+          New Campaign
         </button>
       </div>
 
-      {showForm && (
-        <div className="form-section">
-          <h2>{editingId ? 'Edit Campaign' : 'Create New Campaign'}</h2>
-          <form onSubmit={handleSubmit}>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Campaign Title *</label>
-                <input
-                  type="text"
-                  name="title"
-                  value={formData.title}
-                  onChange={handleInputChange}
-                  placeholder="e.g., Health Awareness Week"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Status</label>
-                <select
-                  name="status"
-                  value={formData.status}
-                  onChange={handleInputChange}
-                >
-                  <option value="active">Active</option>
-                  <option value="completed">Completed</option>
-                  <option value="upcoming">Upcoming</option>
-                </select>
-              </div>
-            </div>
+      {/* Campaign Modal */}
+      <CampaignModal
+        isOpen={showModal}
+        onClose={handleCancel}
+        onSubmit={handleSubmit}
+        editingId={editingId}
+        formData={formData}
+        onFormChange={handleInputChange}
+        isSubmitting={isSubmitting}
+      />
 
-            <div className="form-row">
-              <div className="form-group">
-                <label>Date *</label>
-                <input
-                  type="text"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleInputChange}
-                  placeholder="e.g., April 15 - 30, 2026"
-                  required
-                />
-              </div>
-              <div className="form-group">
-                <label>Ambassadors Involved</label>
-                <input
-                  type="number"
-                  name="ambassadors"
-                  value={formData.ambassadors}
-                  onChange={handleInputChange}
-                  placeholder="e.g., 25"
-                  min="0"
-                />
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Description *</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleInputChange}
-                placeholder="Describe the campaign objectives, activities, and impact..."
-                rows="5"
-                required
-              ></textarea>
-            </div>
-
-            <div className="form-actions">
-              <button type="submit" className="admin-btn admin-btn-primary">
-                {editingId ? 'Update Campaign' : 'Create Campaign'}
-              </button>
-              <button type="button" className="admin-btn admin-btn-secondary" onClick={handleCancel}>
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
-
-      <div className="campaigns-list">
-        <h2>Active Campaigns ({campaigns.length})</h2>
+      {/* Campaigns Table */}
+      <div style={{ backgroundColor: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+        <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#333', margin: '0 0 24px 0' }}>Active Campaigns ({campaigns.length})</h3>
 
         {loading ? (
-          <div className="loading-message">
-            <i className="bi bi-hourglass-split"></i>
-            Loading campaigns...
+          <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+            <i className="bi bi-hourglass-split" style={{ fontSize: '32px', marginBottom: '16px', display: 'block' }}></i>
+            <p>Loading campaigns...</p>
           </div>
         ) : campaigns.length === 0 ? (
-          <div className="empty-message">
-            <i className="bi bi-inbox"></i>
+          <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+            <i className="bi bi-inbox" style={{ fontSize: '32px', marginBottom: '16px', display: 'block' }}></i>
             <p>No campaigns yet. Create your first campaign to get started!</p>
           </div>
         ) : (
-          <div className="campaigns-table">
-            <table>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
               <thead>
-                <tr>
-                  <th>Campaign Title</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Ambassadors</th>
-                  <th>Actions</th>
+                <tr style={{ backgroundColor: '#f8f9fa', borderBottom: '2px solid #e0e0e0' }}>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Title</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Ambassadors</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Description</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {campaigns.map(campaign => (
-                  <tr key={campaign.id}>
-                    <td>
-                      <div className="campaign-info">
-                        <h4>{campaign.title}</h4>
-                        <p>{campaign.description?.substring(0, 60)}...</p>
-                      </div>
-                    </td>
-                    <td>{campaign.date}</td>
-                    <td>
-                      <span className={`status-badge status-${campaign.status.toLowerCase()}`}>
-                        {campaign.status}
+                {campaigns.map((campaign) => (
+                  <tr key={campaign.id} style={{ borderBottom: '1px solid #e0e0e0' }}>
+                    <td style={{ padding: '12px', fontWeight: 600, color: '#333' }}>{campaign.title}</td>
+                    <td style={{ padding: '12px' }}>{campaign.date}</td>
+                    <td style={{ padding: '12px' }}>
+                      <span style={{
+                        display: 'inline-block',
+                        padding: '6px 12px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: 700,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px',
+                        backgroundColor: campaign.status?.toLowerCase() === 'active' ? '#d4edda' : campaign.status?.toLowerCase() === 'completed' ? '#d1ecf1' : '#fff3cd',
+                        color: campaign.status?.toLowerCase() === 'active' ? '#155724' : campaign.status?.toLowerCase() === 'completed' ? '#0c5460' : '#856404'
+                      }}>
+                        {campaign.status || 'active'}
                       </span>
                     </td>
-                    <td>{campaign.ambassadors || 0}</td>
-                    <td>
-                      <div className="action-menu">
-                        <button
-                          className="menu-btn"
-                          ref={el => menuRefs.current[campaign.id] = el}
-                          onClick={(e) => toggleMenu(campaign.id, e)}
+                    <td style={{ padding: '12px' }}>{campaign.ambassadors || 0}</td>
+                    <td style={{ padding: '12px', color: '#666', fontSize: '12px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {campaign.description?.substring(0, 50)}...
+                    </td>
+                    <td style={{ padding: '12px', position: 'relative' }}>
+                      <button
+                        ref={(el) => (campaignMenuRefs.current[campaign.id] = el)}
+                        onClick={(e) => toggleMenu(campaign.id, e)}
+                        style={{
+                          background: 'none',
+                          border: '1px solid #e0e0e0',
+                          width: '32px',
+                          height: '32px',
+                          borderRadius: '6px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '16px',
+                          cursor: 'pointer',
+                          color: '#333'
+                        }}
+                      >
+                        <i className="bi bi-three-dots-vertical"></i>
+                      </button>
+                      {openCampaignMenu === campaign.id && (
+                        <div
+                          style={{
+                            position: 'fixed',
+                            background: '#fff',
+                            border: '1px solid #e0e0e0',
+                            borderRadius: '6px',
+                            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
+                            zIndex: 2000,
+                            minWidth: '130px',
+                            top: `${dropdownPos.top}px`,
+                            left: `${dropdownPos.left}px`
+                          }}
                         >
-                          <i className="bi bi-three-dots-vertical"></i>
-                        </button>
-                        {openMenu === campaign.id && (
-                          <div className="dropdown-menu" style={{ top: dropdownPos.top, left: dropdownPos.left }}>
-                            <button
-                              className="dropdown-item"
-                              onClick={() => handleEdit(campaign)}
-                            >
-                              <i className="bi bi-pencil"></i>
-                              Edit
-                            </button>
-                            <button
-                              className="dropdown-item delete"
-                              onClick={() => handleDelete(campaign.id)}
-                            >
-                              <i className="bi bi-trash"></i>
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                          <button
+                            onClick={() => handleEdit(campaign)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              width: '100%',
+                              padding: '8px 10px',
+                              border: 'none',
+                              background: 'none',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              color: '#333',
+                              textAlign: 'left',
+                              fontFamily: 'Poppins, sans-serif'
+                            }}
+                          >
+                            <i className="bi bi-pencil"></i>
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDelete(campaign.id)}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '6px',
+                              width: '100%',
+                              padding: '8px 10px',
+                              border: 'none',
+                              background: 'none',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              color: '#dc3545',
+                              textAlign: 'left',
+                              fontFamily: 'Poppins, sans-serif'
+                            }}
+                          >
+                            <i className="bi bi-trash"></i>
+                            Delete
+                          </button>
+                        </div>
+                      )}
                     </td>
                   </tr>
                 ))}

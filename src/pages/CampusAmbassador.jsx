@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import './CampusAmbassador.css'
 import { db } from '../firebase'
-import { collection, addDoc, query, where, getDocs, orderBy } from 'firebase/firestore'
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
 
 const NIGERIAN_UNIVERSITIES = [
@@ -107,12 +107,12 @@ const CampusAmbassador = () => {
   const [success, setSuccess] = useState(false)
   const [campaigns, setCampaigns] = useState([])
 
-  // Fetch campaigns from Firestore
+  // Fetch campaigns from Firestore with real-time listener
   useEffect(() => {
-    const fetchCampaigns = async () => {
+    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
       try {
-        const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
-        const querySnapshot = await getDocs(q)
         const campaignsData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
@@ -121,66 +121,12 @@ const CampusAmbassador = () => {
       } catch (error) {
         console.error('Error fetching campaigns:', error)
       }
-    }
+    }, (error) => {
+      console.error('Error listening to campaigns:', error)
+    })
 
-    fetchCampaigns()
+    return () => unsubscribe()
   }, [])
-
-  // Fallback campaigns if none exist
-  const displayCampaigns = campaigns.length > 0 ? campaigns : [
-    {
-      id: 1,
-      title: 'Mental Health Awareness Week',
-      description: 'Join us in promoting mental wellness across campuses with webinars and workshops.',
-      status: 'Active',
-      date: 'Apr 2026',
-      ambassadors: 24
-    },
-    {
-      id: 2,
-      title: 'Preventive Health Screening Drive',
-      description: 'Organize health screening camps at your institution to help students stay healthy.',
-      status: 'Active',
-      date: 'May 2026',
-      ambassadors: 18
-    },
-    {
-      id: 3,
-      title: 'Campus Health Challenge',
-      description: 'Participate in our campus-wide health and wellness competition.',
-      status: 'Completed',
-      date: 'Mar 2026',
-      ambassadors: 32
-    }
-  ]
-
-  // Sample Campaigns Data (Legacy - Now fetched from Firestore above)
-  const legacyCampaigns = [
-    {
-      id: 1,
-      title: 'Mental Health Awareness Week',
-      description: 'Join us in promoting mental wellness across campuses with webinars and workshops.',
-      status: 'Active',
-      date: 'Apr 2026',
-      ambassadors: 24
-    },
-    {
-      id: 2,
-      title: 'Preventive Health Screening Drive',
-      description: 'Organize health screening camps at your institution to help students stay healthy.',
-      status: 'Active',
-      date: 'May 2026',
-      ambassadors: 18
-    },
-    {
-      id: 3,
-      title: 'Campus Health Challenge',
-      description: 'Participate in our campus-wide health and wellness competition.',
-      status: 'Completed',
-      date: 'Mar 2026',
-      ambassadors: 32
-    }
-  ]
 
   // Sample Resources Data
   const resources = [
@@ -376,22 +322,30 @@ const CampusAmbassador = () => {
               <h2 className="section-title">Active Campaigns</h2>
               <p className="section-description">Join ongoing initiatives and make an impact</p>
             </div>
-            <div className="campaigns-grid">
-              {displayCampaigns.map(campaign => (
-                <div key={campaign.id} className="campaign-card">
-                  <div className="campaign-header">
-                    <h3 className="campaign-title">{campaign.title}</h3>
-                    <span className={`campaign-status ${campaign.status.toLowerCase()}`}>{campaign.status}</span>
+            {campaigns.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px', color: '#666' }}>
+                <i className="bi bi-inbox" style={{ fontSize: '48px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+                <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>No Campaigns Yet</p>
+                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Watch out for updates! New campaigns will be announced soon.</p>
+              </div>
+            ) : (
+              <div className="campaigns-grid">
+                {campaigns.map(campaign => (
+                  <div key={campaign.id} className="campaign-card">
+                    <div className="campaign-header">
+                      <h3 className="campaign-title">{campaign.title}</h3>
+                      <span className={`campaign-status ${campaign.status.toLowerCase()}`}>{campaign.status}</span>
+                    </div>
+                    <p className="campaign-description">{campaign.description}</p>
+                    <div className="campaign-meta">
+                      <span><i className="bi bi-calendar"></i> {campaign.date}</span>
+                      <span><i className="bi bi-people"></i> {campaign.ambassadors} ambassadors</span>
+                    </div>
+                    <a href="#" className="learn-more-btn">Learn More →</a>
                   </div>
-                  <p className="campaign-description">{campaign.description}</p>
-                  <div className="campaign-meta">
-                    <span><i className="bi bi-calendar"></i> {campaign.date}</span>
-                    <span><i className="bi bi-people"></i> {campaign.ambassadors} ambassadors</span>
-                  </div>
-                  <a href="#" className="learn-more-btn">Learn More →</a>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Resources Section */}

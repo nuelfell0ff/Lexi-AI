@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Line, Doughnut } from 'react-chartjs-2'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement } from 'chart.js'
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, updateDoc, deleteDoc, collection, getDocs, query, orderBy, addDoc, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useToast } from '../../context/ToastContext'
 import ConfirmModal from '../../components/ConfirmModal'
@@ -13,6 +13,16 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const Dashboard = ({ applicants = [], refetchApplicants }) => {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  const [campaigns, setCampaigns] = useState([])
+  const [showCampaignForm, setShowCampaignForm] = useState(false)
+  const [editingCampaignId, setEditingCampaignId] = useState(null)
+  const [campaignFormData, setCampaignFormData] = useState({
+    title: '',
+    description: '',
+    status: 'active',
+    date: '',
+    ambassadors: ''
+  })
   const [stats, setStats] = useState({
     totalApplicants: 0,
     pendingReview: 0,
@@ -21,9 +31,142 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
     growthRate: 12.4
   })
   const [openMenu, setOpenMenu] = useState(null)
+  const [openCampaignMenu, setOpenCampaignMenu] = useState(null)
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
   const [confirmModal, setConfirmModal] = useState(null)
   const menuRefs = useRef({})
+  const campaignMenuRefs = useRef({})
+
+  // Fetch campaigns with real-time listener
+  useEffect(() => {
+    console.log('Setting up Dashboard campaigns listener...')
+    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        console.log('Dashboard campaigns snapshot received, docs count:', querySnapshot.docs.length)
+        const campaignsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setCampaigns(campaignsData)
+      } catch (error) {
+        console.error('Error processing Dashboard campaigns:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to Dashboard campaigns:', error)
+    })
+
+    return () => {
+      console.log('Unsubscribing from Dashboard campaigns listener')
+      unsubscribe()
+    }
+  }, [])
+
+  const handleCampaignInputChange = (e) => {
+    const { name, value } = e.target
+    setCampaignFormData(prev => ({
+      ...prev,
+      [name]: name === 'ambassadors' ? parseInt(value) || 0 : value
+    }))
+  }
+
+  const handleCampaignSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!campaignFormData.title || !campaignFormData.description || !campaignFormData.date) {
+      showToast('Please fill in all required fields', 'error', 'bi bi-exclamation-circle')
+      return
+    }
+
+    try {
+      if (editingCampaignId) {
+        await updateDoc(doc(db, 'campaigns', editingCampaignId), {
+          ...campaignFormData,
+          updatedAt: new Date()
+        })
+        showToast('Campaign updated successfully!', 'success', 'bi bi-check-circle')
+      } else {
+        await addDoc(collection(db, 'campaigns'), {
+          ...campaignFormData,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        })
+        showToast('Campaign created successfully!', 'success', 'bi bi-check-circle')
+      }
+
+      setCampaignFormData({
+        title: '',
+        description: '',
+        status: 'active',
+        date: '',
+        ambassadors: ''
+      })
+      setEditingCampaignId(null)
+      setShowCampaignForm(false)
+      await fetchCampaigns()
+    } catch (error) {
+      console.error('Error saving campaign:', error)
+      showToast('Failed to save campaign', 'error', 'bi bi-exclamation-circle')
+    }
+  }
+
+  const handleEditCampaign = (campaign) => {
+    setCampaignFormData({
+      title: campaign.title,
+      description: campaign.description,
+      status: campaign.status,
+      date: campaign.date,
+      ambassadors: campaign.ambassadors || ''
+    })
+    setEditingCampaignId(campaign.id)
+    setShowCampaignForm(true)
+    setOpenCampaignMenu(null)
+  }
+
+  const handleDeleteCampaign = (id) => {
+    setConfirmModal({
+      title: 'Delete Campaign',
+      message: 'Are you sure you want to delete this campaign? This will be removed from the public campus ambassador page.',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'campaigns', id))
+          showToast('Campaign deleted successfully!', 'success', 'bi bi-check-circle')
+          setConfirmModal(null)
+          await fetchCampaigns()
+        } catch (error) {
+          console.error('Error deleting campaign:', error)
+          showToast('Failed to delete campaign', 'error', 'bi bi-exclamation-circle')
+        }
+      },
+      onCancel: () => setConfirmModal(null),
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDangerous: true
+    })
+    setOpenCampaignMenu(null)
+  }
+
+  const handleCampaignCancel = () => {
+    setShowCampaignForm(false)
+    setEditingCampaignId(null)
+    setCampaignFormData({
+      title: '',
+      description: '',
+      status: 'active',
+      date: '',
+      ambassadors: ''
+    })
+  }
+
+  const toggleCampaignMenu = (id, event) => {
+    const rect = event.currentTarget.getBoundingClientRect()
+    setDropdownPos({
+      top: rect.bottom + 4,
+      left: rect.left - 130
+    })
+    setOpenCampaignMenu(openCampaignMenu === id ? null : id)
+  }
 
   // Calculate stats from applicants data
   useEffect(() => {
@@ -498,6 +641,178 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
               ) : (
                 <tr>
                   <td colSpan="5" className="text-center py-3">No applicants found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Campaigns Section */}
+      <div className="campaigns-section-dashboard">
+        <div className="section-header">
+          <h3>Manage Campaigns</h3>
+          <button
+            className="btn-add-campaign"
+            onClick={() => {
+              if (showCampaignForm) {
+                handleCampaignCancel()
+              } else {
+                setShowCampaignForm(true)
+              }
+            }}
+          >
+            <i className={`bi bi-${showCampaignForm ? 'x' : 'plus-circle'}`}></i>
+            {showCampaignForm ? 'Cancel' : 'New Campaign'}
+          </button>
+        </div>
+
+        {showCampaignForm && (
+          <div className="campaign-form-container">
+            <form onSubmit={handleCampaignSubmit}>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Campaign Title *</label>
+                  <input
+                    type="text"
+                    name="title"
+                    value={campaignFormData.title}
+                    onChange={handleCampaignInputChange}
+                    placeholder="e.g., Mental Health Awareness Week"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Status</label>
+                  <select
+                    name="status"
+                    value={campaignFormData.status}
+                    onChange={handleCampaignInputChange}
+                  >
+                    <option value="active">Active</option>
+                    <option value="completed">Completed</option>
+                    <option value="upcoming">Upcoming</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Date *</label>
+                  <input
+                    type="text"
+                    name="date"
+                    value={campaignFormData.date}
+                    onChange={handleCampaignInputChange}
+                    placeholder="e.g., April 15 - 30, 2026"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Ambassadors Involved</label>
+                  <input
+                    type="number"
+                    name="ambassadors"
+                    value={campaignFormData.ambassadors}
+                    onChange={handleCampaignInputChange}
+                    placeholder="e.g., 25"
+                    min="0"
+                  />
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label>Description *</label>
+                <textarea
+                  name="description"
+                  value={campaignFormData.description}
+                  onChange={handleCampaignInputChange}
+                  placeholder="Describe the campaign..."
+                  rows="4"
+                  required
+                ></textarea>
+              </div>
+
+              <div className="form-actions">
+                <button type="submit" className="btn-save">
+                  {editingCampaignId ? 'Update Campaign' : 'Create Campaign'}
+                </button>
+                <button type="button" className="btn-cancel" onClick={handleCampaignCancel}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        <div className="campaigns-table-container">
+          <table className="campaigns-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Ambassadors</th>
+                <th>Description</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {campaigns && campaigns.length > 0 ? (
+                campaigns.map((campaign) => (
+                  <tr key={campaign.id}>
+                    <td className="campaign-title-cell">{campaign.title}</td>
+                    <td>{campaign.date}</td>
+                    <td>
+                      <span className={`status-badge ${campaign.status.toLowerCase()}`}>
+                        {campaign.status}
+                      </span>
+                    </td>
+                    <td>{campaign.ambassadors || 0}</td>
+                    <td className="description-cell">{campaign.description?.substring(0, 50)}...</td>
+                    <td>
+                      <div className="action-menu-container">
+                        <button
+                          ref={(el) => (campaignMenuRefs.current[campaign.id] = el)}
+                          className="btn-menu-toggle"
+                          onClick={(e) => toggleCampaignMenu(campaign.id, e)}
+                          title="More actions"
+                        >
+                          <i className="bi bi-three-dots-vertical"></i>
+                        </button>
+                        {openCampaignMenu === campaign.id && (
+                          <div
+                            className="action-menu-dropdown"
+                            style={{
+                              top: `${dropdownPos.top}px`,
+                              left: `${dropdownPos.left}px`
+                            }}
+                          >
+                            <button
+                              className="menu-item edit"
+                              onClick={() => handleEditCampaign(campaign)}
+                              title="Edit"
+                            >
+                              <i className="bi bi-pencil"></i> Edit
+                            </button>
+                            <button
+                              className="menu-item delete"
+                              onClick={() => handleDeleteCampaign(campaign.id)}
+                              title="Delete"
+                            >
+                              <i className="bi bi-trash"></i> Delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6" className="text-center py-3">
+                    <i className="bi bi-inbox"></i> No campaigns yet. Create your first campaign!
+                  </td>
                 </tr>
               )}
             </tbody>
