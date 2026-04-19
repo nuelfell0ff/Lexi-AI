@@ -20,6 +20,11 @@ const AdminSidebar = () => {
       icon: 'people-fill'
     },
     {
+      label: 'Campaigns',
+      path: '/admin/campaigns',
+      icon: 'rocket-fill'
+    },
+    {
       label: 'Messages',
       path: '/admin/messages',
       icon: 'envelope-fill'

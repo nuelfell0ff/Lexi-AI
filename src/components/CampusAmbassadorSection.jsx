@@ -187,6 +187,7 @@ const CampusAmbassadorSection = () => {
         createdAt: new Date()
       })
 
+      showToast('Application received! We will review it shortly.', 'success', 'bi bi-check-circle')
       setSuccess(true)
       setName('')
       setEmail('')

@@ -24,6 +24,8 @@ import MentalHealthSupport from './pages/MentalHealthSupport'
 import WomensHealth from './pages/WomensHealth'
 import PreventiveHealthMonitoring from './pages/PreventiveHealthMonitoring'
 import APIDeveloperPlatform from './pages/APIDeveloperPlatform'
+import BrandingKit from './pages/BrandingKit'
+import AmbassadorGuide from './pages/AmbassadorGuide'
 import PartnerWithLexiAI from './pages/partner/PartnerWithLexiAI'
 import HealthcareProviders from './pages/partner/HealthcareProviders'
 import GovernmentsAndPublicHealth from './pages/partner/GovernmentsAndPublicHealth'
@@ -43,7 +45,6 @@ import Signin from './Signin'
 import AdminDashboard from './AdminDashboard'
 // Admin Pages
 import AdminLayout from './components/AdminLayout'
-import { ToastProvider } from './context/ToastContext'
 import Dashboard from './pages/admin/Dashboard'
 import Applicants from './pages/admin/Applicants'
 import Messages from './pages/admin/Messages'
@@ -51,6 +52,7 @@ import Analytics from './pages/admin/Analytics'
 import Profile from './pages/admin/Profile'
 import Settings from './pages/admin/Settings'
 import ApplicantDetails from './pages/admin/ApplicantDetails'
+import Campaigns from './pages/admin/Campaigns'
 
 const Home = ({ isLoading }) => (
   <>
@@ -138,6 +140,8 @@ const App = () => {
         <Route path="/about-medxverse" element={<AboutMedxVerse />} />
         <Route path="/careers" element={<Careers />} />
         <Route path="/campus-ambassador" element={<CampusAmbassador />} />
+        <Route path="/branding-kit" element={<BrandingKit />} />
+        <Route path="/ambassador-guide" element={<AmbassadorGuide />} />
         <Route path="/press" element={<Press />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/newsroom" element={<Newsroom />} />
@@ -152,53 +156,44 @@ const App = () => {
 
         {/* Admin Routes with Layout */}
         <Route path="/admin/dashboard" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Dashboard applicants={applicants} refetchApplicants={fetchApplicants} />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Dashboard applicants={applicants} refetchApplicants={fetchApplicants} />
+          </AdminLayout>
         } />
         <Route path="/admin/applicants" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Applicants applicants={applicants} refetchApplicants={fetchApplicants} />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Applicants applicants={applicants} refetchApplicants={fetchApplicants} />
+          </AdminLayout>
         } />
         <Route path="/admin/applicants/:id" element={
-          <ToastProvider>
-            <AdminLayout>
-              <ApplicantDetails />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <ApplicantDetails />
+          </AdminLayout>
+        } />
+        <Route path="/admin/campaigns" element={
+          <AdminLayout>
+            <Campaigns />
+          </AdminLayout>
         } />
         <Route path="/admin/messages" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Messages />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Messages />
+          </AdminLayout>
         } />
         <Route path="/admin/analytics" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Analytics applicants={applicants} />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Analytics applicants={applicants} />
+          </AdminLayout>
         } />
         <Route path="/admin/profile" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Profile />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Profile />
+          </AdminLayout>
         } />
         <Route path="/admin/settings" element={
-          <ToastProvider>
-            <AdminLayout>
-              <Settings />
-            </AdminLayout>
-          </ToastProvider>
+          <AdminLayout>
+            <Settings />
+          </AdminLayout>
         } />
       </Routes>
     </Router>

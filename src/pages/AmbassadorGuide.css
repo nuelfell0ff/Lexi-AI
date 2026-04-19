@@ -1,0 +1,336 @@
+/* Ambassador Guide Colors */
+:root {
+  --primary-green: #1E844F;
+  --primary-blue: #194066;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --bg-light: #f8f9fa;
+  --border-color: #e0e0e0;
+}
+
+/* Main Container */
+.ambassador-guide {
+  background: var(--text-light);
+  min-height: 100vh;
+}
+
+.guide-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Header Section */
+.guide-header {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  color: var(--text-light);
+  padding: 100px 40px;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.guide-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.guide-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sections */
+.guide-section {
+  padding: 80px 40px;
+}
+
+.guide-section.alternate-bg {
+  background: var(--bg-light);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Roles Grid */
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.role-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--primary-green);
+}
+
+.role-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  border-top-color: var(--primary-blue);
+}
+
+.role-icon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 32px;
+  margin: 0 auto 16px;
+}
+
+.role-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.role-description {
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Responsibilities Grid */
+.responsibilities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.responsibility-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  padding: 28px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-left: 5px solid var(--primary-green);
+}
+
+.responsibility-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.responsibility-category {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 0 0 16px 0;
+}
+
+.responsibility-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.responsibility-list li {
+  font-size: 0.95rem;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.responsibility-list li:last-child {
+  margin-bottom: 0;
+}
+
+.responsibility-list i {
+  color: var(--primary-green);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Best Practices Grid */
+.practices-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.practices-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.practices-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.practices-card h3 {
+  font-size: 1.3rem;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.do-card h3 {
+  color: #27ae60;
+}
+
+.dont-card h3 {
+  color: #e74c3c;
+}
+
+.practices-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.practices-card li {
+  font-size: 0.95rem;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.practices-card li:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guide-container {
+    padding: 0 24px;
+  }
+
+  .guide-header {
+    padding: 60px 24px;
+    margin-top: 80px;
+  }
+
+  .guide-title {
+    font-size: 2rem;
+  }
+
+  .guide-subtitle {
+    font-size: 1rem;
+  }
+
+  .guide-section {
+    padding: 50px 24px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .roles-grid,
+  .responsibilities-grid,
+  .practices-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .roles-grid,
+  .responsibilities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .guide-container {
+    padding: 0 16px;
+  }
+
+  .guide-header {
+    padding: 40px 16px;
+    margin-top: 80px;
+  }
+
+  .guide-title {
+    font-size: 1.5rem;
+  }
+
+  .guide-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .guide-section {
+    padding: 30px 16px;
+  }
+
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .section-description {
+    font-size: 0.9rem;
+  }
+
+  .roles-grid,
+  .responsibilities-grid,
+  .practices-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .role-card,
+  .responsibility-card,
+  .practices-card {
+    padding: 20px 16px;
+  }
+
+  .role-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+}

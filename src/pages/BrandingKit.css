@@ -1,0 +1,591 @@
+/* Branding Kit Colors */
+:root {
+  --primary-green: #1E844F;
+  --primary-blue: #194066;
+  --text-dark: #333333;
+  --text-light: #ffffff;
+  --bg-light: #f8f9fa;
+  --border-color: #e0e0e0;
+}
+
+/* Main Container */
+.branding-kit {
+  background: var(--text-light);
+  min-height: 100vh;
+}
+
+.branding-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* Header Section */
+.branding-header {
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  color: var(--text-light);
+  padding: 100px 40px;
+  text-align: center;
+  margin-top: 80px;
+}
+
+.branding-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+.branding-subtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sections */
+.branding-section {
+  padding: 80px 40px;
+}
+
+.branding-section.alternate-bg {
+  background: var(--bg-light);
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 16px 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Color Palette Grid */
+.colors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+.color-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.color-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.color-box {
+  width: 100%;
+  height: 140px;
+  border-radius: 12px 12px 0 0;
+}
+
+.color-details {
+  padding: 20px;
+}
+
+.color-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+}
+
+.color-hex,
+.color-rgb {
+  font-size: 0.9rem;
+  color: #666666;
+  margin: 0;
+  font-family: 'Courier New', monospace;
+  padding: 4px 0;
+}
+
+.color-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.copy-feedback {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--primary-green);
+  font-weight: 600;
+  margin-top: 8px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Logo Variants Grid */
+.logos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.logo-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.logo-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.logo-preview {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 2px solid var(--border-color);
+  background: var(--bg-light);
+}
+
+.logo-card:nth-child(4) .logo-preview {
+  background: #2c3e50;
+}
+
+.logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 20px;
+}
+
+.logo-placeholder {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 48px;
+}
+
+.logo-info {
+  padding: 24px;
+}
+
+.logo-type {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+}
+
+.logo-desc {
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.logo-usage {
+  background: var(--bg-light);
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0 0 12px 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.usage-label {
+  font-weight: 700;
+  color: var(--text-dark);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.logo-usage p {
+  margin: 0;
+  color: #666666;
+}
+
+.logo-filename {
+  background: #f5f5f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 0 0 16px 0;
+  border-left: 3px solid var(--primary-green);
+}
+
+.logo-filename code {
+  font-size: 0.85rem;
+  color: #d63384;
+  font-family: 'Courier New', monospace;
+  word-break: break-word;
+}
+
+.download-btn {
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--primary-green);
+  color: var(--text-light);
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.download-btn:hover {
+  background: #166b3d;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 132, 79, 0.3);
+}
+
+/* Typography Grid */
+.typography-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+}
+
+.font-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.font-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.font-preview {
+  padding: 60px 20px;
+  background: var(--bg-light);
+  text-align: center;
+  font-size: 64px;
+  font-weight: 700;
+  color: var(--primary-green);
+}
+
+.font-info {
+  padding: 24px;
+}
+
+.font-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px 0;
+}
+
+.font-family {
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+}
+
+.font-usage {
+  font-size: 0.9rem;
+  color: #999999;
+  margin: 0;
+}
+
+/* Guidelines Grid */
+.guidelines-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.guideline-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border-top: 4px solid var(--primary-green);
+}
+
+.guideline-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  border-top-color: var(--primary-blue);
+}
+
+.guideline-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  margin: 0 auto 16px;
+}
+
+.guideline-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.guideline-description {
+  font-size: 0.95rem;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Do's and Don'ts Grid */
+.dos-donts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.dos-card,
+.donts-card {
+  background: var(--text-light);
+  border-radius: 12px;
+  padding: 32px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.dos-card:hover,
+.donts-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+.dos-card h3 {
+  color: #27ae60;
+  font-size: 1.3rem;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.donts-card h3 {
+  color: #e74c3c;
+  font-size: 1.3rem;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dos-card ul,
+.donts-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dos-card li,
+.donts-card li {
+  font-size: 0.95rem;
+  color: #333333;
+  margin: 0 0 12px 0;
+  line-height: 1.6;
+}
+
+.dos-card li:last-child,
+.donts-card li:last-child {
+  margin-bottom: 0;
+}
+
+/* Gallery Section */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.gallery-item {
+  text-align: center;
+}
+
+.gallery-image {
+  width: 100%;
+  height: 250px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image {
+  transform: translateY(-10px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+}
+
+.gallery-caption {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .branding-container {
+    padding: 0 24px;
+  }
+
+  .branding-header {
+    padding: 60px 24px;
+    margin-top: 80px;
+  }
+
+  .branding-title {
+    font-size: 2rem;
+  }
+
+  .branding-subtitle {
+    font-size: 1rem;
+  }
+
+  .branding-section {
+    padding: 50px 24px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .colors-grid,
+  .logos-grid,
+  .typography-grid,
+  .guidelines-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .branding-container {
+    padding: 0 16px;
+  }
+
+  .branding-header {
+    padding: 40px 16px;
+    margin-top: 80px;
+  }
+
+  .branding-title {
+    font-size: 1.5rem;
+  }
+
+  .branding-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .branding-section {
+    padding: 30px 16px;
+  }
+
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+
+  .section-description {
+    font-size: 0.9rem;
+  }
+
+  .colors-grid,
+  .logos-grid,
+  .typography-grid,
+  .guidelines-grid,
+  .dos-donts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .color-box {
+    height: 100px;
+  }
+
+  .logo-preview {
+    height: 150px;
+  }
+
+  .font-preview {
+    padding: 40px 20px;
+    font-size: 48px;
+  }
+
+  .guideline-card {
+    padding: 24px 16px;
+  }
+
+  .download-kit-btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .gallery-image {
+    height: 200px;
+  }
+}

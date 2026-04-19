@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import './CampusAmbassador.css'
 import { db } from '../firebase'
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore'
+import { collection, addDoc, query, where, getDocs, orderBy } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
 
 const NIGERIAN_UNIVERSITIES = [
@@ -90,7 +91,7 @@ const NIGERIAN_UNIVERSITIES = [
 ]
 
 const CampusAmbassador = () => {
-
+  const navigate = useNavigate()
   const { showToast } = useToast()
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -104,7 +105,132 @@ const CampusAmbassador = () => {
   const [identificationFile, setIdentificationFile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [campaigns, setCampaigns] = useState([])
 
+  // Fetch campaigns from Firestore
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+        const querySnapshot = await getDocs(q)
+        const campaignsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setCampaigns(campaignsData)
+      } catch (error) {
+        console.error('Error fetching campaigns:', error)
+      }
+    }
+
+    fetchCampaigns()
+  }, [])
+
+  // Fallback campaigns if none exist
+  const displayCampaigns = campaigns.length > 0 ? campaigns : [
+    {
+      id: 1,
+      title: 'Mental Health Awareness Week',
+      description: 'Join us in promoting mental wellness across campuses with webinars and workshops.',
+      status: 'Active',
+      date: 'Apr 2026',
+      ambassadors: 24
+    },
+    {
+      id: 2,
+      title: 'Preventive Health Screening Drive',
+      description: 'Organize health screening camps at your institution to help students stay healthy.',
+      status: 'Active',
+      date: 'May 2026',
+      ambassadors: 18
+    },
+    {
+      id: 3,
+      title: 'Campus Health Challenge',
+      description: 'Participate in our campus-wide health and wellness competition.',
+      status: 'Completed',
+      date: 'Mar 2026',
+      ambassadors: 32
+    }
+  ]
+
+  // Sample Campaigns Data (Legacy - Now fetched from Firestore above)
+  const legacyCampaigns = [
+    {
+      id: 1,
+      title: 'Mental Health Awareness Week',
+      description: 'Join us in promoting mental wellness across campuses with webinars and workshops.',
+      status: 'Active',
+      date: 'Apr 2026',
+      ambassadors: 24
+    },
+    {
+      id: 2,
+      title: 'Preventive Health Screening Drive',
+      description: 'Organize health screening camps at your institution to help students stay healthy.',
+      status: 'Active',
+      date: 'May 2026',
+      ambassadors: 18
+    },
+    {
+      id: 3,
+      title: 'Campus Health Challenge',
+      description: 'Participate in our campus-wide health and wellness competition.',
+      status: 'Completed',
+      date: 'Mar 2026',
+      ambassadors: 32
+    }
+  ]
+
+  // Sample Resources Data
+  const resources = [
+    {
+      id: 1,
+      title: 'Branding Kit',
+      description: 'Download our official logos, color guidelines, and brand assets.',
+      icon: 'bi-palette2',
+      link: '/branding-kit',
+      linkText: 'View Branding Kit'
+    },
+    {
+      id: 2,
+      title: 'Social Media Assets',
+      description: 'Access templates, graphics, and content for social media promotion.',
+      icon: 'bi-share2',
+      link: '#',
+      linkText: 'Explore Assets'
+    },
+    {
+      id: 3,
+      title: 'Ambassador Guide',
+      description: 'Comprehensive guide on roles, responsibilities, and best practices.',
+      icon: 'bi-book',
+      link: '/ambassador-guide',
+      linkText: 'View Guide'
+    }
+  ]
+
+  // Gallery Images
+  const galleryImages = [
+    {
+      id: 1,
+      title: 'Campus Outreach',
+      url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
+      description: 'Ambassadors engaging with students'
+    },
+    {
+      id: 2,
+      title: 'Health Awareness',
+      url: 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&h=400&fit=crop',
+      description: 'Healthcare initiative at campus'
+    },
+    {
+      id: 3,
+      title: 'Team Building',
+      url: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop',
+      description: 'Ambassador team collaboration'
+    }
+  ]
 
   const uploadFile = async (file, allowedTypes = ['application/pdf']) => {
     try {
@@ -191,6 +317,7 @@ const CampusAmbassador = () => {
         createdAt: new Date()
       })
 
+      showToast('Application received! We will review it shortly.', 'success', 'bi bi-check-circle')
       setSuccess(true)
       setName('')
       setEmail('')
@@ -211,6 +338,9 @@ const CampusAmbassador = () => {
     }
   }
 
+  // Ambassadors list - institutions with ambassadors
+  const ambassadorInstitutions = NIGERIAN_UNIVERSITIES.slice(0, 24)
+
   return (
     <>
       <Navbar />
@@ -218,178 +348,255 @@ const CampusAmbassador = () => {
         <div className="campus-container">
           {/* Header Section */}
           <div className="campus-header">
-            <h1 className="campus-heading">Campus Ambassador Program</h1>
+            <h1 className="campus-heading">Become a Lexi AI Ambassador</h1>
             <p className="campus-subheading">
-              Join our mission to revolutionize healthcare access across campuses. As a Campus Ambassador, you'll be at the forefront of bringing AI-powered healthcare solutions to students and faculty.
+              Shaping minds one campus at a time. Join our growing community of healthcare innovators across Nigerian institutions.
             </p>
           </div>
 
-          {/* Form Section */}
-          <div className="campus-form-wrapper">
-            <div className="campus-form-container">
-              <h2 className="form-title">Apply Now</h2>
-              <p className="form-description">Tell us about yourself and your institution</p>
-
-              {success && (
-                <div className="success-message">
-                  <i className="bi bi-check-circle"></i>
-                  <div>
-                    <strong>Application Submitted!</strong>
-                    <p>Thank you for applying. We'll review your application and get back to you soon.</p>
+          {/* Gallery Section */}
+          <div className="gallery-section">
+            <h2 className="gallery-title">Ambassador Highlights</h2>
+            <div className="gallery-grid">
+              {galleryImages.map(image => (
+                <div key={image.id} className="gallery-item">
+                  <img src={image.url} alt={image.title} className="gallery-image" />
+                  <div className="gallery-overlay">
+                    <h3 className="gallery-image-title">{image.title}</h3>
+                    <p className="gallery-image-description">{image.description}</p>
                   </div>
                 </div>
-              )}
+              ))}
+            </div>
+          </div>
 
-              <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                  <label className="form-label">Full Name *</label>
-                  <input
-                    type='text'
-                    className="form-input"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="Enter your full name"
-                    required
-                  />
+          {/* Campaigns Section */}
+          <div className="campaigns-section">
+            <div className="section-header">
+              <h2 className="section-title">Active Campaigns</h2>
+              <p className="section-description">Join ongoing initiatives and make an impact</p>
+            </div>
+            <div className="campaigns-grid">
+              {displayCampaigns.map(campaign => (
+                <div key={campaign.id} className="campaign-card">
+                  <div className="campaign-header">
+                    <h3 className="campaign-title">{campaign.title}</h3>
+                    <span className={`campaign-status ${campaign.status.toLowerCase()}`}>{campaign.status}</span>
+                  </div>
+                  <p className="campaign-description">{campaign.description}</p>
+                  <div className="campaign-meta">
+                    <span><i className="bi bi-calendar"></i> {campaign.date}</span>
+                    <span><i className="bi bi-people"></i> {campaign.ambassadors} ambassadors</span>
+                  </div>
+                  <a href="#" className="learn-more-btn">Learn More →</a>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <div className="form-group">
-                  <label className="form-label">Email Address *</label>
-                  <input
-                    type='email'
-                    className="form-input"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your.email@example.com"
-                    required
-                  />
+          {/* Resources Section */}
+          <div className="resources-section">
+            <div className="section-header">
+              <div>
+                <h2 className="section-title">Ambassador Resources</h2>
+                <p className="section-description">Everything you need to succeed</p>
+              </div>
+            </div>
+            <div className="resources-grid">
+              {resources.map(resource => (
+                <div key={resource.id} className="resource-card">
+                  <div className="resource-icon-wrapper">
+                    <i className={`bi ${resource.icon}`}></i>
+                  </div>
+                  <h3 className="resource-title">{resource.title}</h3>
+                  <p className="resource-description">{resource.description}</p>
+                  <a
+                    href={resource.link}
+                    className="resource-link"
+                    onClick={(e) => {
+                      if (resource.link.startsWith('/')) {
+                        e.preventDefault()
+                        navigate(resource.link)
+                      }
+                    }}
+                  >
+                    {resource.linkText}
+                  </a>
                 </div>
+              ))}
+            </div>
+          </div>
 
-                <div className="form-row">
+          {/* Main Content Wrapper */}
+          <div className="ambassador-content-wrapper">
+
+            {/* Form Section - Now inside content wrapper */}
+            <div className="campus-form-side">
+              <div className="campus-form-container">
+                <h2 className="form-title">Apply Now</h2>
+                <p className="form-description">Tell us about yourself and your institution</p>
+
+                {success && (
+                  <div className="success-message">
+                    <i className="bi bi-check-circle"></i>
+                    <div>
+                      <strong>Application Submitted!</strong>
+                      <p>Thank you for applying. We'll review your application and get back to you soon.</p>
+                    </div>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit}>
                   <div className="form-group">
-                    <label className="form-label">Institution *</label>
+                    <label className="form-label">Full Name *</label>
+                    <input
+                      type='text'
+                      className="form-input"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter your full name"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Email Address *</label>
+                    <input
+                      type='email'
+                      className="form-input"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="your.email@example.com"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Institution *</label>
+                      <select
+                        className="form-input"
+                        value={institution}
+                        onChange={(e) => setInstitution(e.target.value)}
+                        required
+                      >
+                        <option value="">Select your university</option>
+                        {NIGERIAN_UNIVERSITIES.map((uni) => (
+                          <option key={uni} value={uni}>
+                            {uni}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">City *</label>
+                      <input
+                        type='text'
+                        className="form-input"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        placeholder="City"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label className="form-label">Course of Study *</label>
+                      <input
+                        type='text'
+                        className="form-input"
+                        value={courseOfStudy}
+                        onChange={(e) => setCourseOfStudy(e.target.value)}
+                        placeholder="e.g., Computer Science, Medicine"
+                        required
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label className="form-label">Academic Level *</label>
+                      <input
+                        type='text'
+                        className="form-input"
+                        value={level}
+                        onChange={(e) => setLevel(e.target.value)}
+                        placeholder="e.g., 100 Level, Final Year"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Expected Graduation Year *</label>
+                    <input
+                      type='number'
+                      className="form-input"
+                      value={yearOfGraduation}
+                      onChange={(e) => setYearOfGraduation(e.target.value)}
+                      placeholder="2025"
+                      required
+                    />
+                  </div>
+
+                  <div className="form-group">
+                    <label className="form-label">Identification Type *</label>
                     <select
                       className="form-input"
-                      value={institution}
-                      onChange={(e) => setInstitution(e.target.value)}
+                      value={identificationType}
+                      onChange={(e) => setIdentificationType(e.target.value)}
                       required
                     >
-                      <option value="">Select your university</option>
-                      {NIGERIAN_UNIVERSITIES.map((uni) => (
-                        <option key={uni} value={uni}>
-                          {uni}
-                        </option>
-                      ))}
+                      <option value="">Select identification type</option>
+                      <option value="NIN">NIN (National Identification Number)</option>
+                      <option value="SCHOOL_ID">School ID</option>
                     </select>
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">City *</label>
-                    <input
-                      type='text'
-                      className="form-input"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      placeholder="City"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="form-row">
-                  <div className="form-group">
-                    <label className="form-label">Course of Study *</label>
-                    <input
-                      type='text'
-                      className="form-input"
-                      value={courseOfStudy}
-                      onChange={(e) => setCourseOfStudy(e.target.value)}
-                      placeholder="e.g., Computer Science, Medicine"
-                      required
-                    />
+                    <label className="form-label">Upload Identification (Image or PDF) *</label>
+                    <div className="file-input-wrapper">
+                      <input
+                        type='file'
+                        id="identification-file"
+                        className="file-input"
+                        accept=".pdf,.png,.jpg,.jpeg"
+                        onChange={(e) => setIdentificationFile(e.target.files[0])}
+                        required
+                      />
+                      <label htmlFor="identification-file" className="file-input-label">
+                        <i className="bi bi-cloud-upload"></i>
+                        <span>{identificationFile ? identificationFile.name : 'Click to upload or drag and drop'}</span>
+                        <small>PDF or Image files (PNG, JPG), max 5MB</small>
+                      </label>
+                    </div>
                   </div>
 
                   <div className="form-group">
-                    <label className="form-label">Academic Level *</label>
-                    <input
-                      type='text'
-                      className="form-input"
-                      value={level}
-                      onChange={(e) => setLevel(e.target.value)}
-                      placeholder="e.g., 100 Level, Final Year"
-                      required
-                    />
+                    <label className="form-label">Upload CV (PDF)</label>
+                    <div className="file-input-wrapper">
+                      <input
+                        type='file'
+                        id="cv-file"
+                        className="file-input"
+                        accept=".pdf"
+                        onChange={(e) => setCvFile(e.target.files[0])}
+                      />
+                      <label htmlFor="cv-file" className="file-input-label">
+                        <i className="bi bi-cloud-upload"></i>
+                        <span>{cvFile ? cvFile.name : 'Click to upload or drag and drop'}</span>
+                        <small>PDF files only, max 2MB (Optional)</small>
+                      </label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="form-group">
-                  <label className="form-label">Expected Graduation Year *</label>
-                  <input
-                    type='number'
-                    className="form-input"
-                    value={yearOfGraduation}
-                    onChange={(e) => setYearOfGraduation(e.target.value)}
-                    placeholder="2025"
-                    required
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Identification Type *</label>
-                  <select
-                    className="form-input"
-                    value={identificationType}
-                    onChange={(e) => setIdentificationType(e.target.value)}
-                    required
-                  >
-                    <option value="">Select identification type</option>
-                    <option value="NIN">NIN (National Identification Number)</option>
-                    <option value="SCHOOL_ID">School ID</option>
-                  </select>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Upload Identification (Image or PDF) *</label>
-                  <div className="file-input-wrapper">
-                    <input
-                      type='file'
-                      id="identification-file"
-                      className="file-input"
-                      accept=".pdf,.png,.jpg,.jpeg"
-                      onChange={(e) => setIdentificationFile(e.target.files[0])}
-                      required
-                    />
-                    <label htmlFor="identification-file" className="file-input-label">
-                      <i className="bi bi-cloud-upload"></i>
-                      <span>{identificationFile ? identificationFile.name : 'Click to upload or drag and drop'}</span>
-                      <small>PDF or Image files (PNG, JPG), max 5MB</small>
-                    </label>
-                  </div>
-                </div>
-
-                <div className="form-group">
-                  <label className="form-label">Upload CV (PDF)</label>
-                  <div className="file-input-wrapper">
-                    <input
-                      type='file'
-                      id="cv-file"
-                      className="file-input"
-                      accept=".pdf"
-                      onChange={(e) => setCvFile(e.target.files[0])}
-                    />
-                    <label htmlFor="cv-file" className="file-input-label">
-                      <i className="bi bi-cloud-upload"></i>
-                      <span>{cvFile ? cvFile.name : 'Click to upload or drag and drop'}</span>
-                      <small>PDF files only, max 2MB (Optional)</small>
-                    </label>
-                  </div>
-                </div>
-
-                <button type="submit" className="submit-btn" disabled={loading}>
-                  <i className={`bi ${loading ? 'bi-hourglass-split' : 'bi-send'}`}></i>
-                  {loading ? 'Submitting...' : 'Submit Application'}
-                </button>
-              </form>
+                  <button type="submit" className="submit-btn" disabled={loading}>
+                    <i className={`bi ${loading ? 'bi-hourglass-split' : 'bi-send'}`}></i>
+                    {loading ? 'Submitting...' : 'Submit Application'}
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
