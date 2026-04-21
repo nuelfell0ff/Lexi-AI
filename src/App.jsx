@@ -6,7 +6,6 @@ import Features from './components/Features'
 import PrivacySection from './components/PrivacySection'
 import Pricing from './components/Pricing'
 import Faqs from './components/Faqs'
-import CampusAmbassadorSection from './components/CampusAmbassadorSection'
 import Footer from './components/Footer'
 import Loading from './components/Loading'
 import ScrollToTop from './components/ScrollToTop'
@@ -14,6 +13,7 @@ import About from './pages/company/About'
 import AboutMedxVerse from './pages/company/AboutMedxVerse'
 import Careers from './pages/company/Careers'
 import CampusAmbassador from './pages/CampusAmbassador'
+import AmbassadorApplicationForm from './pages/AmbassadorApplicationForm'
 import Press from './pages/company/Press'
 import Blog from './pages/company/Blog'
 import Newsroom from './pages/company/Newsroom'
@@ -74,9 +74,6 @@ const Home = ({ isLoading }) => (
         </section>
         <section id="faq">
             <Faqs />
-        </section>
-        <section id="campus-ambassador">
-            <CampusAmbassadorSection />
         </section>
         <section id="contact">
             <Footer />
@@ -142,6 +139,7 @@ const App = () => {
                 <Route path="/about-medxverse" element={<AboutMedxVerse />} />
                 <Route path="/careers" element={<Careers />} />
                 <Route path="/campus-ambassador" element={<CampusAmbassador />} />
+                <Route path="/ambassador-apply" element={<AmbassadorApplicationForm />} />
                 <Route path="/branding-kit" element={<BrandingKit />} />
                 <Route path="/social-media-assets" element={<SocialMediaAssets />} />
                 <Route path="/ambassador-guide" element={<AmbassadorGuide />} />
