@@ -7,9 +7,9 @@ import './CampusAmbassador.css'
 import { db } from '../firebase'
 import { collection, query, orderBy, onSnapshot, getDocs, where } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
-import galleryImg1 from '../assets/IMG-20260418-WA0063.jpg'
-import galleryImg2 from '../assets/IMG-20260418-WA0064.jpg'
-import galleryImg3 from '../assets/IMG-20260418-WA0065.jpg'
+import galleryImg1 from '../assets/IMG-20260418-WA0086.jpg'
+import galleryImg2 from '../assets/IMG-20260418-WA0089.jpg'
+import galleryImg3 from '../assets/IMG-20260418-WA0090.jpg'
 
 const NIGERIAN_UNIVERSITIES = [
   'University of Ibadan',
