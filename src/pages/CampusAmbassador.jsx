@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import StoriesModal from '../components/StoriesModal'
 import './CampusAmbassador.css'
 import { db } from '../firebase'
-import { collection, query, orderBy, onSnapshot, addDoc, getDocs, where } from 'firebase/firestore'
+import { collection, query, orderBy, onSnapshot, getDocs, where } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
 import galleryImg1 from '../assets/IMG-20260418-WA0063.jpg'
 import galleryImg2 from '../assets/IMG-20260418-WA0064.jpg'
@@ -96,21 +97,11 @@ const NIGERIAN_UNIVERSITIES = [
 const CampusAmbassador = () => {
   const navigate = useNavigate()
   const { showToast } = useToast()
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [courseOfStudy, setCourseOfStudy] = useState('')
-  const [institution, setInstitution] = useState('')
-  const [level, setLevel] = useState('')
-  const [city, setCity] = useState('')
-  const [yearOfGraduation, setYearOfGraduation] = useState('')
-  const [cvFile, setCvFile] = useState(null)
-  const [identificationType, setIdentificationType] = useState('')
-  const [identificationFile, setIdentificationFile] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
   const [campaigns, setCampaigns] = useState([])
   const [ambassadors, setAmbassadors] = useState([])
   const [ambassadorsLoading, setAmbassadorsLoading] = useState(true)
+  const [storiesModalOpen, setStoriesModalOpen] = useState(false)
+  const [stories, setStories] = useState([])
 
   // Get initials from name
   const getInitials = (name) => {
@@ -144,20 +135,20 @@ const CampusAmbassador = () => {
 
   // Fetch campaigns from Firestore with real-time listener
   useEffect(() => {
-    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+    const q = query(collection(db, 'stories'), orderBy('createdAt', 'desc'))
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       try {
-        const campaignsData = querySnapshot.docs.map(doc => ({
+        const storiesData = querySnapshot.docs.map(doc => ({
           id: doc.id,
           ...doc.data()
         }))
-        setCampaigns(campaignsData)
+        setStories(storiesData)
       } catch (error) {
-        console.error('Error fetching campaigns:', error)
+        console.error('Error fetching stories:', error)
       }
     }, (error) => {
-      console.error('Error listening to campaigns:', error)
+      console.error('Error listening to stories:', error)
     })
 
     return () => unsubscribe()
@@ -459,27 +450,49 @@ const CampusAmbassador = () => {
 
           {/* Campaigns Section - Read their stories */}
           <div className="campaigns-section">
-            <h2 className="campaigns-section-title">Read their stories</h2>
-            {campaigns.length === 0 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
+              <div>
+                <h2 className="campaigns-section-title">Read their stories</h2>
+              </div>
+              <button
+                onClick={() => setStoriesModalOpen(true)}
+                className="share-story-btn"
+                style={{
+                  padding: '12px 24px',
+                  backgroundColor: '#667eea',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  transition: 'all 0.2s'
+                }}
+              >
+                <i className="bi bi-pencil-square"></i> Share Your Story
+              </button>
+            </div>
+            {stories.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: '#666' }}>
-                <i className="bi bi-inbox" style={{ fontSize: '48px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
-                <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>Coming Soon</p>
-                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Ambassador stories and testimonials will be featured here.</p>
+                <i className="bi bi-chat-left-text" style={{ fontSize: '48px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+                <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>No stories yet</p>
+                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Be the first to share your experience!</p>
               </div>
             ) : (
               <div className="campaigns-grid">
-                {campaigns.map(campaign => (
-                  <div key={campaign.id} className="campaign-card">
+                {stories.map(story => (
+                  <div key={story.id} className="campaign-card">
                     <div className="campaign-header">
-                      <h3 className="campaign-title">{campaign.title}</h3>
-                      <span className={`campaign-status ${campaign.status.toLowerCase()}`}>{campaign.status}</span>
+                      <h3 className="campaign-title">{story.storyTitle}</h3>
                     </div>
-                    <p className="campaign-description">{campaign.description}</p>
+                    <p className="campaign-description">{story.storyContent.substring(0, 150)}...</p>
                     <div className="campaign-meta">
-                      <span><i className="bi bi-calendar"></i> {campaign.date}</span>
-                      <span><i className="bi bi-people"></i> {campaign.ambassadors} ambassadors</span>
+                      <span><i className="bi bi-person"></i> {story.authorName}</span>
+                      {story.authorInstitution && <span><i className="bi bi-building"></i> {story.authorInstitution}</span>}
                     </div>
-                    <a href="#" className="learn-more-btn">Learn More →</a>
                   </div>
                 ))}
               </div>
@@ -521,177 +534,40 @@ const CampusAmbassador = () => {
 
           {/* Main Content Wrapper - Form Section */}
           <div className="ambassador-content-wrapper">
-            {/* Form Section */}
-            <div className="campus-form-side">
-              <div className="campus-form-container" id="apply-form">
-                <h2 className="form-title">Apply Now</h2>
-                <p className="form-description">Tell us about yourself and your institution</p>
-
-                {success && (
-                  <div className="success-message">
-                    <i className="bi bi-check-circle"></i>
-                    <div>
-                      <strong>Application Submitted!</strong>
-                      <p>Thank you for applying. We'll review your application and get back to you soon.</p>
-                    </div>
-                  </div>
-                )}
-
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label className="form-label">Full Name *</label>
-                    <input
-                      type='text'
-                      className="form-input"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      placeholder="Enter your full name"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Email Address *</label>
-                    <input
-                      type='email'
-                      className="form-input"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="your.email@example.com"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">Institution *</label>
-                      <select
-                        className="form-input"
-                        value={institution}
-                        onChange={(e) => setInstitution(e.target.value)}
-                        required
-                      >
-                        <option value="">Select your university</option>
-                        {NIGERIAN_UNIVERSITIES.map((uni) => (
-                          <option key={uni} value={uni}>
-                            {uni}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">City *</label>
-                      <input
-                        type='text'
-                        className="form-input"
-                        value={city}
-                        onChange={(e) => setCity(e.target.value)}
-                        placeholder="City"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-row">
-                    <div className="form-group">
-                      <label className="form-label">Course of Study *</label>
-                      <input
-                        type='text'
-                        className="form-input"
-                        value={courseOfStudy}
-                        onChange={(e) => setCourseOfStudy(e.target.value)}
-                        placeholder="e.g., Computer Science, Medicine"
-                        required
-                      />
-                    </div>
-
-                    <div className="form-group">
-                      <label className="form-label">Academic Level *</label>
-                      <input
-                        type='text'
-                        className="form-input"
-                        value={level}
-                        onChange={(e) => setLevel(e.target.value)}
-                        placeholder="e.g., 100 Level, Final Year"
-                        required
-                      />
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Expected Graduation Year *</label>
-                    <input
-                      type='number'
-                      className="form-input"
-                      value={yearOfGraduation}
-                      onChange={(e) => setYearOfGraduation(e.target.value)}
-                      placeholder="2025"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Identification Type *</label>
-                    <select
-                      className="form-input"
-                      value={identificationType}
-                      onChange={(e) => setIdentificationType(e.target.value)}
-                      required
-                    >
-                      <option value="">Select identification type</option>
-                      <option value="NIN">NIN (National Identification Number)</option>
-                      <option value="SCHOOL_ID">School ID</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Upload Identification (Image or PDF) *</label>
-                    <div className="file-input-wrapper">
-                      <input
-                        type='file'
-                        id="identification-file"
-                        className="file-input"
-                        accept=".pdf,.png,.jpg,.jpeg"
-                        onChange={(e) => setIdentificationFile(e.target.files[0])}
-                        required
-                      />
-                      <label htmlFor="identification-file" className="file-input-label">
-                        <i className="bi bi-cloud-upload"></i>
-                        <span>{identificationFile ? identificationFile.name : 'Click to upload or drag and drop'}</span>
-                        <small>PDF or Image files (PNG, JPG), max 5MB</small>
-                      </label>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label className="form-label">Upload CV (PDF)</label>
-                    <div className="file-input-wrapper">
-                      <input
-                        type='file'
-                        id="cv-file"
-                        className="file-input"
-                        accept=".pdf"
-                        onChange={(e) => setCvFile(e.target.files[0])}
-                      />
-                      <label htmlFor="cv-file" className="file-input-label">
-                        <i className="bi bi-cloud-upload"></i>
-                        <span>{cvFile ? cvFile.name : 'Click to upload or drag and drop'}</span>
-                        <small>PDF files only, max 2MB (Optional)</small>
-                      </label>
-                    </div>
-                  </div>
-
-                  <button type="submit" className="submit-btn" disabled={loading}>
-                    <i className={`bi ${loading ? 'bi-hourglass-split' : 'bi-send'}`}></i>
-                    {loading ? 'Submitting...' : 'Submit Application'}
-                  </button>
-                </form>
-              </div>
+            {/* Button to navigate to form page */}
+            <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+              <button
+                onClick={() => navigate('/ambassador-apply')}
+                className="apply-form-btn"
+                style={{
+                  padding: '14px 32px',
+                  backgroundColor: '#667eea',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  fontWeight: 600,
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
+                }}
+              >
+                <i className="bi bi-arrow-right"></i> Apply Now
+              </button>
             </div>
           </div>
         </div>
       </section>
+      <StoriesModal
+        isOpen={storiesModalOpen}
+        onClose={() => setStoriesModalOpen(false)}
+        onStoryAdded={() => {
+          // Stories will be automatically updated from Firestore listener
+        }}
+      />
       <Footer />
     </>
   )
