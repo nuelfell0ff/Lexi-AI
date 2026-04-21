@@ -23,6 +23,8 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
   const [openMenu, setOpenMenu] = useState(null)
   const [dropdownPos, setDropdownPos] = useState({ top: 0, left: 0 })
   const [confirmModal, setConfirmModal] = useState(null)
+  const [stories, setStories] = useState([])
+  const [campaigns, setCampaigns] = useState([])
   const menuRefs = useRef({})
 
   // Fetch campaigns with real-time listener
@@ -47,6 +49,32 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
 
     return () => {
       console.log('Unsubscribing from Dashboard campaigns listener')
+      unsubscribe()
+    }
+  }, [])
+
+  // Fetch stories with real-time listener
+  useEffect(() => {
+    console.log('Setting up Dashboard stories listener...')
+    const q = query(collection(db, 'stories'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        console.log('Dashboard stories snapshot received, docs count:', querySnapshot.docs.length)
+        const storiesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setStories(storiesData)
+      } catch (error) {
+        console.error('Error processing Dashboard stories:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to Dashboard stories:', error)
+    })
+
+    return () => {
+      console.log('Unsubscribing from Dashboard stories listener')
       unsubscribe()
     }
   }, [])
@@ -349,6 +377,27 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
     }
   }
 
+  const handleDeleteStory = (storyId) => {
+    setConfirmModal({
+      title: 'Delete Story',
+      message: 'Are you sure you want to delete this story? This action cannot be undone.',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'stories', storyId))
+          showToast('Story deleted successfully!', 'success', 'bi bi-check-circle')
+          setConfirmModal(null)
+        } catch (error) {
+          console.error('Error deleting story:', error)
+          showToast('Failed to delete story', 'error', 'bi bi-exclamation-circle')
+        }
+      },
+      onCancel: () => setConfirmModal(null),
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDangerous: true
+    })
+  }
+
   const handleExportData = () => {
     if (!applicants || applicants.length === 0) {
       showToast('No applicants to export', 'warning', 'bi bi-exclamation-circle')
@@ -633,6 +682,58 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Stories Section */}
+      <div style={{ marginTop: '60px' }}>
+        <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+          <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#333', margin: '0 0 24px 0' }}>Read Their Stories ({stories.length})</h3>
+
+          {stories.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <i className="bi bi-chat-left-text" style={{ fontSize: '32px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+              <p>No stories yet. Stories will appear here when ambassadors share them.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+              {stories.map((story) => (
+                <div key={story.id} style={{ background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)', border: '1px solid #f0f0f0', borderRadius: '12px', padding: '20px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)', position: 'relative' }}>
+                  <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(90deg, #1E844F 0%, #194066 100%)', borderRadius: '12px 12px 0 0' }}></div>
+
+                  {story.storyImage && (
+                    <div style={{ marginBottom: '12px', borderRadius: '8px', overflow: 'hidden', height: '150px' }}>
+                      <img src={story.storyImage} alt="Story" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  )}
+
+                  <h4 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#194066', margin: '0 0 8px 0' }}>{story.storyTitle}</h4>
+                  <p style={{ fontSize: '0.9rem', color: '#666', margin: '0 0 8px 0', fontWeight: 500 }}>{story.authorName}</p>
+                  {story.authorInstitution && (
+                    <p style={{ fontSize: '0.85rem', color: '#999', margin: '0 0 12px 0' }}>{story.authorInstitution}</p>
+                  )}
+
+                  <p style={{ fontSize: '0.9rem', color: '#555', margin: '0 0 16px 0', lineHeight: '1.5', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {story.storyContent}
+                  </p>
+
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '0.8rem', color: '#999' }}>
+                      {story.createdAt ? new Date(story.createdAt.toDate()).toLocaleDateString() : 'N/A'}
+                    </span>
+                    <button
+                      onClick={() => handleDeleteStory(story.id)}
+                      style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: '#fff3cd', border: '1px solid #ffc107', borderRadius: '6px', cursor: 'pointer', color: '#856404', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'Poppins, sans-serif', transition: 'all 0.3s ease' }}
+                      onMouseEnter={(e) => { e.target.style.background = '#dc3545'; e.target.style.color = '#fff'; e.target.style.borderColor = '#dc3545'; }}
+                      onMouseLeave={(e) => { e.target.style.background = '#fff3cd'; e.target.style.color = '#856404'; e.target.style.borderColor = '#ffc107'; }}
+                    >
+                      <i className="bi bi-trash"></i> Delete
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -57,10 +57,10 @@ const AmbassadorAssignment = () => {
   }, [showToast])
 
   const handleAssignPost = async (ambassadorId, post) => {
-    // Check if post is already taken in this school
+    // Check if school already has an ambassador assigned
     const ambassador = ambassadors.find(amb => amb.id === ambassadorId)
-    if (isPostTakenInSchool(ambassador.institution, post, ambassadorId)) {
-      showToast(`The "${post}" post is already assigned to someone in ${ambassador.institution}`, 'error', 'bi bi-exclamation-circle')
+    if (isSchoolRepresentativeAssigned(ambassador.institution, ambassadorId)) {
+      showToast(`${ambassador.institution} already has a representative assigned`, 'error', 'bi bi-exclamation-circle')
       return
     }
 
@@ -79,7 +79,7 @@ const AmbassadorAssignment = () => {
           : amb
       ))
 
-      showToast(`Post "${post}" assigned successfully!`, 'success', 'bi bi-check-circle')
+      showToast(`${ambassador.institution} representative assigned successfully!`, 'success', 'bi bi-check-circle')
       setSelectedAmbassador(null)
       setSelectedPost('')
     } catch (error) {
@@ -127,21 +127,31 @@ const AmbassadorAssignment = () => {
     })
   }
 
-  // Check if a post is already taken in a specific school
-  const isPostTakenInSchool = (school, post, excludeId = null) => {
+  // Check if a school already has a representative assigned
+  const isSchoolRepresentativeAssigned = (school, excludeId = null) => {
     return ambassadors.some(amb =>
       amb.institution === school &&
-      amb.post === post &&
+      amb.isAmbassador === true &&
       amb.id !== excludeId
     )
   }
 
-  // Get available posts for an ambassador (excluding posts taken in their school)
+  // Get available posts for an ambassador (only available if no one from their school is assigned yet)
   const getAvailablePostsForAmbassador = (ambassadorId) => {
     const ambassador = ambassadors.find(amb => amb.id === ambassadorId)
     if (!ambassador) return AMBASSADOR_POSTS
 
-    return AMBASSADOR_POSTS.filter(post => !isPostTakenInSchool(ambassador.institution, post, ambassadorId))
+    // If already assigned, return current post
+    if (ambassador.isAmbassador && ambassador.post) {
+      return [ambassador.post]
+    }
+
+    // If school has no representative yet, all posts are available
+    if (!isSchoolRepresentativeAssigned(ambassador.institution, ambassadorId)) {
+      return AMBASSADOR_POSTS
+    }
+
+    return []
   }
 
   const filteredList = getFilteredAmbassadors()
@@ -209,14 +219,9 @@ const AmbassadorAssignment = () => {
                 <div className="card-header">
                   <div className="ambassador-info">
                     <h3>{ambassador.name}</h3>
-                    <p className="institution">{ambassador.institution}</p>
+                    <p className="institution">{ambassador.institution} {ambassador.post ? 'representative' : ''}</p>
                     <p className="email">{ambassador.email}</p>
                   </div>
-                  {ambassador.post && (
-                    <div className="current-post">
-                      <span className="post-badge">{ambassador.post}</span>
-                    </div>
-                  )}
                 </div>
 
                 <div className="card-actions">
@@ -228,6 +233,12 @@ const AmbassadorAssignment = () => {
                     >
                       <i className="bi bi-trash"></i> Remove Post
                     </button>
+                  ) : isSchoolRepresentativeAssigned(ambassador.institution, ambassador.id) ? (
+                    <div className="post-selector-disabled">
+                      <p style={{ margin: 0, color: '#999', fontSize: '0.9rem' }}>
+                        <i className="bi bi-info-circle"></i> {ambassador.institution} already has a representative
+                      </p>
+                    </div>
                   ) : (
                     <div className="post-selector">
                       <select
@@ -239,14 +250,11 @@ const AmbassadorAssignment = () => {
                         }}
                       >
                         <option value="">Select a post...</option>
-                        {getAvailablePostsForAmbassador(ambassador.id).map(post => {
-                          const isTaken = isPostTakenInSchool(ambassador.institution, post, ambassador.id)
-                          return (
-                            <option key={post} value={post} disabled={isTaken}>
-                              {post} {isTaken ? '(taken in your school)' : ''}
-                            </option>
-                          )
-                        })}
+                        {getAvailablePostsForAmbassador(ambassador.id).map(post => (
+                          <option key={post} value={post}>
+                            {post}
+                          </option>
+                        ))}
                       </select>
                       <button
                         className="btn-assign"

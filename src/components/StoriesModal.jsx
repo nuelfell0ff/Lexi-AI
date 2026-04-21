@@ -9,8 +9,35 @@ const StoriesModal = ({ isOpen, onClose, onStoryAdded }) => {
   const [authorInstitution, setAuthorInstitution] = useState('')
   const [storyTitle, setStoryTitle] = useState('')
   const [storyContent, setStoryContent] = useState('')
+  const [storyImage, setStoryImage] = useState(null)
   const [loading, setLoading] = useState(false)
   const { showToast } = useToast()
+
+  const uploadFile = async (file) => {
+    try {
+      if (!file) return null
+      if (file.size > 5 * 1024 * 1024) throw new Error('File size must be less than 5MB')
+
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('upload_preset', 'lexi-ai')
+
+      const response = await fetch(
+        'https://api.cloudinary.com/v1_1/datmds5xl/upload',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
+
+      if (!response.ok) throw new Error('Upload failed')
+      const data = await response.json()
+      return data.secure_url
+    } catch (error) {
+      console.error('File Upload Error:', error.message)
+      throw error
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -18,9 +45,20 @@ const StoriesModal = ({ isOpen, onClose, onStoryAdded }) => {
 
     try {
       if (!authorName.trim() || !storyTitle.trim() || !storyContent.trim()) {
-        showToast('Please fill in all fields', 'error', 'bi bi-exclamation-circle')
+        showToast('Please fill in all required fields', 'error', 'bi bi-exclamation-circle')
         setLoading(false)
         return
+      }
+
+      let imageUrl = null
+      if (storyImage) {
+        try {
+          imageUrl = await uploadFile(storyImage)
+        } catch (error) {
+          showToast('Failed to upload image. Please try again.', 'error', 'bi bi-x-circle')
+          setLoading(false)
+          return
+        }
       }
 
       await addDoc(collection(db, 'stories'), {
@@ -28,6 +66,7 @@ const StoriesModal = ({ isOpen, onClose, onStoryAdded }) => {
         authorInstitution: authorInstitution.trim() || 'Not specified',
         storyTitle: storyTitle.trim(),
         storyContent: storyContent.trim(),
+        storyImage: imageUrl || null,
         createdAt: new Date(),
         status: 'approved'
       })
@@ -39,12 +78,7 @@ const StoriesModal = ({ isOpen, onClose, onStoryAdded }) => {
       setAuthorInstitution('')
       setStoryTitle('')
       setStoryContent('')
-
-      // Notify parent component
-      if (onStoryAdded) {
-        onStoryAdded()
-      }
-
+      setStoryImage(null)
       onClose()
     } catch (error) {
       console.error('Error submitting story:', error)
@@ -112,6 +146,24 @@ const StoriesModal = ({ isOpen, onClose, onStoryAdded }) => {
               rows="6"
               required
             ></textarea>
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Upload Photo (optional)</label>
+            <div className="file-input-wrapper">
+              <input
+                type="file"
+                id="story-image"
+                className="file-input"
+                accept="image/png,image/jpeg,image/jpg"
+                onChange={(e) => setStoryImage(e.target.files[0])}
+              />
+              <label htmlFor="story-image" className="file-input-label">
+                <i className="bi bi-cloud-upload"></i>
+                <span>{storyImage ? storyImage.name : 'Click to upload or drag and drop'}</span>
+                <small>Image files (PNG, JPG), max 5MB (Optional)</small>
+              </label>
+            </div>
           </div>
 
           <div className="stories-form-actions">

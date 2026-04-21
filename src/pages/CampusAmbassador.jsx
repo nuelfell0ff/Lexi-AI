@@ -108,29 +108,19 @@ const CampusAmbassador = () => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase()
   }
 
-  // Group ambassadors by school
+  // Group ambassadors by school (one representative per school)
   const getAmbassadorsBySchool = () => {
     const groupedBySchool = {}
+
     ambassadors.forEach(ambassador => {
       const school = ambassador.institution || 'Unknown'
+      // Only one representative per school
       if (!groupedBySchool[school]) {
-        groupedBySchool[school] = []
+        groupedBySchool[school] = ambassador
       }
-      groupedBySchool[school].push(ambassador)
     })
+
     return groupedBySchool
-  }
-
-  // Get ambassadors grouped by school (up to 4 per school)
-  const getAmbassadorsBySchoolLimited = () => {
-    const groupedBySchool = getAmbassadorsBySchool()
-    const result = {}
-
-    Object.keys(groupedBySchool).forEach(school => {
-      result[school] = groupedBySchool[school].slice(0, 4)
-    })
-
-    return result
   }
 
   // Fetch campaigns from Firestore with real-time listener
@@ -370,7 +360,7 @@ const CampusAmbassador = () => {
             </div>
           </div>
 
-          {/* Ambassadors Showcase - By School */}
+          {/* Ambassadors Showcase - By Post */}
           <div className="ambassadors-showcase">
             <h2 className="ambassadors-showcase-title">Meet Our Campus Leaders</h2>
             <p className="ambassadors-showcase-subtitle">Join a network of innovators coordinating Lexi AI across Nigerian campuses</p>
@@ -384,26 +374,23 @@ const CampusAmbassador = () => {
                 <p style={{ color: '#999', fontSize: '1.1rem' }}>No campus leaders assigned yet</p>
               </div>
             ) : (
-              Object.entries(getAmbassadorsBySchoolLimited()).map(([school, ambassadorsList]) => (
-                <div key={school} className="school-ambassador-group">
-                  <h3 className="school-heading">{school}</h3>
-                  <div className="school-ambassadors-grid">
-                    {ambassadorsList.map(ambassador => (
-                      <div key={ambassador.id} className="ambassador-profile-card">
-                        <div className="ambassador-card-content">
-                          <div className="ambassador-image-container">
-                            <i className="bi bi-person-circle ambassador-icon"></i>
-                          </div>
-                          <div className="ambassador-profile-info">
-                            <h4 className="ambassador-profile-name">{ambassador.name}</h4>
-                            <p className="ambassador-profile-post">{ambassador.post}</p>
-                          </div>
+              <div className="schools-grid">
+                {Object.entries(getAmbassadorsBySchool()).map(([school, ambassador]) => (
+                  <div key={school} className="school-column">
+                    <div className="ambassador-profile-card">
+                      <div className="ambassador-card-content">
+                        <div className="ambassador-image-container">
+                          <i className="bi bi-person-circle ambassador-icon"></i>
+                        </div>
+                        <div className="ambassador-profile-info">
+                          <h4 className="ambassador-profile-name">{ambassador.name}</h4>
+                          <p className="ambassador-profile-school">{school} representative</p>
                         </div>
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
 
@@ -440,9 +427,12 @@ const CampusAmbassador = () => {
             <div className="innovator-content">
               <h2 className="innovator-title">Be a creative innovator</h2>
               <p className="innovator-subtitle">See how ambassadors are making a difference across campuses</p>
-              <a href="#apply-form" className="innovator-cta">
+              <button
+                onClick={() => navigate('/ambassador-apply')}
+                className="innovator-cta"
+              >
                 <i className="bi bi-arrow-right"></i> Apply Now
-              </a>
+              </button>
             </div>
           </div>
 
@@ -457,20 +447,6 @@ const CampusAmbassador = () => {
               <button
                 onClick={() => setStoriesModalOpen(true)}
                 className="share-story-btn"
-                style={{
-                  padding: '12px 24px',
-                  backgroundColor: '#667eea',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: 600,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  transition: 'all 0.2s'
-                }}
               >
                 <i className="bi bi-pencil-square"></i> Share Your Story
               </button>
@@ -485,13 +461,22 @@ const CampusAmbassador = () => {
               <div className="campaigns-grid">
                 {stories.map(story => (
                   <div key={story.id} className="campaign-card">
+                    {story.storyImage ? (
+                      <div className="story-image-container">
+                        <img src={story.storyImage} alt={story.authorName} className="story-image" />
+                      </div>
+                    ) : (
+                      <div className="story-image-placeholder">
+                        <i className="bi bi-person-circle"></i>
+                      </div>
+                    )}
                     <div className="campaign-header">
                       <h3 className="campaign-title">{story.storyTitle}</h3>
                     </div>
                     <p className="campaign-description">{story.storyContent.substring(0, 150)}...</p>
                     <div className="campaign-meta">
                       <span><i className="bi bi-person"></i> {story.authorName}</span>
-                      {story.authorInstitution && <span><i className="bi bi-building"></i> {story.authorInstitution}</span>}
+                      {story.authorInstitution && story.authorInstitution !== 'Not specified' && <span><i className="bi bi-building"></i> {story.authorInstitution}</span>}
                     </div>
                   </div>
                 ))}
@@ -539,21 +524,6 @@ const CampusAmbassador = () => {
               <button
                 onClick={() => navigate('/ambassador-apply')}
                 className="apply-form-btn"
-                style={{
-                  padding: '14px 32px',
-                  backgroundColor: '#667eea',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  fontWeight: 600,
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  transition: 'all 0.2s',
-                  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)'
-                }}
               >
                 <i className="bi bi-arrow-right"></i> Apply Now
               </button>
