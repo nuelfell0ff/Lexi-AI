@@ -54,68 +54,257 @@
   width: 100%;
 }
 
-/* Ambassadors Section - Hidden */
-.ambassadors-section {
-  display: none;
+/* Ambassadors Showcase - Featured Section */
+.ambassadors-showcase {
+  margin-bottom: 80px;
+  animation: fadeIn 0.8s ease;
 }
 
-.ambassadors-section-title {
-  font-size: 1.5rem;
+.ambassadors-showcase-title {
+  font-size: 2rem;
   font-weight: 700;
-  color: var(--text-dark);
-  margin: 0 0 30px 0;
+  text-align: center;
+  color: var(--primary-blue);
+  margin: 0 0 12px 0;
+}
+
+.ambassadors-showcase-subtitle {
+  text-align: center;
+  font-size: 1rem;
+  color: #666666;
+  margin: 0 0 48px 0;
+  font-weight: 400;
+}
+
+.featured-ambassadors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.school-ambassador-group {
+  margin-bottom: 70px;
   text-align: center;
 }
 
-/* Ambassadors List */
-.ambassadors-list {
+.school-heading {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--primary-blue);
+  margin: 0 0 40px 0;
+  display: block;
+}
+
+.school-ambassadors-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ambassador-profile-card {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ambassador-card-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-height: 500px;
-  overflow-y: auto;
-  padding-right: 8px;
+  height: 100%;
 }
 
-.ambassadors-list::-webkit-scrollbar {
-  width: 6px;
-}
-
-.ambassadors-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.ambassadors-list::-webkit-scrollbar-thumb {
-  background: #ddd;
-  border-radius: 3px;
-}
-
-.ambassadors-list::-webkit-scrollbar-thumb:hover {
-  background: #bbb;
-}
-
-.ambassador-item {
+.ambassador-image-container {
+  width: 100%;
+  height: 200px;
+  background: var(--primary-blue);
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-  font-size: 0.95rem;
-  color: var(--text-dark);
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
-.ambassador-item:hover {
-  background-color: rgba(30, 132, 79, 0.08);
+.ambassador-image-placeholder {
+  width: 140px;
+  height: 140px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 56px;
+  font-weight: 700;
+  color: white;
+  border: 3px solid rgba(255, 255, 255, 0.3);
 }
 
 .ambassador-icon {
-  font-size: 1.2rem;
-  flex-shrink: 0;
+  font-size: 120px;
+  color: white;
+  opacity: 0.9;
 }
 
-.ambassador-name {
-  font-weight: 500;
+.ambassador-profile-info {
+  padding: 24px 20px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ambassador-profile-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+.ambassador-profile-post {
+  font-size: 0.95rem;
+  color: var(--primary-green);
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.ambassador-profile-school {
+  font-size: 0.85rem;
+  color: #999;
+  margin: 0;
+}
+
+/* Innovator Section - Green Hero */
+.innovator-section {
+  background: var(--primary-blue);
+  border-radius: 16px;
+  padding: 80px 40px;
+  margin-bottom: 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: fadeIn 0.8s ease;
+}
+
+.innovator-content {
+  position: relative;
+  z-index: 2;
+}
+
+.innovator-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 0 16px 0;
+}
+
+.innovator-subtitle {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 32px 0;
+  font-weight: 400;
+}
+
+.innovator-cta {
+  display: inline-block;
+  background: white;
+  color: var(--primary-blue);
+  padding: 14px 32px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.innovator-cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.innovator-cta i {
+  margin-right: 8px;
+}
+
+/* All Ambassadors Grid Section */
+.all-ambassadors-section {
+  margin-bottom: 80px;
+  animation: fadeIn 0.8s ease;
+}
+
+.all-ambassadors-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-blue);
+  margin: 0 0 48px 0;
+}
+
+.ambassadors-grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.ambassador-grid-card {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 20px 16px;
+  text-align: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.ambassador-grid-card:hover {
+  border-color: var(--primary-blue);
+  box-shadow: 0 8px 20px rgba(25, 64, 102, 0.12);
+  transform: translateY(-6px);
+}
+
+.ambassador-grid-avatar {
+  width: 70px;
+  height: 70px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  font-weight: 700;
+  margin: 0 auto 12px;
+}
+
+.ambassador-grid-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 4px 0;
+}
+
+.ambassador-grid-post {
+  font-size: 0.8rem;
+  color: var(--primary-blue);
+  font-weight: 600;
+  margin: 0 0 2px 0;
+}
+
+.ambassador-grid-school {
+  font-size: 0.75rem;
+  color: #999;
+  margin: 0;
+  line-height: 1.3;
 }
 
 /* Gallery Section */
@@ -127,13 +316,9 @@
 .gallery-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--primary-blue);
   margin-bottom: 40px;
   text-align: center;
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .gallery-grid {
@@ -194,12 +379,8 @@
 .section-title {
   font-size: 2rem;
   font-weight: 700;
-  color: var(--text-dark);
+  color: var(--primary-blue);
   margin: 0 0 12px 0;
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .section-description {
@@ -232,14 +413,14 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-blue) 100%);
+  background: var(--primary-blue);
   opacity: 0;
   transition: opacity 0.3s ease;
 }
 
 .campaign-card:hover {
-  border-color: var(--primary-green);
-  box-shadow: 0 8px 24px rgba(30, 132, 79, 0.15);
+  border-color: var(--primary-blue);
+  box-shadow: 0 8px 24px rgba(25, 64, 102, 0.15);
   transform: translateY(-4px);
 }
 
@@ -273,8 +454,8 @@
 }
 
 .campaign-status.active {
-  background: rgba(30, 132, 79, 0.15);
-  color: var(--primary-green);
+  background: rgba(25, 64, 102, 0.15);
+  color: var(--primary-blue);
 }
 
 .campaign-status.completed {
@@ -305,7 +486,7 @@
 
 .learn-more-btn {
   display: inline-block;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.95rem;
@@ -320,10 +501,10 @@
 /* Resources Section */
 .resources-section {
   margin-bottom: 80px;
-  background: linear-gradient(135deg, rgba(30, 132, 79, 0.02) 0%, rgba(25, 64, 102, 0.02) 100%);
+  background: #f5f5f5;
   border-radius: 16px;
   padding: 60px 40px;
-  border: 1px solid rgba(30, 132, 79, 0.1);
+  border: 1px solid #e0e0e0;
   animation: fadeIn 0.8s ease;
 }
 
@@ -343,7 +524,7 @@
 }
 
 .resource-card:hover {
-  box-shadow: 0 8px 24px rgba(30, 132, 79, 0.15);
+  box-shadow: 0 8px 24px rgba(25, 64, 102, 0.15);
   transform: translateY(-6px);
 }
 
@@ -351,7 +532,7 @@
   width: 64px;
   height: 64px;
   margin: 0 auto 16px;
-  background: linear-gradient(135deg, var(--primary-green) 0%, #166b3d 100%);
+  background: var(--primary-blue);
   border-radius: 12px;
   display: flex;
   align-items: center;
@@ -381,18 +562,18 @@
 
 .resource-link {
   display: inline-block;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
   padding: 8px 16px;
   border-radius: 6px;
   transition: all 0.3s ease;
-  background: rgba(30, 132, 79, 0.08);
+  background: rgba(25, 64, 102, 0.08);
 }
 
 .resource-link:hover {
-  background: rgba(30, 132, 79, 0.15);
+  background: rgba(25, 64, 102, 0.15);
   color: var(--primary-blue);
 }
 
@@ -428,8 +609,8 @@
 
 /* Success Message */
 .success-message {
-  background: rgba(30, 132, 79, 0.1);
-  border: 2px solid var(--primary-green);
+  background: rgba(25, 64, 102, 0.1);
+  border: 2px solid var(--primary-blue);
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 24px;
@@ -438,7 +619,7 @@
 
 .success-message p {
   margin: 0;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -526,20 +707,20 @@
   padding: 32px 24px;
   border: 2px dashed var(--input-border);
   border-radius: 8px;
-  background: rgba(30, 132, 79, 0.02);
+  background: rgba(25, 64, 102, 0.02);
   cursor: pointer;
   transition: all 0.3s ease;
   text-align: center;
 }
 
 .file-input-label:hover {
-  border-color: var(--primary-green);
-  background: rgba(30, 132, 79, 0.06);
+  border-color: var(--primary-blue);
+  background: rgba(25, 64, 102, 0.06);
 }
 
 .file-input-label i {
   font-size: 28px;
-  color: var(--primary-green);
+  color: var(--primary-blue);
 }
 
 .file-input-label span {
@@ -555,8 +736,8 @@
 
 /* Success Message */
 .success-message {
-  background: rgba(30, 132, 79, 0.1);
-  border: 2px solid var(--primary-green);
+  background: rgba(25, 64, 102, 0.1);
+  border: 2px solid var(--primary-blue);
   border-radius: 8px;
   padding: 16px 20px;
   margin-bottom: 24px;
@@ -568,14 +749,14 @@
 
 .success-message i {
   font-size: 20px;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   margin-top: 2px;
   flex-shrink: 0;
 }
 
 .success-message strong {
   display: block;
-  color: var(--primary-green);
+  color: var(--primary-blue);
   font-weight: 600;
   font-size: 0.95rem;
   margin-bottom: 4px;
@@ -617,7 +798,7 @@ select.form-input {
 .submit-btn {
   width: 100%;
   padding: 14px 32px;
-  background: linear-gradient(135deg, var(--primary-blue) 0%, #122d4a 100%);
+  background: var(--primary-blue);
   color: var(--text-light);
   border: none;
   border-radius: 8px;
@@ -689,6 +870,39 @@ select.form-input {
   .file-input-label {
     padding: 24px 16px;
   }
+
+  .school-heading {
+    font-size: 1.5rem;
+    margin: 0 0 32px 0;
+  }
+
+  .school-ambassadors-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .ambassador-image-container {
+    height: 160px;
+  }
+
+  .ambassador-image-placeholder {
+    width: 110px;
+    height: 110px;
+    font-size: 48px;
+  }
+
+  .ambassador-profile-info {
+    padding: 16px 12px;
+  }
+
+  .ambassador-profile-name {
+    font-size: 1rem;
+    margin: 0 0 8px 0;
+  }
+
+  .ambassador-profile-post {
+    font-size: 0.85rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -743,6 +957,39 @@ select.form-input {
     font-size: 0.85rem;
   }
 
+  .school-heading {
+    font-size: 1.3rem;
+    margin: 0 0 24px 0;
+  }
+
+  .school-ambassadors-grid {
+    grid-template-columns: repeat(1, 1fr);
+    gap: 16px;
+  }
+
+  .ambassador-image-container {
+    height: 130px;
+  }
+
+  .ambassador-image-placeholder {
+    width: 90px;
+    height: 90px;
+    font-size: 40px;
+  }
+
+  .ambassador-profile-info {
+    padding: 12px 8px;
+  }
+
+  .ambassador-profile-name {
+    font-size: 0.9rem;
+    margin: 0 0 6px 0;
+  }
+
+  .ambassador-profile-post {
+    font-size: 0.75rem;
+  }
+
   .file-input-label small {
     font-size: 0.75rem;
   }
@@ -759,43 +1006,375 @@ select.form-input {
   border: 1px solid #f0f0f0;
 }
 
-.campaigns-section .section-header {
+.campaigns-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-blue);
+  margin: 0 0 48px 0;
+}
+
+/* Benefits Section */
+.benefits-section {
+  margin-bottom: 100px;
+  background: #f5f5f5;
+  border-radius: 16px;
+  padding: 60px 40px;
+  border: 1px solid #e0e0e0;
+  animation: fadeIn 0.8s ease;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+}
+
+.benefits-title {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.benefit-card {
+  background: white;
+  border-radius: 12px;
+  padding: 32px 24px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border-color);
+}
+
+.benefit-card:hover {
+  box-shadow: 0 12px 32px rgba(25, 64, 102, 0.15);
+  transform: translateY(-8px);
+  border-color: var(--primary-blue);
+}
+
+.benefit-icon {
+  width: 70px;
+  height: 70px;
+  background: var(--primary-blue);
+  border-radius: 12px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 48px;
-  flex-wrap: wrap;
-  gap: 24px;
+  justify-content: center;
+  font-size: 32px;
+  color: white;
+  margin: 0 auto 16px;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover .benefit-icon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+.benefit-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 12px 0;
+}
+
+.benefit-description {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
-  .ambassador-content-wrapper {
-    width: 100%;
+  .featured-ambassadors {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 
-  .campus-form-side {
-    top: 100px;
-  }
-
-  .section-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  .ambassadors-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
   }
 
   .gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
-  .campaigns-grid {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+  .benefits-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
   }
 
-  .resources-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
+  .innovator-section {
+    padding: 60px 30px;
+  }
+
+  .innovator-title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .campus-ambassador {
+    padding: 60px 20px;
+    margin-top: 60px;
+  }
+
+  .campus-heading {
+    font-size: 2rem;
+  }
+
+  .ambassadors-showcase-title {
+    font-size: 1.6rem;
+  }
+
+  .featured-ambassadors {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .ambassador-image-container {
+    height: 140px;
+  }
+
+  .ambassador-image-placeholder {
+    width: 90px;
+    height: 90px;
+    font-size: 36px;
+  }
+
+  .ambassador-profile-info {
+    padding: 16px 12px;
+  }
+
+  .ambassadors-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 12px;
+  }
+
+  .ambassador-grid-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    margin: 0 auto 8px;
+  }
+
+  .ambassador-grid-name {
+    font-size: 0.85rem;
+  }
+
+  .benefits-section {
+    padding: 40px 24px;
+  }
+
+  .benefits-title {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .benefit-card {
+    padding: 24px 20px;
+  }
+
+  .benefit-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 28px;
+  }
+
+  .innovator-section {
+    padding: 50px 24px;
+    margin-bottom: 60px;
+  }
+
+  .innovator-title {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+  }
+
+  .innovator-subtitle {
+    font-size: 1rem;
+    margin-bottom: 24px;
+  }
+
+  .all-ambassadors-title {
+    font-size: 1.6rem;
+    margin-bottom: 36px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .gallery-section {
+    margin-bottom: 60px;
+  }
+
+  .campaigns-section {
+    padding: 40px 24px;
+    margin-bottom: 60px;
+  }
+
+  .campaigns-section-title {
+    font-size: 1.6rem;
+    margin-bottom: 36px;
+  }
+
+  .form-title {
+    font-size: 1.4rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .campus-ambassador {
+    padding: 40px 16px;
+  }
+
+  .campus-heading {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+  }
+
+  .ambassadors-showcase-title {
+    font-size: 1.4rem;
+  }
+
+  .featured-ambassadors {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .ambassador-image-container {
+    height: 120px;
+  }
+
+  .ambassador-image-placeholder {
+    width: 80px;
+    height: 80px;
+    font-size: 32px;
+  }
+
+  .ambassador-profile-name {
+    font-size: 1rem;
+  }
+
+  .ambassadors-grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+
+  .ambassador-grid-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .ambassador-grid-name {
+    font-size: 0.75rem;
+  }
+
+  .ambassador-grid-post {
+    font-size: 0.7rem;
+  }
+
+  .innovator-section {
+    padding: 40px 16px;
+    margin-bottom: 50px;
+    border-radius: 12px;
+  }
+
+  .innovator-title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+  }
+
+  .innovator-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+  }
+
+  .innovator-cta {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+
+  .all-ambassadors-title {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+  }
+
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .gallery-section {
+    margin-bottom: 50px;
+  }
+
+  .campaigns-section {
+    padding: 30px 16px;
+    margin-bottom: 50px;
+    border-radius: 12px;
+  }
+
+  .campaigns-section-title {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+  }
+
+  .benefits-section {
+    padding: 30px 16px;
+    border-radius: 12px;
+  }
+
+  .benefits-title {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .benefit-card {
+    padding: 20px 16px;
+  }
+
+  .benefit-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .benefit-name {
+    font-size: 1rem;
+  }
+
+  .benefit-description {
+    font-size: 0.85rem;
+  }
+
+  .form-title {
+    font-size: 1.2rem;
+  }
+
+  .form-group {
+    margin-bottom: 18px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .submit-btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
   }
 }
 

@@ -54,6 +54,7 @@ import Profile from './pages/admin/Profile'
 import Settings from './pages/admin/Settings'
 import ApplicantDetails from './pages/admin/ApplicantDetails'
 import Campaigns from './pages/admin/Campaigns'
+import AmbassadorAssignment from './pages/admin/AmbassadorAssignment'
 
 const Home = ({ isLoading }) => (
     <>
@@ -195,6 +196,11 @@ const App = () => {
                 <Route path="/admin/settings" element={
                     <AdminLayout>
                         <Settings />
+                    </AdminLayout>
+                } />
+                <Route path="/admin/ambassador-assignment" element={
+                    <AdminLayout>
+                        <AmbassadorAssignment />
                     </AdminLayout>
                 } />
             </Routes>

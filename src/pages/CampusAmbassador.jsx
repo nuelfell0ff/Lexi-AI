@@ -109,6 +109,38 @@ const CampusAmbassador = () => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [campaigns, setCampaigns] = useState([])
+  const [ambassadors, setAmbassadors] = useState([])
+  const [ambassadorsLoading, setAmbassadorsLoading] = useState(true)
+
+  // Get initials from name
+  const getInitials = (name) => {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase()
+  }
+
+  // Group ambassadors by school
+  const getAmbassadorsBySchool = () => {
+    const groupedBySchool = {}
+    ambassadors.forEach(ambassador => {
+      const school = ambassador.institution || 'Unknown'
+      if (!groupedBySchool[school]) {
+        groupedBySchool[school] = []
+      }
+      groupedBySchool[school].push(ambassador)
+    })
+    return groupedBySchool
+  }
+
+  // Get ambassadors grouped by school (up to 4 per school)
+  const getAmbassadorsBySchoolLimited = () => {
+    const groupedBySchool = getAmbassadorsBySchool()
+    const result = {}
+
+    Object.keys(groupedBySchool).forEach(school => {
+      result[school] = groupedBySchool[school].slice(0, 4)
+    })
+
+    return result
+  }
 
   // Fetch campaigns from Firestore with real-time listener
   useEffect(() => {
@@ -126,6 +158,34 @@ const CampusAmbassador = () => {
       }
     }, (error) => {
       console.error('Error listening to campaigns:', error)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  // Fetch ambassadors from Firestore (approved applicants with assigned posts) - Real-time listener
+  useEffect(() => {
+    setAmbassadorsLoading(true)
+    const q = query(
+      collection(db, 'applicants'),
+      where('isAmbassador', '==', true)
+    )
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const ambassadorsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setAmbassadors(ambassadorsData)
+        setAmbassadorsLoading(false)
+      } catch (error) {
+        console.error('Error processing ambassadors snapshot:', error)
+        setAmbassadorsLoading(false)
+      }
+    }, (error) => {
+      console.error('Error listening to ambassadors:', error)
+      setAmbassadorsLoading(false)
     })
 
     return () => unsubscribe()
@@ -305,7 +365,7 @@ const CampusAmbassador = () => {
 
           {/* Gallery Section */}
           <div className="gallery-section">
-            <h2 className="gallery-title">Ambassador Highlights</h2>
+            <h2 className="gallery-title">Stories that speak for themselves</h2>
             <div className="gallery-grid">
               {galleryImages.map(image => (
                 <div key={image.id} className="gallery-item">
@@ -319,17 +379,92 @@ const CampusAmbassador = () => {
             </div>
           </div>
 
-          {/* Campaigns Section */}
-          <div className="campaigns-section">
-            <div className="section-header">
-              <h2 className="section-title">Active Campaigns</h2>
-              <p className="section-description">Join ongoing initiatives and make an impact</p>
+          {/* Ambassadors Showcase - By School */}
+          <div className="ambassadors-showcase">
+            <h2 className="ambassadors-showcase-title">Meet Our Campus Leaders</h2>
+            <p className="ambassadors-showcase-subtitle">Join a network of innovators coordinating Lexi AI across Nigerian campuses</p>
+
+            {ambassadorsLoading ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ color: '#999', fontSize: '1.1rem' }}>Loading campus leaders...</p>
+              </div>
+            ) : ambassadors.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '60px 20px' }}>
+                <p style={{ color: '#999', fontSize: '1.1rem' }}>No campus leaders assigned yet</p>
+              </div>
+            ) : (
+              Object.entries(getAmbassadorsBySchoolLimited()).map(([school, ambassadorsList]) => (
+                <div key={school} className="school-ambassador-group">
+                  <h3 className="school-heading">{school}</h3>
+                  <div className="school-ambassadors-grid">
+                    {ambassadorsList.map(ambassador => (
+                      <div key={ambassador.id} className="ambassador-profile-card">
+                        <div className="ambassador-card-content">
+                          <div className="ambassador-image-container">
+                            <i className="bi bi-person-circle ambassador-icon"></i>
+                          </div>
+                          <div className="ambassador-profile-info">
+                            <h4 className="ambassador-profile-name">{ambassador.name}</h4>
+                            <p className="ambassador-profile-post">{ambassador.post}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Benefits Section */}
+          <div className="benefits-section">
+            <h2 className="benefits-title">What's in it for you?</h2>
+            <div className="benefits-grid">
+              <div className="benefit-card">
+                <div className="benefit-icon">
+                  <i className="bi bi-briefcase"></i>
+                </div>
+                <h3 className="benefit-name">Career Support</h3>
+                <p className="benefit-description">Get mentorship and career guidance from industry experts in healthcare tech</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">
+                  <i className="bi bi-graph-up"></i>
+                </div>
+                <h3 className="benefit-name">Build Leadership Skills</h3>
+                <p className="benefit-description">Develop leadership and project management skills through real-world initiatives</p>
+              </div>
+              <div className="benefit-card">
+                <div className="benefit-icon">
+                  <i className="bi bi-people"></i>
+                </div>
+                <h3 className="benefit-name">Network & Community</h3>
+                <p className="benefit-description">Connect with like-minded innovators and build lasting professional relationships</p>
+              </div>
             </div>
+          </div>
+
+          {/* Hero Section - Be an Innovator */}
+          <div className="innovator-section">
+            <div className="innovator-content">
+              <h2 className="innovator-title">Be a creative innovator</h2>
+              <p className="innovator-subtitle">See how ambassadors are making a difference across campuses</p>
+              <a href="#apply-form" className="innovator-cta">
+                <i className="bi bi-arrow-right"></i> Apply Now
+              </a>
+            </div>
+          </div>
+
+
+
+          {/* Campaigns Section - Read their stories */}
+          <div className="campaigns-section">
+            <h2 className="campaigns-section-title">Read their stories</h2>
             {campaigns.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '60px 20px', color: '#666' }}>
                 <i className="bi bi-inbox" style={{ fontSize: '48px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
-                <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>No Campaigns Yet</p>
-                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Watch out for updates! New campaigns will be announced soon.</p>
+                <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>Coming Soon</p>
+                <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Ambassador stories and testimonials will be featured here.</p>
               </div>
             ) : (
               <div className="campaigns-grid">
@@ -384,12 +519,11 @@ const CampusAmbassador = () => {
             </div>
           </div>
 
-          {/* Main Content Wrapper */}
+          {/* Main Content Wrapper - Form Section */}
           <div className="ambassador-content-wrapper">
-
-            {/* Form Section - Now inside content wrapper */}
+            {/* Form Section */}
             <div className="campus-form-side">
-              <div className="campus-form-container">
+              <div className="campus-form-container" id="apply-form">
                 <h2 className="form-title">Apply Now</h2>
                 <p className="form-description">Tell us about yourself and your institution</p>
 
