@@ -128,16 +128,17 @@
 
 .schools-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  width: fit-content;
-  align-items: center;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  width: 100%;
   max-width: 1200px;
+  margin: 0 auto;
 }
 
 .school-column {
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .school-ambassadors-grid {
@@ -150,51 +151,31 @@
 }
 
 .ambassador-profile-card {
-  background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
-  border-radius: 16px;
-  padding: 28px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border: 1px solid #f0f0f0;
+  background: white;
+  border-radius: 12px;
+  padding: 30px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e8e8e8;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  min-height: 280px;
   text-align: center;
-  width: 100%;
-  min-height: 320px;
-}
-
-.ambassador-profile-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary-green) 0%, var(--primary-blue) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.ambassador-profile-card:hover::before {
-  opacity: 1;
 }
 
 .ambassador-profile-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-  border-color: #e0e0e0;
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .ambassador-card-content {
   display: flex;
   flex-direction: column;
-  height: 100%;
   align-items: center;
   justify-content: center;
-  gap: 16px;
+  width: 100%;
 }
 
 .ambassador-image-container {
@@ -205,24 +186,28 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: visible;
-  padding: 0;
+  margin-bottom: 16px;
+}
+
+.ambassador-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .ambassador-image-placeholder {
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 60px;
+  font-size: 70px;
   font-weight: 700;
   color: white;
   border: 3px solid rgba(255, 255, 255, 0.4);
-  padding: 15px;
 }
 
 .ambassador-icon {
@@ -234,7 +219,6 @@
 
 .ambassador-profile-info {
   padding: 0;
-  flex-grow: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -254,7 +238,7 @@
   font-size: 0.95rem;
   color: var(--primary-green);
   font-weight: 600;
-  margin: 0;
+  margin: 0 0 4px 0;
   letter-spacing: 0.3px;
 }
 
