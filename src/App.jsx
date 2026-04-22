@@ -4,6 +4,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Features from './components/Features'
 import PrivacySection from './components/PrivacySection'
+import VideoSection from './components/VideoSection'
 import Pricing from './components/Pricing'
 import Faqs from './components/Faqs'
 import Footer from './components/Footer'
@@ -68,6 +69,9 @@ const Home = ({ isLoading }) => (
         </section>
         <section id="privacy">
             <PrivacySection />
+        </section>
+        <section id="video">
+            <VideoSection />
         </section>
         <section id="pricing">
             <Pricing />

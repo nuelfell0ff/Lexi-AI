@@ -1651,86 +1651,6 @@ select.form-input {
   }
 }
 
-@media (max-width: 768px) {
-  .campus-ambassador {
-    padding: 80px 24px 40px;
-  }
-
-  .campus-header {
-    margin-bottom: 40px;
-  }
-
-  .campus-heading {
-    font-size: 2rem;
-  }
-
-  .campus-subheading {
-    font-size: 0.95rem;
-  }
-
-  .gallery-title {
-    font-size: 1.5rem;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-  }
-
-  .section-description {
-    font-size: 0.9rem;
-  }
-
-  .ambassadors-section {
-    padding: 30px;
-    position: static;
-  }
-
-  .ambassadors-list {
-    max-height: 300px;
-  }
-
-  .campus-form-side {
-    padding: 30px;
-    position: static;
-  }
-
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .gallery-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .gallery-item {
-    height: 400px;
-  }
-
-  .campaigns-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
-  .resources-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .resources-section {
-    padding: 40px 24px;
-  }
-
-  .campaign-card {
-    padding: 20px;
-  }
-
-  .resource-card {
-    padding: 20px 16px;
-  }
-}
-
 @media (max-width: 480px) {
   .campus-ambassador {
     padding: 60px 16px 30px;
@@ -1827,4 +1747,10 @@ select.form-input {
   color: #666;
   margin: 0 0 40px 0;
   text-align: center;
+}
+
+.ambassador-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
 }
