@@ -78,7 +78,17 @@ const CampusAmbassador = () => {
           id: doc.id,
           ...doc.data()
         }))
-        setAmbassadorPosts(postsData)
+
+        // Deduplicate by institution - keep only one representative per school
+        const uniquePosts = {}
+        postsData.forEach(post => {
+          if (!uniquePosts[post.institution]) {
+            uniquePosts[post.institution] = post
+          }
+        })
+        const dedupedPosts = Object.values(uniquePosts)
+
+        setAmbassadorPosts(dedupedPosts)
         setPostsLoading(false)
       } catch (error) {
         console.error('Error fetching ambassador posts:', error)
@@ -313,43 +323,19 @@ const CampusAmbassador = () => {
             <h2 className="ambassadors-showcase-title">Meet Our Campus Leaders</h2>
             <p className="ambassadors-showcase-subtitle">Join a network of innovators coordinating Lexi AI across Nigerian campuses</p>
 
-            {ambassadorsLoading ? (
+            {postsLoading ? (
               <div style={{ textAlign: 'center', padding: '60px 20px' }}>
                 <p style={{ color: '#999', fontSize: '1.1rem' }}>Loading campus leaders...</p>
               </div>
-            ) : ambassadors.length === 0 ? (
+            ) : ambassadorPosts.length === 0 ? (
               <div style={{ textAlign: 'center', padding: '60px 20px' }}>
                 <p style={{ color: '#999', fontSize: '1.1rem' }}>No campus leaders assigned yet</p>
               </div>
             ) : (
-              <div className="schools-grid">
-                {Object.entries(getAmbassadorsBySchool()).map(([school, ambassador], index) => (
-                  <div key={school} className={`school-column animate-on-scroll delay-${(index % 4) + 1}`}>
-                    <div className="ambassador-profile-card">
-                      <div className="ambassador-card-content">
-                        <div className="ambassador-image-container">
-                          <i className="bi bi-person-circle ambassador-icon"></i>
-                        </div>
-                        <div className="ambassador-profile-info">
-                          <h4 className="ambassador-profile-name">{ambassador.name}</h4>
-                          <p className="ambassador-profile-school">{school} representative</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+                {ambassadorPosts.map((post) => (
+                  <AmbassadorPostCard key={post.id} post={post} showRepresentativeLabel={true} />
                 ))}
-              </div>
-            )}
-
-            {/* Ambassador Posts Display */}
-            {ambassadorPosts.length > 0 && (
-              <div style={{ marginTop: '60px' }}>
-                <h3 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#333', marginBottom: '40px', textAlign: 'center' }}>Featured Ambassador Posts</h3>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
-                  {ambassadorPosts.map((post) => (
-                    <AmbassadorPostCard key={post.id} post={post} />
-                  ))}
-                </div>
               </div>
             )}
           </div>

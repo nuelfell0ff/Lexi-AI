@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/AmbassadorPostCard.css'
 
-const AmbassadorPostCard = ({ post, showDeleteBtn = false, onDelete = null }) => {
+const AmbassadorPostCard = ({ post, showDeleteBtn = false, onDelete = null, showRepresentativeLabel = false }) => {
   const handleDelete = () => {
     if (onDelete) {
       onDelete(post.id)
@@ -26,7 +26,7 @@ const AmbassadorPostCard = ({ post, showDeleteBtn = false, onDelete = null }) =>
       </div>
       <div className="post-content">
         <h3 className="post-name">{post.name}</h3>
-        <p className="post-institution">{post.institution}</p>
+        <p className="post-institution">{post.institution}{showRepresentativeLabel ? ' representative' : ''}</p>
         <p className="post-course">{post.courseOfStudy}</p>
         <div className="post-meta">
           <span className="post-level">{post.level}</span>
