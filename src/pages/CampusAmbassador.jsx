@@ -3,105 +3,28 @@ import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import StoriesModal from '../components/StoriesModal'
+import AmbassadorPostCard from '../components/AmbassadorPostCard'
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import './CampusAmbassador.css'
 import { db } from '../firebase'
 import { collection, query, orderBy, onSnapshot, getDocs, where } from 'firebase/firestore'
 import { useToast } from '../context/ToastContext'
+import { NIGERIAN_UNIVERSITIES } from '../utils/universities'
 import galleryImg1 from '../assets/IMG-20260418-WA0086.jpg'
 import galleryImg2 from '../assets/IMG-20260418-WA0089.jpg'
 import galleryImg3 from '../assets/IMG-20260418-WA0090.jpg'
 
-const NIGERIAN_UNIVERSITIES = [
-  'University of Ibadan',
-  'University of Nigeria, Nsukka',
-  'Obafemi Awolowo University',
-  'Ahmadu Bello University',
-  'University of Lagos',
-  'University of Benin',
-  'Bayero University, Kano',
-  'University of Calabar',
-  'University of Ilorin',
-  'University of Jos',
-  'University of Maiduguri',
-  'Usmanu Danfodiyo University',
-  'University of Port Harcourt',
-  'Federal University of Technology, Owerri',
-  'Federal University of Technology, Akure',
-  'Modibbo Adama University, Yola',
-  'Federal University of Technology, Minna',
-  'Nigerian Defence Academy',
-  'University of Abuja',
-  'Abubakar Tafawa Balewa University',
-  'Federal University of Agriculture, Abeokuta',
-  'University of Agriculture, Makurdi',
-  'Michael Okpara University of Agriculture',
-  'Nnamdi Azikiwe University',
-  'University of Uyo',
-  'National Open University of Nigeria',
-  'Federal University of Petroleum Resources, Effurun',
-  'Federal University, Lokoja',
-  'Federal University, Lafia',
-  'Federal University, Kashere',
-  'Federal University, Wukari',
-  'Federal University, Dutsin-Ma',
-  'Federal University, Dutse',
-  'Federal University, Birnin Kebbi',
-  'Federal University, Gusau',
-  'Federal University, Gashua',
-  'Federal University, Oye-Ekiti',
-  'Federal University, Ndifu-Alike',
-  'Federal University, Otuoke',
-  'Federal University of Health Sciences',
-  'Abia State University',
-  'Adamawa State University',
-  'Adekunle Ajasin University',
-  'Akwa Ibom State University',
-  'Ambrose Alli University',
-  'Chukwuemeka Odumegwu Ojukwu University',
-  'Bauchi State University',
-  'Benue State University',
-  'Delta State University',
-  'Ebonyi State University',
-  'Edo State University (Iyamho)',
-  'Ekiti State University',
-  'Enugu State University of Science and Technology',
-  'Gombe State University',
-  'Ibrahim Badamasi Babangida University',
-  'Ignatius Ajuru University of Education',
-  'Imo State University',
-  'Kaduna State University',
-  'Kano University of Science & Technology',
-  'Kebbi State University of Science and Technology',
-  'Kogi State University',
-  'Kwara State University',
-  'Lagos State University',
-  'Ladoke Akintola University of Technology',
-  'Nasarawa State University',
-  'Niger Delta University',
-  'Olabisi Onabanjo University',
-  'Ondo State University of Science and Technology',
-  'Osun State University',
-  'Plateau State University',
-  'Rivers State University',
-  'Sokoto State University',
-  'Taraba State University',
-  'Umaru Musa Yar\'Adua University',
-  'Yobe State University',
-  'Zamfara State University',
-  'Tai Solarin University of Education',
-  'Confluence University of Science and Technology',
-  'University of Delta',
-  'Dennis Osadebay University'
-]
-
 const CampusAmbassador = () => {
   const navigate = useNavigate()
   const { showToast } = useToast()
+  useScrollAnimation()
   const [campaigns, setCampaigns] = useState([])
   const [ambassadors, setAmbassadors] = useState([])
   const [ambassadorsLoading, setAmbassadorsLoading] = useState(true)
   const [storiesModalOpen, setStoriesModalOpen] = useState(false)
   const [stories, setStories] = useState([])
+  const [ambassadorPosts, setAmbassadorPosts] = useState([])
+  const [postsLoading, setPostsLoading] = useState(true)
 
   // Get initials from name
   const getInitials = (name) => {
@@ -139,6 +62,31 @@ const CampusAmbassador = () => {
       }
     }, (error) => {
       console.error('Error listening to stories:', error)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  // Fetch ambassador posts from Firestore with real-time listener
+  useEffect(() => {
+    setPostsLoading(true)
+    const q = query(collection(db, 'ambassadorPosts'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const postsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setAmbassadorPosts(postsData)
+        setPostsLoading(false)
+      } catch (error) {
+        console.error('Error fetching ambassador posts:', error)
+        setPostsLoading(false)
+      }
+    }, (error) => {
+      console.error('Error listening to ambassador posts:', error)
+      setPostsLoading(false)
     })
 
     return () => unsubscribe()
@@ -345,11 +293,11 @@ const CampusAmbassador = () => {
           </div>
 
           {/* Gallery Section */}
-          <div className="gallery-section">
+          <div className="gallery-section animate-on-scroll">
             <h2 className="gallery-title">Stories that speak for themselves</h2>
             <div className="gallery-grid">
-              {galleryImages.map(image => (
-                <div key={image.id} className="gallery-item">
+              {galleryImages.map((image, index) => (
+                <div key={image.id} className={`gallery-item animate-on-scroll delay-${index + 1}`}>
                   <img src={image.url} alt={image.title} className="gallery-image" />
                   <div className="gallery-overlay">
                     <h3 className="gallery-image-title">{image.title}</h3>
@@ -361,7 +309,7 @@ const CampusAmbassador = () => {
           </div>
 
           {/* Ambassadors Showcase - By Post */}
-          <div className="ambassadors-showcase">
+          <div className="ambassadors-showcase animate-on-scroll">
             <h2 className="ambassadors-showcase-title">Meet Our Campus Leaders</h2>
             <p className="ambassadors-showcase-subtitle">Join a network of innovators coordinating Lexi AI across Nigerian campuses</p>
 
@@ -375,8 +323,8 @@ const CampusAmbassador = () => {
               </div>
             ) : (
               <div className="schools-grid">
-                {Object.entries(getAmbassadorsBySchool()).map(([school, ambassador]) => (
-                  <div key={school} className="school-column">
+                {Object.entries(getAmbassadorsBySchool()).map(([school, ambassador], index) => (
+                  <div key={school} className={`school-column animate-on-scroll delay-${(index % 4) + 1}`}>
                     <div className="ambassador-profile-card">
                       <div className="ambassador-card-content">
                         <div className="ambassador-image-container">
@@ -392,27 +340,39 @@ const CampusAmbassador = () => {
                 ))}
               </div>
             )}
+
+            {/* Ambassador Posts Display */}
+            {ambassadorPosts.length > 0 && (
+              <div style={{ marginTop: '60px' }}>
+                <h3 style={{ fontSize: '1.8rem', fontWeight: 700, color: '#333', marginBottom: '40px', textAlign: 'center' }}>Featured Ambassador Posts</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+                  {ambassadorPosts.map((post) => (
+                    <AmbassadorPostCard key={post.id} post={post} />
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Benefits Section */}
-          <div className="benefits-section">
+          <div className="benefits-section animate-on-scroll">
             <h2 className="benefits-title">What's in it for you?</h2>
             <div className="benefits-grid">
-              <div className="benefit-card">
+              <div className="benefit-card animate-on-scroll delay-1">
                 <div className="benefit-icon">
                   <i className="bi bi-briefcase"></i>
                 </div>
                 <h3 className="benefit-name">Career Support</h3>
                 <p className="benefit-description">Get mentorship and career guidance from industry experts in healthcare tech</p>
               </div>
-              <div className="benefit-card">
+              <div className="benefit-card animate-on-scroll delay-2">
                 <div className="benefit-icon">
                   <i className="bi bi-graph-up"></i>
                 </div>
                 <h3 className="benefit-name">Build Leadership Skills</h3>
                 <p className="benefit-description">Develop leadership and project management skills through real-world initiatives</p>
               </div>
-              <div className="benefit-card">
+              <div className="benefit-card animate-on-scroll delay-3">
                 <div className="benefit-icon">
                   <i className="bi bi-people"></i>
                 </div>
@@ -423,7 +383,7 @@ const CampusAmbassador = () => {
           </div>
 
           {/* Hero Section - Be an Innovator */}
-          <div className="innovator-section">
+          <div className="innovator-section animate-on-scroll">
             <div className="innovator-content">
               <h2 className="innovator-title">Be a creative innovator</h2>
               <p className="innovator-subtitle">See how ambassadors are making a difference across campuses</p>
@@ -439,7 +399,7 @@ const CampusAmbassador = () => {
 
 
           {/* Campaigns Section - Read their stories */}
-          <div className="campaigns-section">
+          <div className="campaigns-section animate-on-scroll">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
               <div>
                 <h2 className="campaigns-section-title">Read their stories</h2>
@@ -485,7 +445,7 @@ const CampusAmbassador = () => {
           </div>
 
           {/* Resources Section */}
-          <div className="resources-section">
+          <div className="resources-section animate-on-scroll">
             <div className="section-header">
               <div>
                 <h2 className="section-title">Ambassador Resources</h2>

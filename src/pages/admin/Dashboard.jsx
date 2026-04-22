@@ -6,6 +6,7 @@ import { doc, updateDoc, deleteDoc, collection, getDocs, query, orderBy, addDoc,
 import { db } from '../../firebase'
 import { useToast } from '../../context/ToastContext'
 import ConfirmModal from '../../components/ConfirmModal'
+import AmbassadorPostCard from '../../components/AmbassadorPostCard'
 import '../../styles/Dashboard.css'
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement)
@@ -25,6 +26,7 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
   const [confirmModal, setConfirmModal] = useState(null)
   const [stories, setStories] = useState([])
   const [campaigns, setCampaigns] = useState([])
+  const [ambassadorPosts, setAmbassadorPosts] = useState([])
   const menuRefs = useRef({})
 
   // Fetch campaigns with real-time listener
@@ -75,6 +77,32 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
 
     return () => {
       console.log('Unsubscribing from Dashboard stories listener')
+      unsubscribe()
+    }
+  }, [])
+
+  // Fetch ambassador posts with real-time listener
+  useEffect(() => {
+    console.log('Setting up Dashboard ambassador posts listener...')
+    const q = query(collection(db, 'ambassadorPosts'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        console.log('Dashboard ambassador posts snapshot received, docs count:', querySnapshot.docs.length)
+        const postsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setAmbassadorPosts(postsData)
+      } catch (error) {
+        console.error('Error processing Dashboard ambassador posts:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to Dashboard ambassador posts:', error)
+    })
+
+    return () => {
+      console.log('Unsubscribing from Dashboard ambassador posts listener')
       unsubscribe()
     }
   }, [])
@@ -398,6 +426,27 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
     })
   }
 
+  const handleDeleteAmbassadorPost = (postId) => {
+    setConfirmModal({
+      title: 'Delete Ambassador Post',
+      message: 'Are you sure you want to delete this ambassador post? This action cannot be undone.',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'ambassadorPosts', postId))
+          showToast('Ambassador post deleted successfully!', 'success', 'bi bi-check-circle')
+          setConfirmModal(null)
+        } catch (error) {
+          console.error('Error deleting ambassador post:', error)
+          showToast('Failed to delete ambassador post', 'error', 'bi bi-exclamation-circle')
+        }
+      },
+      onCancel: () => setConfirmModal(null),
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDangerous: true
+    })
+  }
+
   const handleExportData = () => {
     if (!applicants || applicants.length === 0) {
       showToast('No applicants to export', 'warning', 'bi bi-exclamation-circle')
@@ -480,9 +529,6 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
         <div className="header-actions">
           <button className="btn-export" onClick={handleExportData}>
             <i className="bi bi-download"></i> Export Data
-          </button>
-          <button className="btn-invite">
-            <i className="bi bi-plus-circle"></i> Invite New Ambassador
           </button>
         </div>
       </div>
@@ -682,6 +728,32 @@ const Dashboard = ({ applicants = [], refetchApplicants }) => {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      {/* Ambassador Posts Section */}
+      <div style={{ marginTop: '60px' }}>
+        <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+          <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#333', margin: '0 0 24px 0' }}>Meet Our Campus Leaders ({ambassadorPosts.length})</h3>
+
+          {ambassadorPosts.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <i className="bi bi-people" style={{ fontSize: '32px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+              <p>No ambassador posts yet.</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+              {ambassadorPosts.map((post) => (
+                <div key={post.id} style={{ position: 'relative' }}>
+                  <AmbassadorPostCard
+                    post={post}
+                    showDeleteBtn={true}
+                    onDelete={() => handleDeleteAmbassadorPost(post.id)}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

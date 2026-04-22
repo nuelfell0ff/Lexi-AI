@@ -1,277 +1,123 @@
 import React, { useState, useEffect } from 'react'
-import { collection, updateDoc, doc, query, where, onSnapshot } from 'firebase/firestore'
+import { collection, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore'
 import { db } from '../../firebase'
 import { useToast } from '../../context/ToastContext'
+import ConfirmModal from '../../components/ConfirmModal'
+import AddAmbassadorModal from '../../components/AddAmbassadorModal'
+import AmbassadorPostCard from '../../components/AmbassadorPostCard'
 import '../../styles/AmbassadorAssignment.css'
-
-const AMBASSADOR_POSTS = [
-  'Campus Lead',
-  'Operations Lead',
-  'Events Coordinator',
-  'Tech Lead'
-]
 
 const AmbassadorAssignment = () => {
   const { showToast } = useToast()
-  const [ambassadors, setAmbassadors] = useState([])
+  const [ambassadorPosts, setAmbassadorPosts] = useState([])
   const [loading, setLoading] = useState(true)
-  const [selectedAmbassador, setSelectedAmbassador] = useState(null)
-  const [selectedPost, setSelectedPost] = useState('')
-  const [filter, setFilter] = useState('all')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [assigningId, setAssigningId] = useState(null)
+  const [confirmModal, setConfirmModal] = useState(null)
+  const [showAddAmbassadorModal, setShowAddAmbassadorModal] = useState(false)
 
-  // Fetch ambassadors (approved applicants) - Real-time listener
+  // Fetch ambassador posts with real-time listener
   useEffect(() => {
     setLoading(true)
-    const q = query(
-      collection(db, 'applicants'),
-      where('status', '==', 'approved')
-    )
+    const q = query(collection(db, 'ambassadorPosts'), orderBy('createdAt', 'desc'))
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       try {
-        const ambassadorsData = querySnapshot.docs.map(doc => {
-          const data = doc.data()
-          console.log('Ambassador found:', { id: doc.id, name: data.name, status: data.status, post: data.post })
-          return {
-            id: doc.id,
-            ...data
-          }
-        })
-        console.log('Total ambassadors fetched:', ambassadorsData.length)
-        setAmbassadors(ambassadorsData)
+        const postsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setAmbassadorPosts(postsData)
         setLoading(false)
       } catch (error) {
-        console.error('Error processing ambassadors snapshot:', error)
-        showToast('Failed to load ambassadors', 'error', 'bi bi-x-circle')
+        console.error('Error processing ambassador posts snapshot:', error)
+        showToast('Failed to load ambassador posts', 'error', 'bi bi-x-circle')
         setLoading(false)
       }
     }, (error) => {
-      console.error('Error listening to ambassadors:', error)
-      showToast('Failed to load ambassadors', 'error', 'bi bi-x-circle')
+      console.error('Error listening to ambassador posts:', error)
+      showToast('Failed to load ambassador posts', 'error', 'bi bi-x-circle')
       setLoading(false)
     })
 
     return () => unsubscribe()
   }, [showToast])
 
-  const handleAssignPost = async (ambassadorId, post) => {
-    // Check if school already has an ambassador assigned
-    const ambassador = ambassadors.find(amb => amb.id === ambassadorId)
-    if (isSchoolRepresentativeAssigned(ambassador.institution, ambassadorId)) {
-      showToast(`${ambassador.institution} already has a representative assigned`, 'error', 'bi bi-exclamation-circle')
-      return
-    }
-
-    try {
-      setAssigningId(ambassadorId)
-      await updateDoc(doc(db, 'applicants', ambassadorId), {
-        post: post,
-        isAmbassador: true,
-        postAssignedAt: new Date()
-      })
-
-      // Update local state
-      setAmbassadors(ambassadors.map(amb =>
-        amb.id === ambassadorId
-          ? { ...amb, post: post, isAmbassador: true }
-          : amb
-      ))
-
-      showToast(`${ambassador.institution} representative assigned successfully!`, 'success', 'bi bi-check-circle')
-      setSelectedAmbassador(null)
-      setSelectedPost('')
-    } catch (error) {
-      console.error('Error assigning post:', error)
-      showToast('Failed to assign post', 'error', 'bi bi-x-circle')
-    } finally {
-      setAssigningId(null)
-    }
-  }
-
-  const handleRemovePost = async (ambassadorId) => {
-    try {
-      setAssigningId(ambassadorId)
-      await updateDoc(doc(db, 'applicants', ambassadorId), {
-        post: null,
-        isAmbassador: false
-      })
-
-      setAmbassadors(ambassadors.map(amb =>
-        amb.id === ambassadorId
-          ? { ...amb, post: null, isAmbassador: false }
-          : amb
-      ))
-
-      showToast('Post removed successfully!', 'success', 'bi bi-check-circle')
-    } catch (error) {
-      console.error('Error removing post:', error)
-      showToast('Failed to remove post', 'error', 'bi bi-x-circle')
-    } finally {
-      setAssigningId(null)
-    }
-  }
-
-  const getFilteredAmbassadors = () => {
-    return ambassadors.filter(amb => {
-      const matchesSearch = amb.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        amb.institution?.toLowerCase().includes(searchTerm.toLowerCase())
-
-      if (filter === 'assigned') {
-        return matchesSearch && amb.post
-      } else if (filter === 'unassigned') {
-        return matchesSearch && !amb.post
-      }
-      return matchesSearch
+  const handleDeleteAmbassadorPost = (postId) => {
+    setConfirmModal({
+      title: 'Delete Ambassador Post',
+      message: 'Are you sure you want to delete this ambassador post? This action cannot be undone.',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'ambassadorPosts', postId))
+          showToast('Ambassador post deleted successfully!', 'success', 'bi bi-check-circle')
+          setConfirmModal(null)
+        } catch (error) {
+          console.error('Error deleting ambassador post:', error)
+          showToast('Failed to delete ambassador post', 'error', 'bi bi-exclamation-circle')
+        }
+      },
+      onCancel: () => setConfirmModal(null),
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDangerous: true
     })
   }
 
-  // Check if a school already has a representative assigned
-  const isSchoolRepresentativeAssigned = (school, excludeId = null) => {
-    return ambassadors.some(amb =>
-      amb.institution === school &&
-      amb.isAmbassador === true &&
-      amb.id !== excludeId
-    )
-  }
-
-  // Get available posts for an ambassador (only available if no one from their school is assigned yet)
-  const getAvailablePostsForAmbassador = (ambassadorId) => {
-    const ambassador = ambassadors.find(amb => amb.id === ambassadorId)
-    if (!ambassador) return AMBASSADOR_POSTS
-
-    // If already assigned, return current post
-    if (ambassador.isAmbassador && ambassador.post) {
-      return [ambassador.post]
-    }
-
-    // If school has no representative yet, all posts are available
-    if (!isSchoolRepresentativeAssigned(ambassador.institution, ambassadorId)) {
-      return AMBASSADOR_POSTS
-    }
-
-    return []
-  }
-
-  const filteredList = getFilteredAmbassadors()
-
   if (loading) {
     return (
-      <div className="ambassador-assignment">
-        <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-          <p>Loading ambassadors...</p>
+      <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+        <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+          <p>Loading ambassador posts...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="ambassador-assignment">
-      <div className="assignment-header">
-        <h2>Ambassador Post Assignment</h2>
-        <p>Assign roles to approved applicants</p>
+    <>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+        <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: '#333', margin: 0 }}>Meet Our Campus Leaders ({ambassadorPosts.length})</h3>
+        <button className="btn-invite" onClick={() => setShowAddAmbassadorModal(true)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: '#2563eb', color: '#fff', border: 'none', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, fontFamily: 'Poppins, sans-serif', transition: 'all 0.3s ease' }} onMouseEnter={(e) => { e.target.style.background = '#1d4ed8' }} onMouseLeave={(e) => { e.target.style.background = '#2563eb' }}>
+          <i className="bi bi-plus-circle"></i> Add Ambassador
+        </button>
       </div>
+      <div style={{ backgroundColor: '#fff', padding: '28px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
 
-      <div className="assignment-controls">
-        <div className="search-box">
-          <i className="bi bi-search"></i>
-          <input
-            type="text"
-            placeholder="Search by name or institution..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-        </div>
-
-        <div className="filter-buttons">
-          <button
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            All ({ambassadors.length})
-          </button>
-          <button
-            className={`filter-btn ${filter === 'assigned' ? 'active' : ''}`}
-            onClick={() => setFilter('assigned')}
-          >
-            Assigned ({ambassadors.filter(a => a.post).length})
-          </button>
-          <button
-            className={`filter-btn ${filter === 'unassigned' ? 'active' : ''}`}
-            onClick={() => setFilter('unassigned')}
-          >
-            Unassigned ({ambassadors.filter(a => !a.post).length})
-          </button>
-        </div>
-      </div>
-
-      <div className="assignment-list">
-        {filteredList.length === 0 ? (
-          <div className="empty-state">
-            <i className="bi bi-inbox"></i>
-            <p>No ambassadors found</p>
+        {ambassadorPosts.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+            <i className="bi bi-people" style={{ fontSize: '32px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+            <p>No ambassador posts yet. Create one using the "Add Ambassador" button.</p>
           </div>
         ) : (
-          <div className="ambassador-cards">
-            {filteredList.map(ambassador => (
-              <div key={ambassador.id} className="ambassador-assignment-card">
-                <div className="card-header">
-                  <div className="ambassador-info">
-                    <h3>{ambassador.name}</h3>
-                    <p className="institution">{ambassador.institution} {ambassador.post ? 'representative' : ''}</p>
-                    <p className="email">{ambassador.email}</p>
-                  </div>
-                </div>
-
-                <div className="card-actions">
-                  {ambassador.post ? (
-                    <button
-                      className="btn-remove"
-                      onClick={() => handleRemovePost(ambassador.id)}
-                      disabled={assigningId === ambassador.id}
-                    >
-                      <i className="bi bi-trash"></i> Remove Post
-                    </button>
-                  ) : isSchoolRepresentativeAssigned(ambassador.institution, ambassador.id) ? (
-                    <div className="post-selector-disabled">
-                      <p style={{ margin: 0, color: '#999', fontSize: '0.9rem' }}>
-                        <i className="bi bi-info-circle"></i> {ambassador.institution} already has a representative
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="post-selector">
-                      <select
-                        className="post-dropdown"
-                        value={selectedAmbassador === ambassador.id ? selectedPost : ''}
-                        onChange={(e) => {
-                          setSelectedAmbassador(ambassador.id)
-                          setSelectedPost(e.target.value)
-                        }}
-                      >
-                        <option value="">Select a post...</option>
-                        {getAvailablePostsForAmbassador(ambassador.id).map(post => (
-                          <option key={post} value={post}>
-                            {post}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        className="btn-assign"
-                        onClick={() => handleAssignPost(ambassador.id, selectedPost)}
-                        disabled={!selectedPost || assigningId === ambassador.id}
-                      >
-                        <i className="bi bi-check"></i> Assign
-                      </button>
-                    </div>
-                  )}
-                </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '20px' }}>
+            {ambassadorPosts.map((post) => (
+              <div key={post.id} style={{ position: 'relative' }}>
+                <AmbassadorPostCard
+                  post={post}
+                  showDeleteBtn={true}
+                  onDelete={() => handleDeleteAmbassadorPost(post.id)}
+                />
               </div>
             ))}
           </div>
         )}
       </div>
-    </div>
+
+      {confirmModal && (
+        <ConfirmModal
+          title={confirmModal.title}
+          message={confirmModal.message}
+          onConfirm={confirmModal.onConfirm}
+          onCancel={confirmModal.onCancel}
+          confirmText={confirmModal.confirmText}
+          cancelText={confirmModal.cancelText}
+          isDangerous={confirmModal.isDangerous}
+        />
+      )}
+      <AddAmbassadorModal
+        isOpen={showAddAmbassadorModal}
+        onClose={() => setShowAddAmbassadorModal(false)}
+      />
+    </>
   )
 }
 
