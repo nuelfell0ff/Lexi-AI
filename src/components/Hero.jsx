@@ -63,7 +63,7 @@ const Hero = () => {
               <a href="https://play.google.com/store/apps/details?id=com.medxapp.app&hl=en" target="_blank" rel="noopener noreferrer" className="app-store-link">
                 <img src={googlePlayBtn} alt="Google Play" className="app-store-image" />
               </a>
-              <a href="https://apps.apple.com/app/medxverse" target="_blank" rel="noopener noreferrer" className="app-store-link">
+              <a href="https://apps.apple.com/ng/app/medxverse-app/id6761197078" target="_blank" rel="noopener noreferrer" className="app-store-link">
                 <img src={appStoreBtn} alt="App Store" className="app-store-image" />
               </a>
             </div>
