@@ -128,7 +128,7 @@ const Messages = () => {
     try {
       // Convert plain text to HTML with line breaks preserved
       const plainTextMessage = emailMessage.replace(/<[^>]*>/g, '').replace(/\n/g, '<br>')
-      
+
       // Create HTML email body with styling
       const htmlMessage = `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6;">
@@ -140,7 +140,7 @@ const Messages = () => {
           </div>
         </div>
       `
-      
+
       const templateParams = {
         to_email: toEmail,
         name: userName,
