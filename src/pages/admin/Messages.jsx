@@ -126,11 +126,26 @@ const Messages = () => {
   // Send email via EmailJS
   const sendEmail = async (toEmail, userName, emailSubject, emailMessage) => {
     try {
+      // Convert plain text to HTML with line breaks preserved
+      const plainTextMessage = emailMessage.replace(/<[^>]*>/g, '').replace(/\n/g, '<br>')
+      
+      // Create HTML email body with styling
+      const htmlMessage = `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6;">
+          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            ${emailMessage}
+          </div>
+          <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #888; font-size: 12px;">
+            <p>This email was sent from Lexi AI Campus Ambassador System</p>
+          </div>
+        </div>
+      `
+      
       const templateParams = {
         to_email: toEmail,
         name: userName,
         subject: emailSubject,
-        message: emailMessage
+        message: htmlMessage
       }
 
       await emailjs.send(
@@ -353,11 +368,16 @@ const Messages = () => {
 
         setAttachedMedia(prev => [...prev, mediaData])
 
-        // Auto-insert media URL into message
+        // Auto-insert media HTML into message
         if (mediaData.type.startsWith('image/')) {
-          setMessage(prev => prev + `\n\n[Image: ${mediaData.url}]`)
+          // Insert image as HTML
+          setMessage(prev => prev + `\n\n<img src="${mediaData.url}" alt="${mediaData.name}" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px;" />`)
         } else {
-          setMessage(prev => prev + `\n\n[File: ${mediaData.name} - ${mediaData.url}]`)
+          // Insert download button for non-image files
+          const buttonHtml = `\n\n<a href="${mediaData.url}" download="${mediaData.name}" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #1E844F, #16633d); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; margin-top: 10px; font-size: 14px;" onmouseover="this.style.background='linear-gradient(135deg, #16633d, #0f4029)'" onmouseout="this.style.background='linear-gradient(135deg, #1E844F, #16633d)'">
+            <i class="bi bi-download" style="margin-right: 8px;"></i>Download: ${mediaData.name}
+          </a>`
+          setMessage(prev => prev + buttonHtml)
         }
       }
 
