@@ -126,37 +126,30 @@ const Messages = () => {
   // Send email via EmailJS
   const sendEmail = async (toEmail, userName, emailSubject, emailMessage) => {
     try {
-      // Convert plain text to HTML with line breaks preserved
-      const plainTextMessage = emailMessage.replace(/<[^>]*>/g, '').replace(/\n/g, '<br>')
-
-      // Create HTML email body with styling
-      const htmlMessage = `
-        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.6;">
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            ${emailMessage}
-          </div>
-          <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #888; font-size: 12px;">
-            <p>This email was sent from Lexi AI Campus Ambassador System</p>
-          </div>
-        </div>
-      `
+      // Process message to convert special tags to HTML
+      let processedMessage = emailMessage
+        .replace(/\[IMAGE\]\s*(.*?)\s*\[\/IMAGE\]/g, '<img src="$1" alt="Attached Image" style="max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0;" />')
+        .replace(/\[FILE\]\s*(.*?):\s*(.*?)\s*\[\/FILE\]/g, '<a href="$2" style="display: inline-block; padding: 10px 20px; background-color: #1E844F; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 10px 0;" target="_blank">📥 Download: $1</a>')
+        .replace(/\n/g, '<br>')
 
       const templateParams = {
         to_email: toEmail,
-        name: userName,
+        to_name: userName,
         subject: emailSubject,
-        message: htmlMessage
+        message: processedMessage
       }
 
-      await emailjs.send(
+      const response = await emailjs.send(
         EMAILJS_SERVICE_ID,
         EMAILJS_TEMPLATE_ID,
         templateParams,
         EMAILJS_PUBLIC_KEY
       )
 
+      console.log('Email sent successfully:', response)
       return true
     } catch (error) {
+      console.error('Email send error:', error)
       throw error
     }
   }
@@ -333,21 +326,39 @@ const Messages = () => {
       formData.append('file', file)
       formData.append('upload_preset', 'lexi-ai')
 
-      // Upload to Cloudinary
-      const response = await fetch(
-        'https://api.cloudinary.com/v1_1/datmds5xl/upload',
-        {
-          method: 'POST',
-          body: formData
-        }
-      )
+      // Upload to Cloudinary with timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
 
-      if (!response.ok) throw new Error('Upload failed')
-      const data = await response.json()
-      return {
-        url: data.secure_url,
-        type: file.type,
-        name: file.name
+      try {
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/datmds5xl/upload',
+          {
+            method: 'POST',
+            body: formData,
+            signal: controller.signal
+          }
+        )
+
+        clearTimeout(timeoutId)
+
+        if (!response.ok) {
+          const errorData = await response.json()
+          throw new Error(errorData.error?.message || 'Upload failed')
+        }
+
+        const data = await response.json()
+        return {
+          url: data.secure_url,
+          type: file.type,
+          name: file.name
+        }
+      } catch (fetchError) {
+        clearTimeout(timeoutId)
+        if (fetchError.name === 'AbortError') {
+          throw new Error('Upload timeout - please try again')
+        }
+        throw fetchError
       }
     } catch (error) {
       throw error
@@ -368,16 +379,13 @@ const Messages = () => {
 
         setAttachedMedia(prev => [...prev, mediaData])
 
-        // Auto-insert media HTML into message
+        // Auto-insert media into message
         if (mediaData.type.startsWith('image/')) {
-          // Insert image as HTML
-          setMessage(prev => prev + `\n\n<img src="${mediaData.url}" alt="${mediaData.name}" style="max-width: 100%; height: auto; border-radius: 8px; margin-top: 10px;" />`)
+          // Insert image URL for email rendering
+          setMessage(prev => prev + `\n\n[IMAGE] ${mediaData.url} [/IMAGE]`)
         } else {
-          // Insert download button for non-image files
-          const buttonHtml = `\n\n<a href="${mediaData.url}" download="${mediaData.name}" style="display: inline-block; padding: 12px 24px; background: linear-gradient(135deg, #1E844F, #16633d); color: white; text-decoration: none; border-radius: 8px; font-weight: 600; transition: all 0.3s ease; margin-top: 10px; font-size: 14px;" onmouseover="this.style.background='linear-gradient(135deg, #16633d, #0f4029)'" onmouseout="this.style.background='linear-gradient(135deg, #1E844F, #16633d)'">
-            <i class="bi bi-download" style="margin-right: 8px;"></i>Download: ${mediaData.name}
-          </a>`
-          setMessage(prev => prev + buttonHtml)
+          // Insert download link for non-image files
+          setMessage(prev => prev + `\n\n[FILE] ${mediaData.name}: ${mediaData.url} [/FILE]`)
         }
       }
 
