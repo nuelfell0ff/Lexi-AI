@@ -31,7 +31,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 80px 20px;
+  padding: 220px 20px 80px 20px;
   animation: fadeInDown 0.8s ease;
 }
 
@@ -237,40 +237,6 @@
 }
 
 /* Swiper Navigation */
-.campuus-swiper-controls-bottom {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
-  margin-top: 40px;
-}
-
-.campuus-swiper-btn-bottom {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-blue);
-  background-color: transparent;
-  color: var(--primary-blue);
-  font-size: 1.5rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-  flex-shrink: 0;
-}
-
-.campuus-swiper-btn-bottom:hover {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  transform: scale(1.1);
-}
-
-.campuus-swiper-btn-bottom i {
-  font-size: 1.3rem;
-}
-
 .campuus-swiper-nav {
   display: none;
 }
@@ -279,12 +245,23 @@
   display: none;
 }
 
+.campuus-swiper-controls-bottom {
+  display: none;
+}
+
 /* Pagination */
 .campuus-pagination {
   display: flex;
   justify-content: center;
-  gap: 12px;
+  align-items: center;
+  gap: 30px;
   margin-top: 30px;
+}
+
+.campuus-pagination-dots-container {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
 .campuus-pagination-dot {
@@ -305,6 +282,32 @@
   transform: scale(1.2);
 }
 
+.campuus-pagination-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-blue);
+  background-color: transparent;
+  color: var(--primary-blue);
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.campuus-pagination-btn:hover {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  transform: scale(1.1);
+}
+
+.campuus-pagination-btn i {
+  font-size: 1.3rem;
+}
+
 /* Mobile Slider */
 .campuus-benefits-slider {
   display: none;
@@ -320,42 +323,7 @@
 }
 
 .campuus-slider-controls {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 30px;
-}
-
-.campuus-slider-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 2px solid var(--primary-blue);
-  background-color: transparent;
-  color: var(--primary-blue);
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.campuus-slider-btn:hover {
-  background-color: var(--primary-blue);
-  color: var(--white);
-  transform: scale(1.1);
-}
-
-.campuus-slider-btn.light {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.campuus-slider-btn.light:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border-color: var(--white);
-  color: var(--white);
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -433,9 +401,17 @@
 
 .campuus-marquee-track {
   display: flex;
+  flex-direction: column;
   gap: 20px;
-  animation: scroll-infinite 30s linear infinite;
+  width: 100%;
+}
+
+.campuus-marquee-row {
+  display: flex;
+  gap: 20px;
+  animation: scroll-infinite 25s linear infinite;
   width: max-content;
+  padding: 0 20px;
 }
 
 .campuus-university-badge-marquee {
@@ -443,9 +419,8 @@
   align-items: center;
   gap: 12px;
   background-color: var(--white);
-  padding: 16px 24px;
+  padding: 12px 20px;
   border-radius: 25px;
-  white-space: nowrap;
   font-weight: 600;
   color: var(--primary-blue);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
@@ -463,7 +438,7 @@
   }
 
   100% {
-    transform: translateX(calc(-50% - 10px));
+    transform: translateX(calc(-33.333%));
   }
 }
 
@@ -473,8 +448,8 @@
 
 /* Stories Section */
 .campuus-stories {
-  background: linear-gradient(135deg, var(--primary-blue) 0%, #0f2a4a 100%);
-  color: var(--white);
+  background: var(--light-gray);
+  color: var(--dark-text);
   padding: 80px 20px;
 }
 
@@ -484,6 +459,7 @@
   text-align: center;
   margin-bottom: 60px;
   animation: fadeInDown 0.8s ease;
+  color: var(--dark-text);
 }
 
 .campuus-stories-grid {
@@ -550,18 +526,23 @@
   text-align: center;
 }
 
-@media (max-width: 768px) {
-  .campuus-stories-grid {
-    display: none;
-  }
+.campuus-stories-slider .campuus-story-card {
+  max-width: 100%;
+  margin-bottom: 30px;
+}
 
-  .campuus-stories-slider {
-    display: block;
-  }
+.campuus-pagination.mobile-stories {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
 
-  .campuus-stories-slider .campuus-story-card {
-    max-width: 100%;
-  }
+.campuus-campus-leaders-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
 
 /* Blog Stories Section */
@@ -701,11 +682,65 @@
 .campuus-badge-card {
   background: linear-gradient(135deg, var(--primary-green) 0%, #157a45 100%);
   color: var(--white);
-  padding: 50px 40px;
+  padding: 60px 40px;
   border-radius: var(--border-radius);
   text-align: center;
   box-shadow: 0 15px 35px rgba(30, 132, 79, 0.3);
   animation: slideUp 0.8s ease;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.campuus-badge-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.campuus-badge-card::after {
+  content: '';
+  position: absolute;
+  bottom: -50%;
+  left: -50%;
+  width: 250px;
+  height: 250px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.campuus-badge-icon {
+  font-size: 5rem;
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.campuus-badge-icon i {
+  display: inline-block;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 .campuus-badge-card h3 {
@@ -713,18 +748,69 @@
   margin-bottom: 10px;
   opacity: 0.9;
   font-weight: 500;
+  position: relative;
+  z-index: 1;
+  color: #fff;
 }
 
 .campuus-badge-card h2 {
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  margin-bottom: 15px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  margin-bottom: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  position: relative;
+  z-index: 1;
+  color: #fff;
 }
 
 .campuus-badge-subtitle {
-  font-size: 0.95rem;
+  font-size: 1rem;
   opacity: 0.85;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+.campuus-badge-description {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  color: #fff;
+}
+
+.campuus-badge-email {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 15px 0;
+  position: relative;
+  z-index: 1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fff;
+  opacity: 0.95;
+}
+
+.campuus-badge-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.campuus-download-btn {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.campuus-download-btn i {
+  font-size: 1.1rem;
 }
 
 @media (max-width: 768px) {
@@ -821,6 +907,11 @@
   align-items: center;
   gap: 10px;
   transition: var(--transition);
+  border: none;
+  background: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .campuus-cta-link:hover {
@@ -917,6 +1008,10 @@
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
+  .campuus-campus-leaders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
   .campuus-blog-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
@@ -928,6 +1023,10 @@
 
 @media (max-width: 768px) {
   .campuus-benefits-swiper-wrapper {
+    display: none;
+  }
+
+  .campuus-swiper-controls-bottom {
     display: none;
   }
 
@@ -950,132 +1049,142 @@
 
   .campuus-pagination.mobile {
     display: flex;
+    margin-top: 25px;
   }
 
-  @media (max-width: 768px) {
-    .campuus-hero {
-      padding: 60px 20px;
-      min-height: 400px;
-    }
-
-    .campuus-hero-title {
-      font-size: 2rem;
-    }
-
-    .campuus-hero-subtitle {
-      font-size: 1rem;
-    }
-
-    .campuus-section-title {
-      font-size: 1.8rem;
-      margin-bottom: 40px;
-    }
-
-    .campuus-benefit-card {
-      padding: 30px;
-    }
-
-    .campuus-qualities {
-      padding: 80px 20px;
-    }
-
-    .campuus-qualities-title {
-      font-size: 2rem;
-    }
-
-    .campuus-universities-grid {
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-    }
-
-    .campuus-university-badge {
-      padding: 15px;
-      gap: 10px;
-    }
-
-    .campuus-blog-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .campuus-blog-card {
-      display: grid;
-      grid-template-columns: 150px 1fr;
-    }
-
-    .campuus-blog-image {
-      aspect-ratio: 1;
-    }
-
-    .campuus-blog-content {
-      padding: 20px;
-    }
-
-    .campuus-badge-card {
-      padding: 40px 20px;
-    }
-
-    .campuus-faq-question {
-      padding: 16px;
-      font-size: 1rem;
-    }
-
-    .campuus-faq-answer {
-      padding: 16px;
-    }
+  .campuus-pagination.mobile-stories {
+    display: flex;
   }
 
-  @media (max-width: 480px) {
-    .campuus-gallery-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
+  .campuus-slider-controls {
+    display: none;
+  }
 
-    .campuus-hero {
-      padding: 40px 15px;
-      min-height: 350px;
-    }
+  .campuus-hero {
+    padding: 180px 20px 60px 20px;
+    min-height: 400px;
+  }
 
-    .campuus-hero-title {
-      font-size: 1.5rem;
-    }
+  .campuus-hero-title {
+    font-size: 2rem;
+  }
 
-    .campuus-hero-subtitle {
-      font-size: 0.9rem;
-    }
+  .campuus-hero-subtitle {
+    font-size: 1rem;
+  }
 
-    .campuus-btn {
-      padding: 12px 24px;
-      font-size: 0.95rem;
-      min-width: auto;
-    }
+  .campuus-section-title {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+  }
 
-    .campuus-section-title {
-      font-size: 1.5rem;
-    }
+  .campuus-benefit-card {
+    padding: 30px;
+  }
 
-    .campuus-qualities {
-      padding: 60px 15px;
-    }
+  .campuus-qualities {
+    padding: 80px 20px;
+  }
 
-    .campuus-qualities-title {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-    }
+  .campuus-qualities-title {
+    font-size: 2.5rem;
+  }
 
-    .campuus-universities-grid {
-      grid-template-columns: 1fr;
-    }
+  .campuus-universities-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+  }
 
-    .campuus-badge-form-group input {
-      min-width: auto;
-    }
+  .campuus-university-badge {
+    padding: 15px;
+    gap: 10px;
+  }
 
-    .campuus-blog-card {
-      grid-template-columns: 1fr;
-    }
+  .campuus-campus-leaders-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
 
-    .campuus-blog-image {
-      aspect-ratio: 16/9;
-    }
+  .campuus-blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campuus-blog-card {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+  }
+
+  .campuus-blog-image {
+    aspect-ratio: 1;
+  }
+
+  .campuus-blog-content {
+    padding: 20px;
+  }
+
+  .campuus-badge-card {
+    padding: 40px 20px;
+  }
+
+  .campuus-faq-question {
+    padding: 16px;
+    font-size: 1rem;
+  }
+
+  .campuus-faq-answer {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .campuus-hero {
+    padding: 150px 20px 60px 20px;
+  }
+
+  .campuus-hero-title {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  .campuus-hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .campuus-btn {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    min-width: auto;
+  }
+
+  .campuus-section-title {
+    font-size: 2.5rem;
+  }
+
+  .campuus-qualities {
+    padding: 60px 15px;
+  }
+
+  .campuus-qualities-title {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+  }
+
+  .campuus-universities-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campuus-campus-leaders-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .campuus-badge-form-group input {
+    min-width: auto;
+  }
+
+  .campuus-blog-card {
+    grid-template-columns: 1fr;
+  }
+
+  .campuus-blog-image {
+    aspect-ratio: 16/9;
   }
 }

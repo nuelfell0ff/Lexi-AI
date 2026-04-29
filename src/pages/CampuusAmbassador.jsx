@@ -1,14 +1,47 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { collection, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase';
 import './CampuusAmbassador.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import AmbassadorPostCard from '../components/AmbassadorPostCard';
 
 const CampuusAmbassador = () => {
+  const navigate = useNavigate();
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [activeBenefitIndex, setActiveBenefitIndex] = useState(0);
   const [expandedFaq, setExpandedFaq] = useState(null);
   const [email, setEmail] = useState('');
   const [emailSuccess, setEmailSuccess] = useState(false);
+  const [generatedBadgeEmail, setGeneratedBadgeEmail] = useState(null);
+  const [ambassadorPosts, setAmbassadorPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch ambassador posts from Firestore
+  useEffect(() => {
+    setLoading(true);
+    const q = query(collection(db, 'ambassadorPosts'), orderBy('createdAt', 'desc'));
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const postsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }));
+        setAmbassadorPosts(postsData);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error processing ambassador posts snapshot:', error);
+        setLoading(false);
+      }
+    }, (error) => {
+      console.error('Error listening to ambassador posts:', error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // Sample ambassador gallery images
   const ambassadorImages = [
@@ -153,9 +186,30 @@ const CampuusAmbassador = () => {
   const handleEmailSubmit = (e) => {
     e.preventDefault();
     if (email) {
+      setGeneratedBadgeEmail(email);
       setEmailSuccess(true);
-      setEmail('');
       setTimeout(() => setEmailSuccess(false), 3000);
+    }
+  };
+
+  const downloadBadge = () => {
+    const badgeElement = document.getElementById('generated-badge-card');
+    if (badgeElement) {
+      // Use html2canvas to convert the DOM element to an image
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      script.onload = () => {
+        window.html2canvas(badgeElement, { scale: 2, backgroundColor: null }).then((canvas) => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = `lexi-ai-ambassador-badge-${generatedBadgeEmail.split('@')[0]}.png`;
+          link.click();
+          // Restore to default after download
+          setGeneratedBadgeEmail(null);
+          setEmail('');
+        });
+      };
+      document.head.appendChild(script);
     }
   };
 
@@ -168,9 +222,9 @@ const CampuusAmbassador = () => {
         <div className="campuus-hero-content">
           <h1 className="campuus-hero-title">Become a Lexi AI Ambassador</h1>
           <p className="campuus-hero-subtitle">Learn. Lead. Grow.</p>
-          <a href="#apply" className="campuus-btn campuus-btn-primary">
+          <button onClick={() => navigate('/ambassador-apply')} className="campuus-btn campuus-btn-primary">
             Register Here
-          </a>
+          </button>
         </div>
       </section>
 
@@ -213,13 +267,13 @@ const CampuusAmbassador = () => {
           </div>
 
           {/* Navigation Controls - Below Cards */}
-          <div className="campuus-swiper-controls-bottom">
-            <button className="campuus-swiper-btn-bottom prev" onClick={() => handleBenefitNav('prev')}>
+          <div className="campuus-pagination">
+            <button className="campuus-pagination-btn prev" onClick={() => handleBenefitNav('prev')}>
               <i className="bi bi-chevron-left"></i>
             </button>
 
             {/* Pagination Dots */}
-            <div className="campuus-pagination">
+            <div className="campuus-pagination-dots-container">
               {[...Array(Math.ceil(benefits.length / 3))].map((_, idx) => (
                 <button
                   key={idx}
@@ -229,7 +283,7 @@ const CampuusAmbassador = () => {
               ))}
             </div>
 
-            <button className="campuus-swiper-btn-bottom next" onClick={() => handleBenefitNav('next')}>
+            <button className="campuus-pagination-btn next" onClick={() => handleBenefitNav('next')}>
               <i className="bi bi-chevron-right"></i>
             </button>
           </div>
@@ -243,22 +297,22 @@ const CampuusAmbassador = () => {
               <h3>{benefits[activeBenefitIndex].title}</h3>
               <p>{benefits[activeBenefitIndex].description}</p>
             </div>
-            <div className="campuus-slider-controls">
-              <button className="campuus-slider-btn" onClick={() => handleBenefitNav('prev')}>
-                &lt;
-              </button>
-              <button className="campuus-slider-btn" onClick={() => handleBenefitNav('next')}>
-                &gt;
-              </button>
-            </div>
             <div className="campuus-pagination mobile">
-              {benefits.map((_, idx) => (
-                <button
-                  key={idx}
-                  className={`campuus-pagination-dot ${activeBenefitIndex === idx ? 'active' : ''}`}
-                  onClick={() => setActiveBenefitIndex(idx)}
-                />
-              ))}
+              <button className="campuus-pagination-btn prev" onClick={() => handleBenefitNav('prev')}>
+                <i className="bi bi-chevron-left"></i>
+              </button>
+              <div className="campuus-pagination-dots-container">
+                {benefits.map((_, idx) => (
+                  <button
+                    key={idx}
+                    className={`campuus-pagination-dot ${activeBenefitIndex === idx ? 'active' : ''}`}
+                    onClick={() => setActiveBenefitIndex(idx)}
+                  />
+                ))}
+              </div>
+              <button className="campuus-pagination-btn next" onClick={() => handleBenefitNav('next')}>
+                <i className="bi bi-chevron-right"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -269,9 +323,9 @@ const CampuusAmbassador = () => {
         <div className="campuus-qualities-content">
           <p className="campuus-qualities-label">To be a Lexi AI ambassador, you should:</p>
           <h2 className="campuus-qualities-title">Be an effective communicator</h2>
-          <a href="#apply" className="campuus-btn campuus-btn-white">
+          <button onClick={() => navigate('/ambassador-apply')} className="campuus-btn campuus-btn-white">
             Register Here
-          </a>
+          </button>
         </div>
       </section>
 
@@ -283,15 +337,24 @@ const CampuusAmbassador = () => {
           {/* Infinite Scroll Marquee */}
           <div className="campuus-universities-marquee">
             <div className="campuus-marquee-track">
-              {[...universities, ...universities].map((uni, idx) => (
-                <div key={idx} className="campuus-university-badge-marquee">
-                  <i className="bi bi-mortarboard"></i>
-                  <span>{uni}</span>
-                </div>
-              ))}
+              <div className="campuus-marquee-row">
+                {[...universities.slice(0, 4), ...universities.slice(0, 4), ...universities.slice(0, 4)].map((uni, idx) => (
+                  <div key={idx} className="campuus-university-badge-marquee">
+                    <i className="bi bi-mortarboard"></i>
+                    <span>{uni}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="campuus-marquee-row">
+                {[...universities.slice(4), ...universities.slice(4), ...universities.slice(4)].reverse().map((uni, idx) => (
+                  <div key={idx} className="campuus-university-badge-marquee">
+                    <i className="bi bi-mortarboard"></i>
+                    <span>{uni}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-
           <div className="campuus-universities-action">
             <a href="#apply" className="campuus-btn campuus-btn-primary">
               Find Your Campus
@@ -303,37 +366,30 @@ const CampuusAmbassador = () => {
       {/* Stories Section */}
       <section className="campuus-stories">
         <div className="campuus-container">
-          <h2 className="campuus-stories-title">Stories that speak for themselves</h2>
+          <h2 className="campuus-stories-title">Campus Leaders</h2>
 
-          {/* Desktop Grid */}
-          <div className="campuus-stories-grid">
-            {stories.map((story) => (
-              <div key={story.id} className="campuus-story-card">
-                <div className="campuus-story-image">
-                  <img src={story.image} alt={story.title} />
-                  <div className="campuus-play-icon">▶</div>
+          {!loading && ambassadorPosts.length > 0 && (
+            <div className="campuus-campus-leaders-grid">
+              {ambassadorPosts.map((post) => (
+                <div key={post.id}>
+                  <AmbassadorPostCard post={post} showRepresentativeLabel={true} />
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
 
-          {/* Mobile Slider */}
-          <div className="campuus-stories-slider">
-            <div className="campuus-story-card">
-              <div className="campuus-story-image">
-                <img src={stories[activeStoryIndex].image} alt={stories[activeStoryIndex].title} />
-                <div className="campuus-play-icon">▶</div>
-              </div>
+          {!loading && ambassadorPosts.length === 0 && (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <i className="bi bi-people" style={{ fontSize: '32px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+              <p>No campus leaders available yet.</p>
             </div>
-            <div className="campuus-slider-controls">
-              <button className="campuus-slider-btn light" onClick={() => handleStoryNav('prev')}>
-                &lt;
-              </button>
-              <button className="campuus-slider-btn light" onClick={() => handleStoryNav('next')}>
-                &gt;
-              </button>
+          )}
+
+          {loading && (
+            <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>
+              <p>Loading campus leaders...</p>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
@@ -382,11 +438,21 @@ const CampuusAmbassador = () => {
               {emailSuccess && <p className="campuus-success-msg">Badge generated successfully!</p>}
             </div>
             <div className="campuus-badge-preview">
-              <div className="campuus-badge-card">
+              <div className="campuus-badge-card" id="generated-badge-card">
+                <div className="campuus-badge-icon">
+                  <i className="bi bi-award"></i>
+                </div>
                 <h3>I'm a</h3>
-                <h2>Lexi AI Ambassador</h2>
+                <h2>Lexi AI<br />Ambassador</h2>
                 <p className="campuus-badge-subtitle">Empowering Healthcare Innovation</p>
+                {generatedBadgeEmail && <p className="campuus-badge-email">{generatedBadgeEmail.split('@')[0]}</p>}
+                <p className="campuus-badge-description">Join a community of changemakers dedicated to advancing healthcare through AI innovation and student leadership</p>
               </div>
+              {generatedBadgeEmail && (
+                <button onClick={downloadBadge} className="campuus-btn campuus-btn-primary campuus-download-btn">
+                  <i className="bi bi-download"></i> Download Badge
+                </button>
+              )}
             </div>
           </div>
         </div>
@@ -415,9 +481,9 @@ const CampuusAmbassador = () => {
             ))}
           </div>
           <div className="campuus-faq-cta">
-            <a href="#" className="campuus-cta-link">
+            <button onClick={() => navigate('/ambassador-apply')} className="campuus-cta-link">
               Become an Ambassador <span>→</span>
-            </a>
+            </button>
           </div>
         </div>
       </section>
