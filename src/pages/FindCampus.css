@@ -1,0 +1,183 @@
+/* Find Campus Page */
+:root {
+  --primary-blue: #194066;
+  --primary-green: #1e844f;
+  --light-gray: #f5f5f5;
+  --dark-text: #1a1a1a;
+  --light-text: #666;
+  --white: #ffffff;
+  --border-radius: 12px;
+  --transition: all 0.3s ease;
+}
+
+.find-campus-page {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.find-campus-hero {
+  background: linear-gradient(135deg, var(--primary-blue) 0%, #0f2a4a 100%);
+  color: var(--white);
+  padding: 100px 20px;
+  text-align: center;
+  animation: fadeInDown 0.8s ease;
+}
+
+.find-campus-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.find-campus-title {
+  font-size: clamp(2rem, 8vw, 3.5rem);
+  font-weight: 700;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.find-campus-subtitle {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  opacity: 0.9;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Universities List Section */
+.find-campus-list-section {
+  padding: 80px 20px;
+  background-color: var(--light-gray);
+}
+
+.universities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.university-list-item {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: var(--transition);
+  animation: slideUp 0.6s ease;
+}
+
+.university-list-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.university-icon {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, #157a45 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: var(--white);
+}
+
+.university-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.university-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--dark-text);
+  line-height: 1.4;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .find-campus-hero {
+    padding: 60px 20px;
+  }
+
+  .find-campus-title {
+    margin-bottom: 15px;
+  }
+
+  .university-list-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .university-info {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .find-campus-hero {
+    padding: 50px 20px;
+  }
+
+  .find-campus-title {
+    font-size: 2rem;
+  }
+
+  .find-campus-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .universities-list {
+    gap: 15px;
+  }
+
+  .university-list-item {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .university-icon {
+    width: 45px;
+    height: 45px;
+    font-size: 20px;
+  }
+
+  .university-info h3 {
+    font-size: 1rem;
+  }
+}

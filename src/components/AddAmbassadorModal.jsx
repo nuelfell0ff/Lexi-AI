@@ -90,6 +90,19 @@ const AddAmbassadorModal = ({ isOpen, onClose, onSuccess }) => {
 
     setLoading(true)
     try {
+      // Check if an ambassador from this institution already exists
+      const q = query(
+        collection(db, 'ambassadorPosts'),
+        where('institution', '==', selectedApplicant.institution)
+      )
+      const querySnapshot = await getDocs(q)
+
+      if (querySnapshot.docs.length > 0) {
+        showToast(`An ambassador from ${selectedApplicant.institution} is already assigned. Only one representative per school is allowed.`, 'error', 'bi bi-exclamation-circle')
+        setLoading(false)
+        return
+      }
+
       let imageUrl = null
       if (image) {
         imageUrl = await uploadImageToCloudinary(image)

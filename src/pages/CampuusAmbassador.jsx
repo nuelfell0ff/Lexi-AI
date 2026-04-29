@@ -6,6 +6,10 @@ import './CampuusAmbassador.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AmbassadorPostCard from '../components/AmbassadorPostCard';
+import img1 from '../assets/IMG-20260418-WA0090.jpg';
+import img2 from '../assets/IMG-20260418-WA0064.jpg';
+import img3 from '../assets/IMG-20260418-WA0084.jpg';
+import img4 from '../assets/IMG-20260418-WA0086.jpg';
 
 const CampuusAmbassador = () => {
   const navigate = useNavigate();
@@ -45,10 +49,10 @@ const CampuusAmbassador = () => {
 
   // Sample ambassador gallery images
   const ambassadorImages = [
-    { id: 1, url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop' },
-    { id: 2, url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=400&fit=crop' },
-    { id: 3, url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=400&fit=crop' },
-    { id: 4, url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=400&fit=crop' },
+    { id: 1, url: img1 },
+    { id: 2, url: img2 },
+    { id: 3, url: img3 },
+    { id: 4, url: img4 },
   ];
 
   const benefits = [
@@ -356,7 +360,7 @@ const CampuusAmbassador = () => {
             </div>
           </div>
           <div className="campuus-universities-action">
-            <a href="#apply" className="campuus-btn campuus-btn-primary">
+            <a href="/find-campus" className="campuus-btn campuus-btn-primary">
               Find Your Campus
             </a>
           </div>
