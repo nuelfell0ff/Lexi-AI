@@ -279,14 +279,19 @@ const CampuusAmbassador = () => {
       <section className="campuus-universities">
         <div className="campuus-container">
           <h2 className="campuus-section-title">Shaping minds one campus at a time</h2>
-          <div className="campuus-universities-grid">
-            {universities.map((uni, idx) => (
-              <div key={idx} className="campuus-university-badge">
-                <span className="campuus-uni-icon">🎓</span>
-                <span className="campuus-uni-name">{uni}</span>
-              </div>
-            ))}
+
+          {/* Infinite Scroll Marquee */}
+          <div className="campuus-universities-marquee">
+            <div className="campuus-marquee-track">
+              {[...universities, ...universities].map((uni, idx) => (
+                <div key={idx} className="campuus-university-badge-marquee">
+                  <i className="bi bi-mortarboard"></i>
+                  <span>{uni}</span>
+                </div>
+              ))}
+            </div>
           </div>
+
           <div className="campuus-universities-action">
             <a href="#apply" className="campuus-btn campuus-btn-primary">
               Find Your Campus
