@@ -14,6 +14,7 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
   padding: 100px 40px 80px;
   min-height: auto;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .faqs-container {
@@ -25,6 +26,7 @@
 .faqs-header {
   text-align: center;
   margin-bottom: 60px;
+  animation: fadeInDown 0.6s ease-out;
 }
 
 .faqs-subtitle {
@@ -34,6 +36,7 @@
   letter-spacing: 2px;
   margin: 0 0 15px 0;
   font-weight: 600;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
 }
 
 .faqs-title {
@@ -42,6 +45,19 @@
   color: var(--text-dark);
   margin: 0;
   line-height: 1.2;
+  animation: fadeInDown 0.6s ease-out 0.2s both;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Accordion */
@@ -58,6 +74,39 @@
   border: 1px solid var(--border-light);
   overflow: hidden;
   transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.accordion-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.accordion-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.accordion-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.accordion-item:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.accordion-item:nth-child(5) {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .accordion-item:hover {
@@ -86,7 +135,8 @@
 }
 
 .accordion-header:hover {
-  background: rgba(30, 132, 79, 0.02);
+  background: rgba(30, 132, 79, 0.05);
+  transform: translateX(5px);
 }
 
 /* Accordion Question */

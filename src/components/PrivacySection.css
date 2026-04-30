@@ -87,10 +87,27 @@
   border-radius: 0;
   transition: all 0.3s ease;
   box-shadow: none;
+  animation: fadeInLeft 0.6s ease-out backwards;
+}
+
+.feature-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.feature-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.feature-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.feature-item:nth-child(4) {
+  animation-delay: 0.25s;
 }
 
 .feature-item:hover {
-  transform: translateY(0);
+  transform: translateX(8px);
   box-shadow: none;
   background: transparent;
 }
@@ -105,6 +122,12 @@
   flex-shrink: 0;
   color: var(--primary-blue);
   width: 50px;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+  color: var(--primary-green);
 }
 
 .feature-icon svg {
@@ -149,11 +172,13 @@
   border-radius: 0;
   box-shadow: none;
   transition: transform 0.3s ease;
+  animation: float 3s ease-in-out infinite;
 }
 
 .privacy-image:hover {
   transform: translateY(0);
   box-shadow: none;
+  animation-play-state: paused;
 }
 
 /* Animations */

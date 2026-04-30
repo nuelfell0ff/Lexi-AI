@@ -15,12 +15,12 @@
 
 /* Loading Content */
 .loading-content {
+  position: relative;
+  width: 150px;
+  height: 150px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 40px;
-  position: relative;
 }
 
 /* Loading Logo */
@@ -29,7 +29,6 @@
   height: 50px;
   object-fit: contain;
   animation: fluctuate 1.5s ease-in-out infinite;
-  position: relative;
   z-index: 10;
 }
 
@@ -42,9 +41,11 @@
   border-top: 5px solid #194066;
   animation: spin 2s linear infinite;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 /* Fluctuate Animation - Logo */
@@ -68,11 +69,11 @@
 /* Spin Animation - Spinner */
 @keyframes spin {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg);
+    transform: rotate(0deg);
   }
 
   100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 

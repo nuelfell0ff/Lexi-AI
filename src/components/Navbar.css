@@ -18,6 +18,7 @@
   z-index: 999;
   transition: box-shadow 0.3s ease;
   width: 100%;
+  animation: slideInDown 0.5s ease-out;
 }
 
 .navbar-container.open {
@@ -40,12 +41,18 @@
   cursor: pointer;
   flex-shrink: 0;
   height: 100%;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .logo-img {
   width: 100px;
   height: 40px;
   object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.navbar-logo:hover .logo-img {
+  transform: scale(1.05);
 }
 
 /* Navigation Menu */
@@ -69,6 +76,39 @@
   display: flex;
   align-items: center;
   height: 100%;
+  animation: fadeInDown 0.5s ease-out backwards;
+  transition: all 0.3s ease;
+}
+
+.nav-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.nav-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.nav-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.nav-item:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
 }
 
 /* Get Started Button */
@@ -90,6 +130,15 @@
   height: fit-content;
   text-decoration: none;
   transition: all 0.3s ease;
+  animation: fadeInDown 0.5s ease-out 0.3s both;
+}
+
+.btn-get-started:hover {
+  background: transparent;
+  color: #194066;
+  border-color: #194066;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(25, 64, 102, 0.2);
 }
 
 @media (max-width: 991px) {

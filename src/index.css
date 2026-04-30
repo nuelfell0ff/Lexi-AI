@@ -11,3 +11,277 @@ html,
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+/* ===== ANIMATION KEYFRAMES ===== */
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Down Animation */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade In Left Animation */
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Fade In Right Animation */
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Scale In Animation */
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Bounce In Animation */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Float Animation */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Glow Animation */
+@keyframes glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(30, 132, 79, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgba(30, 132, 79, 0.6);
+  }
+}
+
+/* Rotate In Animation */
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* Swipe In Animation */
+@keyframes swipeIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* ===== ANIMATION CLASSES ===== */
+
+/* Fade In */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Fade In Up (for scroll animations) */
+.animate-fade-in-up {
+  animation: fadeInUp 0.7s ease-out forwards;
+}
+
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade In Down */
+.animate-fade-in-down {
+  animation: fadeInDown 0.7s ease-out forwards;
+}
+
+/* Fade In Left */
+.animate-fade-in-left {
+  animation: fadeInLeft 0.7s ease-out forwards;
+}
+
+/* Fade In Right */
+.animate-fade-in-right {
+  animation: fadeInRight 0.7s ease-out forwards;
+}
+
+/* Scale In */
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out forwards;
+}
+
+/* Bounce In */
+.animate-bounce-in {
+  animation: bounceIn 0.7s ease-out forwards;
+}
+
+/* Slide In Left */
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+/* Slide In Right */
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+/* Pulse */
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Float */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Glow */
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+/* Rotate In */
+.animate-rotate-in {
+  animation: rotateIn 0.7s ease-out forwards;
+}
+
+/* Swipe In */
+.animate-swipe-in {
+  animation: swipeIn 0.6s ease-out forwards;
+  transform-origin: left;
+}

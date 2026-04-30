@@ -20,6 +20,7 @@
   margin-bottom: 60px;
   padding-bottom: 40px;
   border-bottom: 2px solid #f0f0f0;
+  animation: fadeInDown 0.6s ease-out;
 }
 
 .symptom-title {
@@ -29,6 +30,7 @@
   margin-bottom: 16px;
   font-family: 'Poppins', sans-serif;
   letter-spacing: -0.5px;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
 }
 
 .symptom-subtitle {
@@ -39,6 +41,7 @@
   line-height: 1.6;
   max-width: 600px;
   margin: 0 auto;
+  animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 /* Main Content */
@@ -67,6 +70,7 @@
 .symptom-section {
   margin-bottom: 60px;
   text-align: center;
+  animation: fadeInDown 0.6s ease-out;
 }
 
 .symptom-section-title {
@@ -78,6 +82,39 @@
   font-family: 'Poppins', sans-serif;
   text-align: center;
   position: relative;
+  animation: fadeInDown 0.6s ease-out 0.1s both;
+}
+
+@keyframes fadeInDown {
+  \n from {
+    \n opacity: 0;
+    \n transform: translateY(-20px);
+    \n
+  }
+
+  \n to {
+    \n opacity: 1;
+    \n transform: translateY(0);
+    \n
+  }
+
+  \n
+}
+
+\n\n@keyframes fadeInUp {
+  \n from {
+    \n opacity: 0;
+    \n transform: translateY(20px);
+    \n
+  }
+
+  \n to {
+    \n opacity: 1;
+    \n transform: translateY(0);
+    \n
+  }
+
+  \n
 }
 
 /* How It Works Steps */
@@ -86,6 +123,28 @@
   gap: 25px;
   margin-bottom: 30px;
   align-items: flex-start;
+  animation: fadeInLeft 0.6s ease-out backwards;
+  \n transition: all 0.3s ease;
+}
+
+.step-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.step-item:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.step-item:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.step-item:nth-child(4) {
+  animation-delay: 0.25s;
+}
+
+.step-item:hover {
+  transform: translateX(10px);
 }
 
 .step-num {
@@ -101,6 +160,29 @@
   font-size: 1.2rem;
   flex-shrink: 0;
   font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.step-item:hover .step-num {
+  background-color: #1e844f;
+  transform: scale(1.2);
+  box-shadow: 0 8px 16px rgba(30, 132, 79, 0.3);
+}
+
+@keyframes fadeInLeft {
+  \n from {
+    \n opacity: 0;
+    \n transform: translateX(-20px);
+    \n
+  }
+
+  \n to {
+    \n opacity: 1;
+    \n transform: translateX(0);
+    \n
+  }
+
+  \n
 }
 
 .step-item p {
@@ -118,6 +200,29 @@
   padding: 30px;
   border-radius: 4px;
   margin-bottom: 60px;
+  animation: slideInLeft 0.6s ease-out;
+  transition: all 0.3s ease;
+}
+
+.symptom-important:hover {
+  box-shadow: 0 8px 20px rgba(25, 64, 102, 0.15);
+  transform: translateX(5px);
+}
+
+@keyframes slideInLeft {
+  \n from {
+    \n opacity: 0;
+    \n transform: translateX(-30px);
+    \n
+  }
+
+  \n to {
+    \n opacity: 1;
+    \n transform: translateX(0);
+    \n
+  }
+
+  \n
 }
 
 .symptom-important-title {
@@ -159,11 +264,32 @@
   background: #f9fbfc;
   border-radius: 6px;
   transition: all 0.3s ease;
+  animation: fadeInUp 0.6s ease-out backwards;
+}
+
+.symptom-features-list li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.symptom-features-list li:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.symptom-features-list li:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.symptom-features-list li:nth-child(4) {
+  animation-delay: 0.25s;
 }
 
 .symptom-features-list li:hover {
   background: #f0f5f9;
-  transform: translateX(6px);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(25, 64, 102, 0.1);
+}
+
+transform: translateX(6px);
 }
 
 .symptom-features-list li:before {
