@@ -86,35 +86,27 @@
 }
 
 @keyframes fadeInDown {
-  \n from {
-    \n opacity: 0;
-    \n transform: translateY(-20px);
-    \n
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
   }
 
-  \n to {
-    \n opacity: 1;
-    \n transform: translateY(0);
-    \n
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-
-  \n
 }
 
-\n\n@keyframes fadeInUp {
-  \n from {
-    \n opacity: 0;
-    \n transform: translateY(20px);
-    \n
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  \n to {
-    \n opacity: 1;
-    \n transform: translateY(0);
-    \n
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-
-  \n
 }
 
 /* How It Works Steps */
@@ -124,7 +116,7 @@
   margin-bottom: 30px;
   align-items: flex-start;
   animation: fadeInLeft 0.6s ease-out backwards;
-  \n transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .step-item:nth-child(1) {
@@ -170,19 +162,15 @@
 }
 
 @keyframes fadeInLeft {
-  \n from {
-    \n opacity: 0;
-    \n transform: translateX(-20px);
-    \n
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
   }
 
-  \n to {
-    \n opacity: 1;
-    \n transform: translateX(0);
-    \n
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-
-  \n
 }
 
 .step-item p {
@@ -210,19 +198,15 @@
 }
 
 @keyframes slideInLeft {
-  \n from {
-    \n opacity: 0;
-    \n transform: translateX(-30px);
-    \n
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
   }
 
-  \n to {
-    \n opacity: 1;
-    \n transform: translateX(0);
-    \n
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
-
-  \n
 }
 
 .symptom-important-title {
@@ -287,9 +271,6 @@
   background: #f0f5f9;
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(25, 64, 102, 0.1);
-}
-
-transform: translateX(6px);
 }
 
 .symptom-features-list li:before {

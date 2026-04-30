@@ -22,9 +22,9 @@ const templates = {
     subject: 'Upcoming Event: Join Us for an Exclusive Webinar',
     message: `We're excited to invite you to an exclusive webinar featuring our latest AI-powered healthcare solutions.\n\nDate: [Event Date]\nTime: [Event Time]\nLocation: [Event Location/Link]\n\nReserve your spot and learn more about how AI is transforming healthcare!\n\nBest regards,\nLexi AI Team`
   },
-  reminder: {
-    subject: 'Reminder: Active Ambassador Status',
-    message: `This is a friendly reminder to keep your ambassador activities updated. Your engagement and contributions are valuable to our community.\n\nIf you have any questions or need support, feel free to reach out.\n\nBest regards,\nLexi AI Team`
+  birthday: {
+    subject: 'Happy Birthday! 🎉',
+    message: `Happy Birthday, [Name].\n\nAs an ambassador of Lexi AI, your dedication to advancing accessible healthcare inspires us all. Thank you for the energy, excellence, and heart you bring to the team. May this new year open doors to greater impact, good health, and joy.\n\nKeep making history with us!\n\nCc... Lexi AI Team`
   }
 }
 
@@ -126,8 +126,9 @@ const Messages = () => {
   // Send email via EmailJS
   const sendEmail = async (toEmail, userName, emailSubject, emailMessage) => {
     try {
-      // Process message to convert special tags to HTML
+      // Process message to convert special tags to HTML and replace placeholders
       let processedMessage = emailMessage
+        .replace(/\[Name\]/g, userName)
         .replace(/\[IMAGE\]\s*(.*?)\s*\[\/IMAGE\]/g, '<img src="$1" alt="Attached Image" style="max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0;" />')
         .replace(/\[FILE\]\s*(.*?):\s*(.*?)\s*\[\/FILE\]/g, '<a href="$2" style="display: inline-block; padding: 10px 20px; background-color: #1E844F; color: white; text-decoration: none; border-radius: 6px; font-weight: 600; margin: 10px 0;" target="_blank">📥 Download: $1</a>')
         .replace(/\n/g, '<br>')
@@ -644,11 +645,11 @@ const Messages = () => {
               </button>
             </div>
             <div className="template-card">
-              <h4>Reminder Email</h4>
-              <p>Send periodic reminders and updates</p>
+              <h4>Birthday Greeting</h4>
+              <p>Send birthday wishes to ambassadors</p>
               <button
                 className="btn-outline"
-                onClick={() => handleTemplateClick('reminder')}
+                onClick={() => handleTemplateClick('birthday')}
                 disabled={sendingEmail}
               >
                 Use Template
