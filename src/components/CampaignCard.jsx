@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { collection, addDoc, getDocs, query, where } from 'firebase/firestore'
 import { db } from '../firebase'
 import { useToast } from '../context/ToastContext'
@@ -136,14 +137,14 @@ const CampaignCard = ({ campaign }) => {
         </button>
       </div>
 
-      {open && (
+      {open && createPortal(
         <>
           <div
             onClick={() => setOpen(false)}
             className="campaign-modal-overlay"
           />
 
-          <div className="campaign-modal">
+          <div className="campaign-modal" role="dialog" aria-modal="true">
             <div className="campaign-modal-header">
               <div>
                 <span className="campaign-modal-kicker">Register for event</span>
@@ -173,7 +174,8 @@ const CampaignCard = ({ campaign }) => {
               </div>
             </form>
           </div>
-        </>
+        </>,
+        document.body
       )}
     </article>
   )
