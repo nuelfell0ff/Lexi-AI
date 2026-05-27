@@ -163,6 +163,29 @@ const CampaignModal = ({ isOpen, onClose, onSubmit, editingId, formData, onFormC
             />
           </div>
 
+          {/* Capacity */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <label style={{ fontSize: '13px', fontWeight: 600, color: '#333' }}>Event Capacity</label>
+            <input
+              type="number"
+              name="capacity"
+              value={formData.capacity}
+              onChange={onFormChange}
+              placeholder="e.g., 100"
+              min="0"
+              style={{
+                padding: '10px 12px',
+                border: '1px solid #e0e0e0',
+                borderRadius: '6px',
+                fontSize: '13px',
+                fontFamily: 'Poppins, sans-serif'
+              }}
+            />
+            <small style={{ color: '#777', fontSize: '12px' }}>
+              Leave empty or 0 for unlimited spots.
+            </small>
+          </div>
+
           {/* Description */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             <label style={{ fontSize: '13px', fontWeight: 600, color: '#333' }}>Description *</label>

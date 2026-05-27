@@ -4,6 +4,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import StoriesModal from '../components/StoriesModal'
 import AmbassadorPostCard from '../components/AmbassadorPostCard'
+import CampaignCard from '../components/CampaignCard'
 import { useScrollAnimation } from '../hooks/useScrollAnimation'
 import './CampusAmbassador.css'
 import { db } from '../firebase'
@@ -97,6 +98,24 @@ const CampusAmbassador = () => {
     }, (error) => {
       console.error('Error listening to ambassador posts:', error)
       setPostsLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
+  // Fetch campaigns (events) from Firestore with real-time listener
+  useEffect(() => {
+    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        setCampaigns(campaignsData)
+      } catch (error) {
+        console.error('Error fetching campaigns:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to campaigns:', error)
     })
 
     return () => unsubscribe()
@@ -380,6 +399,28 @@ const CampusAmbassador = () => {
                 <i className="bi bi-arrow-right"></i> Apply Now
               </button>
             </div>
+          </div>
+
+          {/* Events Section - Admin-created campaigns shown as events */}
+          <div className="events-section animate-on-scroll" style={{ marginTop: 40 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div>
+                <h2 className="campaigns-section-title">Upcoming Events & Campaigns</h2>
+                <p className="campaigns-section-subtitle">See events organized for campus ambassadors and register to participate</p>
+              </div>
+            </div>
+
+            {campaigns.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '40px 20px', color: '#666' }}>
+                <p style={{ fontSize: '16px' }}>No upcoming events yet</p>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+                {campaigns.map(campaign => (
+                  <CampaignCard key={campaign.id} campaign={campaign} />
+                ))}
+              </div>
+            )}
           </div>
 
 

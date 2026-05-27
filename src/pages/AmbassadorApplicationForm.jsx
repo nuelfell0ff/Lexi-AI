@@ -56,6 +56,8 @@ const AmbassadorApplicationForm = () => {
     e.preventDefault()
     setLoading(true)
 
+    // No auth requirement here — Firestore rules will control write permissions.
+
     let cvUrl = null
     let identificationUrl = null
 
@@ -127,7 +129,14 @@ const AmbassadorApplicationForm = () => {
         navigate('/campus-ambassador')
       }, 2000)
     } catch (error) {
-      alert('Error submitting application. Please try again.')
+      console.error('Submit Application Error:', error)
+      const message = error?.message || 'Error submitting application. Please try again.'
+      try {
+        showToast(message, 'error', 'bi bi-x-circle')
+      } catch (e) {
+        // fallback if toast fails
+      }
+      alert(message)
     } finally {
       setLoading(false)
     }

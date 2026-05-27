@@ -8,6 +8,8 @@ import CampaignModal from '../../components/CampaignModal'
 const Campaigns = () => {
   const { showToast } = useToast()
   const [campaigns, setCampaigns] = useState([])
+  const [registrations, setRegistrations] = useState([])
+  const [selectedCampaignId, setSelectedCampaignId] = useState('all')
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showModal, setShowModal] = useState(false)
@@ -22,7 +24,8 @@ const Campaigns = () => {
     description: '',
     status: 'active',
     date: '',
-    ambassadors: ''
+    ambassadors: '',
+    capacity: ''
   })
 
   // Fetch campaigns with real-time listener
@@ -57,11 +60,32 @@ const Campaigns = () => {
     }
   }, [])
 
+  // Fetch event registrations with real-time listener
+  useEffect(() => {
+    const q = query(collection(db, 'campaign_registrations'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const registrationsData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setRegistrations(registrationsData)
+      } catch (error) {
+        console.error('Error processing registrations:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to registrations:', error)
+    })
+
+    return () => unsubscribe()
+  }, [])
+
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({
       ...prev,
-      [name]: name === 'ambassadors' ? parseInt(value) || 0 : value
+      [name]: (name === 'ambassadors' || name === 'capacity') ? (parseInt(value) || 0) : value
     }))
   }
 
@@ -95,7 +119,8 @@ const Campaigns = () => {
         description: '',
         status: 'active',
         date: '',
-        ambassadors: ''
+        ambassadors: '',
+        capacity: ''
       })
       setEditingId(null)
       setShowModal(false)
@@ -113,7 +138,8 @@ const Campaigns = () => {
       description: campaign.description,
       status: campaign.status,
       date: campaign.date,
-      ambassadors: campaign.ambassadors || ''
+      ambassadors: campaign.ambassadors || '',
+      capacity: campaign.capacity || ''
     })
     setEditingId(campaign.id)
     setShowModal(true)
@@ -150,8 +176,57 @@ const Campaigns = () => {
       description: '',
       status: 'active',
       date: '',
-      ambassadors: ''
+      ambassadors: '',
+      capacity: ''
     })
+  }
+
+  const getCampaignCapacity = (campaign) => {
+    const value = Number(campaign.capacity)
+    return Number.isFinite(value) && value > 0 ? value : 0
+  }
+
+  const getRegistrationCount = (campaignId) => {
+    return registrations.filter(reg => reg.campaignId === campaignId).length
+  }
+
+  const filteredRegistrations = selectedCampaignId === 'all'
+    ? registrations
+    : registrations.filter(reg => reg.campaignId === selectedCampaignId)
+
+  const downloadRegistrationsCSV = () => {
+    if (filteredRegistrations.length === 0) {
+      showToast('No registrations to export', 'warning', 'bi bi-exclamation-circle')
+      return
+    }
+
+    const header = ['Campaign Title', 'Name', 'Email', 'Institution', 'Registered At']
+    const rows = filteredRegistrations.map(reg => ([
+      reg.campaignTitle || '',
+      reg.name || '',
+      reg.email || '',
+      reg.institution || '',
+      reg.createdAt?.toDate ? reg.createdAt.toDate().toISOString() : ''
+    ]))
+
+    const escapeCsv = (value) => {
+      const text = String(value ?? '')
+      if (text.includes(',') || text.includes('"') || text.includes('\n')) {
+        return `"${text.replace(/"/g, '""')}"`
+      }
+      return text
+    }
+
+    const csv = [header, ...rows].map(row => row.map(escapeCsv).join(',')).join('\n')
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `event-registrations-${selectedCampaignId === 'all' ? 'all' : selectedCampaignId}.csv`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
   }
 
   const toggleMenu = (id, event) => {
@@ -228,6 +303,8 @@ const Campaigns = () => {
                   <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Date</th>
                   <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Status</th>
                   <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Ambassadors</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Capacity</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Registrations</th>
                   <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Description</th>
                   <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Actions</th>
                 </tr>
@@ -253,6 +330,8 @@ const Campaigns = () => {
                       </span>
                     </td>
                     <td style={{ padding: '12px' }}>{campaign.ambassadors || 0}</td>
+                    <td style={{ padding: '12px' }}>{getCampaignCapacity(campaign) || 'Unlimited'}</td>
+                    <td style={{ padding: '12px' }}>{getRegistrationCount(campaign.id)}</td>
                     <td style={{ padding: '12px', color: '#666', fontSize: '12px', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {campaign.description?.substring(0, 50)}...
                     </td>
@@ -332,6 +411,73 @@ const Campaigns = () => {
                           </button>
                         </div>
                       )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+
+      {/* Event Registrations */}
+      <div style={{ marginTop: '24px', backgroundColor: '#fff', padding: '24px', borderRadius: '12px', border: '1px solid #e0e0e0', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
+          <h3 style={{ margin: 0, fontSize: '18px', color: '#333' }}>Event Registrations ({filteredRegistrations.length})</h3>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+            <select
+              value={selectedCampaignId}
+              onChange={(e) => setSelectedCampaignId(e.target.value)}
+              style={{ padding: '8px 10px', border: '1px solid #e0e0e0', borderRadius: '6px', fontSize: '13px' }}
+            >
+              <option value="all">All Events</option>
+              {campaigns.map(campaign => (
+                <option key={campaign.id} value={campaign.id}>{campaign.title}</option>
+              ))}
+            </select>
+            <button
+              onClick={downloadRegistrationsCSV}
+              style={{
+                padding: '8px 12px',
+                backgroundColor: '#1E844F',
+                color: '#fff',
+                border: 'none',
+                borderRadius: '6px',
+                fontSize: '13px',
+                cursor: 'pointer',
+                fontWeight: 600
+              }}
+            >
+              <i className="bi bi-download"></i> Download CSV
+            </button>
+          </div>
+        </div>
+
+        {filteredRegistrations.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '24px', color: '#666' }}>
+            No registrations yet for this selection.
+          </div>
+        ) : (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px' }}>
+              <thead>
+                <tr style={{ backgroundColor: '#f8f9fa', borderBottom: '2px solid #e0e0e0' }}>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999' }}>EVENT</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999' }}>NAME</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999' }}>EMAIL</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999' }}>INSTITUTION</th>
+                  <th style={{ padding: '12px', textAlign: 'left', fontWeight: 700, color: '#999' }}>REGISTERED AT</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredRegistrations.map((registration) => (
+                  <tr key={registration.id} style={{ borderBottom: '1px solid #e0e0e0' }}>
+                    <td style={{ padding: '12px', color: '#333' }}>{registration.campaignTitle || '-'}</td>
+                    <td style={{ padding: '12px', color: '#333' }}>{registration.name || '-'}</td>
+                    <td style={{ padding: '12px', color: '#333' }}>{registration.email || '-'}</td>
+                    <td style={{ padding: '12px', color: '#555' }}>{registration.institution || '-'}</td>
+                    <td style={{ padding: '12px', color: '#555' }}>
+                      {registration.createdAt?.toDate ? registration.createdAt.toDate().toLocaleString() : '-'}
                     </td>
                   </tr>
                 ))}

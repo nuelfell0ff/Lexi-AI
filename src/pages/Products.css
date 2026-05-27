@@ -271,7 +271,7 @@
   background: #f0f5f9;
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(25, 64, 102, 0.1);
-}
+} 
 
 .symptom-features-list li:before {
   content: '✓';
