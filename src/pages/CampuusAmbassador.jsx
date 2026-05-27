@@ -6,6 +6,7 @@ import './CampuusAmbassador.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AmbassadorPostCard from '../components/AmbassadorPostCard';
+import CampaignCard from '../components/CampaignCard';
 import img1 from '../assets/IMG-20260418-WA0090.jpg';
 import img2 from '../assets/IMG-20260418-WA0064.jpg';
 import img3 from '../assets/IMG-20260418-WA0084.jpg';
@@ -21,6 +22,7 @@ const CampuusAmbassador = () => {
   const [generatedBadgeEmail, setGeneratedBadgeEmail] = useState(null);
   const [ambassadorPosts, setAmbassadorPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [campaigns, setCampaigns] = useState([]);
 
   // Fetch ambassador posts from Firestore
   useEffect(() => {
@@ -46,6 +48,24 @@ const CampuusAmbassador = () => {
 
     return () => unsubscribe();
   }, []);
+
+  // Fetch campaigns (events) from Firestore with real-time listener
+  useEffect(() => {
+    const q = query(collection(db, 'campaigns'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const campaignsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        setCampaigns(campaignsData)
+      } catch (error) {
+        console.error('Error fetching campaigns:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to campaigns:', error)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   // Sample ambassador gallery images
   const ambassadorImages = [
@@ -229,6 +249,30 @@ const CampuusAmbassador = () => {
           <button onClick={() => navigate('/ambassador-apply')} className="campuus-btn campuus-btn-primary">
             Register Here
           </button>
+        </div>
+      </section>
+
+      {/* Events Section - Admin-created campaigns shown as events */}
+      <section className="events-section" style={{ marginTop: 40 }}>
+        <div className="campuus-container">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+            <div>
+              <h2 className="campaigns-section-title">Upcoming Events & Campaigns</h2>
+              <p className="campaigns-section-subtitle">See events organized for campus ambassadors and register to participate</p>
+            </div>
+          </div>
+
+          {campaigns.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#666' }}>
+              <p style={{ fontSize: '16px' }}>No upcoming events yet</p>
+            </div>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
+              {campaigns.map(campaign => (
+                <CampaignCard key={campaign.id} campaign={campaign} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
