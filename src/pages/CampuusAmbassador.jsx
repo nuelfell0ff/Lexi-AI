@@ -252,30 +252,6 @@ const CampuusAmbassador = () => {
         </div>
       </section>
 
-      {/* Events Section - Admin-created campaigns shown as events */}
-      <section className="events-section" style={{ marginTop: 40 }}>
-        <div className="campuus-container">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <div>
-              <h2 className="campaigns-section-title">Upcoming Events & Campaigns</h2>
-              <p className="campaigns-section-subtitle">See events organized for campus ambassadors and register to participate</p>
-            </div>
-          </div>
-
-          {campaigns.length === 0 ? (
-            <div style={{ textAlign: 'center', padding: '40px 20px', color: '#666' }}>
-              <p style={{ fontSize: '16px' }}>No upcoming events yet</p>
-            </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-              {campaigns.map(campaign => (
-                <CampaignCard key={campaign.id} campaign={campaign} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
-
       {/* Ambassador Gallery */}
       <section className="campuus-gallery">
         <div className="campuus-gallery-grid">
@@ -462,6 +438,30 @@ const CampuusAmbassador = () => {
               Read More Stories
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Events Section - Admin-created campaigns shown as events */}
+      <section className="campuus-events-section">
+        <div className="campuus-container">
+          <div className="campuus-events-header">
+            <div>
+              <h2 className="campuus-section-title campuus-events-title">Upcoming Events & Campaigns</h2>
+              <p className="campuus-events-subtitle">See events organized for campus ambassadors and register to participate.</p>
+            </div>
+          </div>
+
+          {campaigns.length === 0 ? (
+            <div className="campuus-events-empty">
+              <p>No upcoming events yet.</p>
+            </div>
+          ) : (
+            <div className="campuus-events-grid">
+              {campaigns.map((campaign) => (
+                <CampaignCard key={campaign.id} campaign={campaign} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

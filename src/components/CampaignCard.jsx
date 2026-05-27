@@ -15,6 +15,8 @@ const CampaignCard = ({ campaign }) => {
 
   const capacity = Number(campaign.capacity || 0)
   const hasCapacityLimit = Number.isFinite(capacity) && capacity > 0
+  const spotsLeft = Math.max(capacity - registeredCount, 0)
+  const isFull = hasCapacityLimit && registeredCount >= capacity
 
   const loadRegisteredCount = async () => {
     try {
@@ -93,61 +95,87 @@ const CampaignCard = ({ campaign }) => {
   }
 
   return (
-    <div style={{ border: '1px solid #e6e6e6', borderRadius: 10, padding: 16, background: '#fff' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: 12 }}>
-        <div style={{ flex: 1 }}>
-          <h3 style={{ margin: '0 0 8px 0' }}>{campaign.title}</h3>
-          <p style={{ margin: 0, color: '#666', fontSize: 14 }}>{campaign.description}</p>
-          <div style={{ marginTop: 8, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {campaign.date && <span style={{ fontSize: 13, color: '#444' }}><i className="bi bi-calendar-week"></i> {campaign.date}</span>}
-            {campaign.ambassadors !== undefined && <span style={{ fontSize: 13, color: '#444' }}><i className="bi bi-people"></i> {campaign.ambassadors} ambassadors</span>}
+    <article className="campaign-card">
+      <div className="campaign-card-topline">
+        <span className="campaign-pill">Event</span>
+        {campaign.date && <span className="campaign-date"><i className="bi bi-calendar-week"></i> {campaign.date}</span>}
+      </div>
+
+      <div className="campaign-header">
+        <div className="campaign-heading-group">
+          <h3 className="campaign-title">{campaign.title}</h3>
+          <p className="campaign-description">{campaign.description}</p>
+        </div>
+      </div>
+
+      <div className="campaign-meta">
+        {campaign.ambassadors !== undefined && (
+          <div className="meta-item">
+            <i className="bi bi-people"></i>
+            <span>{campaign.ambassadors} ambassadors</span>
           </div>
+        )}
+
+        {hasCapacityLimit && (
+          <div className="meta-item">
+            <i className={`bi ${isFull ? 'bi-lock-fill' : 'bi-person-check-fill'}`}></i>
+            <span>{isFull ? 'Registration closed' : `${spotsLeft} spots left`}</span>
+          </div>
+        )}
+      </div>
+
+      <div className="campaign-card-footer">
+        <div className="campaign-footer-note">
+          {hasCapacityLimit ? `Capacity: ${capacity}` : 'Open registration'}
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <button
-            onClick={openRegistration}
-            style={{ padding: '8px 12px', background: '#1E844F', color: '#fff', border: 'none', borderRadius: 8, cursor: 'pointer' }}
-          >
-            Register
-          </button>
-        </div>
+        <button
+          onClick={openRegistration}
+          className="campaign-btn"
+        >
+          Register
+        </button>
       </div>
 
       {open && (
         <>
           <div
             onClick={() => setOpen(false)}
-            style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.45)', zIndex: 1000 }}
+            className="campaign-modal-overlay"
           />
 
-          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 1001, background: '#fff', borderRadius: 10, width: '90%', maxWidth: 520, padding: 20, boxShadow: '0 20px 60px rgba(0,0,0,0.2)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <h4 style={{ margin: 0 }}>{campaign.title}</h4>
-              <button onClick={() => setOpen(false)} style={{ background: 'none', border: 'none', fontSize: 20, cursor: 'pointer' }}>&times;</button>
+          <div className="campaign-modal">
+            <div className="campaign-modal-header">
+              <div>
+                <span className="campaign-modal-kicker">Register for event</span>
+                <h4>{campaign.title}</h4>
+              </div>
+              <button onClick={() => setOpen(false)} className="campaign-modal-close" aria-label="Close registration modal">&times;</button>
             </div>
 
             {hasCapacityLimit && (
-              <div style={{ marginBottom: 10, fontSize: 13, color: '#555' }}>
-                Spots left: <strong>{Math.max(capacity - registeredCount, 0)}</strong> / {capacity}
+              <div className="campaign-modal-capacity">
+                <span>Spots left</span>
+                <strong>{spotsLeft}</strong>
+                <small>of {capacity}</small>
               </div>
             )}
 
-            <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <input placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} required style={{ padding: 10, borderRadius: 8, border: '1px solid #e0e0e0' }} />
-              <input placeholder="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required style={{ padding: 10, borderRadius: 8, border: '1px solid #e0e0e0' }} />
-              <input placeholder="Institution (optional)" value={institution} onChange={(e) => setInstitution(e.target.value)} style={{ padding: 10, borderRadius: 8, border: '1px solid #e0e0e0' }} />
+            <form onSubmit={handleRegister} className="campaign-modal-form">
+              <input placeholder="Full name" value={name} onChange={(e) => setName(e.target.value)} required className="campaign-input" />
+              <input placeholder="Email address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="campaign-input" />
+              <input placeholder="Institution (optional)" value={institution} onChange={(e) => setInstitution(e.target.value)} className="campaign-input" />
 
-              <div style={{ display: 'flex', gap: 8, marginTop: 6 }}>
-                <button type="submit" disabled={loading} style={{ padding: '10px 12px', background: loading ? '#ccc' : '#1E844F', color: '#fff', border: 'none', borderRadius: 8, cursor: loading ? 'not-allowed' : 'pointer', flex: 1 }}>
+              <div className="campaign-modal-actions">
+                <button type="submit" disabled={loading || isFull} className="campaign-btn campaign-btn-primary">
                   {loading ? 'Registering...' : 'Confirm Registration'}
                 </button>
-                <button type="button" onClick={() => setOpen(false)} style={{ padding: '10px 12px', background: '#f0f0f0', border: 'none', borderRadius: 8, flex: 1 }}>Cancel</button>
+                <button type="button" onClick={() => setOpen(false)} className="campaign-btn campaign-btn-secondary">Cancel</button>
               </div>
             </form>
           </div>
         </>
       )}
-    </div>
+    </article>
   )
 }
 
