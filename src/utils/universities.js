@@ -5,6 +5,7 @@ export const NIGERIAN_UNIVERSITIES = [
   'Ahmadu Bello University',
   'University of Lagos',
   'University of Benin',
+  'College of Nursing,Bowen University Teaching Hospital,Ogbomoso,Oyo state',
   'Bayero University, Kano',
   'University of Calabar',
   'University of Ilorin',
