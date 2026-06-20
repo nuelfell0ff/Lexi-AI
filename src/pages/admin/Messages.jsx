@@ -59,8 +59,6 @@ const Messages = () => {
   const EMAILJS_TEMPLATE_ID = 'template_9br37md'
   const EMAILJS_PUBLIC_KEY = 'xYHizYmGx8k8_1n3O'
 
-  // Ini
-
   // Fetch email notifications setting
   useEffect(() => {
     const fetchSettings = async () => {
@@ -126,7 +124,6 @@ const Messages = () => {
   // Send email via EmailJS
   const sendEmail = async (toEmail, userName, emailSubject, emailMessage) => {
     try {
-      // Process message to convert special tags to HTML and replace placeholders
       let processedMessage = emailMessage
         .replace(/\[Name\]/g, userName)
         .replace(/\[IMAGE\]\s*(.*?)\s*\[\/IMAGE\]/g, '<img src="$1" alt="Attached Image" style="max-width: 100%; height: auto; border-radius: 8px; margin: 15px 0;" />')
@@ -163,7 +160,8 @@ const Messages = () => {
       recipients = users
     } else if (recipient === 'approved') {
       recipients = users.filter(u => u.status && u.status.toLowerCase() === 'approved')
-    } else if (recipient === 'pending') {
+    } else if (recipient === 'new_applicants' || recipient === 'pending') {
+      // Matches the logic in NotificationModal for New / Pending applications
       recipients = users.filter(u => !u.status || u.status.toLowerCase() === 'pending')
     } else if (recipient === 'university') {
       recipients = users.filter(u => u.institution === selectedUniversity)
@@ -193,30 +191,25 @@ const Messages = () => {
         lastDate: today
       }
 
-      // Reset emailsSentToday if it's a new day
       if (currentData.lastDate !== today) {
         currentData.emailsSentToday = 0
         currentData.lastDate = today
       }
 
-      // Update counters
       currentData.totalEmailsSent += successCount + failureCount
       currentData.emailsSentToday += successCount + failureCount
       currentData.totalRecipientsReached += successCount
       currentData.successfulEmails += successCount
       currentData.failedEmails += failureCount
 
-      // Calculate success rate
       currentData.successRate = Math.round(
         (currentData.successfulEmails / currentData.totalEmailsSent) * 100
       ) || 0
 
-      // Update template usage
       if (templateUsed) {
         currentData.templateUsage[templateUsed] = (currentData.templateUsage[templateUsed] || 0) + 1
       }
 
-      // Add recent send record (keep last 10)
       currentData.recentSends = [
         {
           timestamp: new Date().toLocaleString(),
@@ -228,7 +221,6 @@ const Messages = () => {
         ...currentData.recentSends.slice(0, 9)
       ]
 
-      // Save to Firebase
       await setDoc(analyticsRef, currentData)
       setAnalytics(currentData)
     } catch (error) {
@@ -238,7 +230,6 @@ const Messages = () => {
 
   // Handle Send
   const handleSend = async () => {
-    // Validation
     if (!subject.trim()) {
       showToast('Please enter a subject', 'error', 'bi bi-exclamation-circle')
       return
@@ -258,7 +249,6 @@ const Messages = () => {
     setSendingEmail(true)
 
     try {
-      // Send emails sequentially with delay to avoid rate limiting
       let successCount = 0
       let failureCount = 0
       const selectedTemplate = sessionStorage.getItem('selectedTemplate')
@@ -270,7 +260,6 @@ const Messages = () => {
         } catch (error) {
           failureCount++
         }
-        // Add 500ms delay between emails to avoid rate limiting
         await new Promise(resolve => setTimeout(resolve, 500))
       }
 
@@ -281,13 +270,11 @@ const Messages = () => {
           'bi bi-check-circle'
         )
 
-        // Update analytics
         await updateAnalytics(successCount, failureCount, selectedTemplate || 'custom')
       } else {
         showToast('Failed to send emails', 'error', 'bi bi-x-circle')
       }
 
-      // Clear form only if all successful
       if (failureCount === 0) {
         setMessage('')
         setSubject('')
@@ -302,34 +289,27 @@ const Messages = () => {
     }
   }
 
-  // Handle Template Click
   const handleTemplateClick = (templateName) => {
     const template = templates[templateName]
     if (template) {
       setSubject(template.subject)
       setMessage(template.message)
-      // Track which template was selected (stored in a ref)
       sessionStorage.setItem('selectedTemplate', templateName)
     }
   }
 
-  // Upload media to Cloudinary
   const uploadMedia = async (file) => {
     try {
-      // Validation
       if (!file) throw new Error('No file selected')
-
-      const maxSize = 10 * 1024 * 1024 // 10MB
+      const maxSize = 10 * 1024 * 1024
       if (file.size > maxSize) throw new Error('File size must be less than 10MB')
 
-      // Create FormData
       const formData = new FormData()
       formData.append('file', file)
       formData.append('upload_preset', 'lexi-ai')
 
-      // Upload to Cloudinary with timeout
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 30000) // 30 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 30000)
 
       try {
         const response = await fetch(
@@ -366,7 +346,6 @@ const Messages = () => {
     }
   }
 
-  // Handle media upload
   const handleMediaUpload = async (e) => {
     const files = e.target.files
     if (!files) return
@@ -380,12 +359,9 @@ const Messages = () => {
 
         setAttachedMedia(prev => [...prev, mediaData])
 
-        // Auto-insert media into message
         if (mediaData.type.startsWith('image/')) {
-          // Insert image URL for email rendering
           setMessage(prev => prev + `\n\n[IMAGE] ${mediaData.url} [/IMAGE]`)
         } else {
-          // Insert download link for non-image files
           setMessage(prev => prev + `\n\n[FILE] ${mediaData.name}: ${mediaData.url} [/FILE]`)
         }
       }
@@ -395,11 +371,10 @@ const Messages = () => {
       showToast(`Upload error: ${error.message}`, 'error', 'bi bi-x-circle')
     } finally {
       setUploadingMedia(false)
-      e.target.value = '' // Reset input
+      e.target.value = ''
     }
   }
 
-  // Remove attached media
   const removeMedia = (index) => {
     setAttachedMedia(prev => prev.filter((_, i) => i !== index))
   }
@@ -472,6 +447,7 @@ const Messages = () => {
             >
               <option value="all">All Ambassadors ({users.length})</option>
               <option value="approved">Approved Only ({users.filter(u => u.status && u.status.toLowerCase() === 'approved').length})</option>
+              <option value="new_applicants">New Applicants Only ({users.filter(u => !u.status || u.status.toLowerCase() === 'pending').length})</option>
               <option value="pending">Pending Only ({users.filter(u => !u.status || u.status.toLowerCase() === 'pending').length})</option>
               <option value="university">Filter by University</option>
               <option value="specific">Specific Ambassador</option>
