@@ -661,6 +661,146 @@
   background: linear-gradient(135deg, rgba(25, 64, 102, 0.2) 0%, rgba(30, 132, 79, 0.2) 100%);
 }
 
+/* Campaigns Section */
+.campaigns-section {
+  margin-bottom: 100px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 60px 40px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+}
+
+.campaigns-section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--primary-blue);
+  margin: 0 0 48px 0;
+}
+
+/* Campaigns Section */
+.campaigns-section {
+  margin-bottom: 80px;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 40px;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 0 0 12px 0;
+}
+
+.section-description {
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+  font-weight: 400;
+}
+
+.campaigns-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px;
+}
+
+.campaign-card {
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.campaign-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--primary-blue);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.campaign-card:hover {
+  border-color: var(--primary-blue);
+  box-shadow: 0 8px 24px rgba(25, 64, 102, 0.15);
+  transform: translateY(-4px);
+}
+
+.campaign-card:hover::before {
+  opacity: 1;
+}
+
+.campaign-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.campaign-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+  flex: 1;
+}
+
+.campaign-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.campaign-status.active {
+  background: rgba(25, 64, 102, 0.15);
+  color: var(--primary-blue);
+}
+
+.campaign-status.completed {
+  background: rgba(100, 100, 100, 0.15);
+  color: #666;
+}
+
+.campaign-description {
+  font-size: 0.95rem;
+  color: #666666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.campaign-meta {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.campaign-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .campuus-blog-content {
   padding: 30px;
   flex-grow: 1;
@@ -1175,6 +1315,16 @@
     display: none;
   }
 
+  .campaigns-section {
+    padding: 40px 24px;
+    margin-bottom: 60px;
+  }
+
+  .campaigns-section-title {
+    font-size: 1.6rem;
+    margin-bottom: 36px;
+  }
+
   .campuus-hero {
     padding: 180px 20px 60px 20px;
     min-height: 400px;
@@ -1281,6 +1431,17 @@
   .campuus-qualities-title {
     font-size: 2.5rem;
     margin-bottom: 30px;
+  }
+
+  .campaigns-section {
+    padding: 30px 16px;
+    margin-bottom: 50px;
+    border-radius: 12px;
+  }
+
+  .campaigns-section-title {
+    font-size: 1.4rem;
+    margin-bottom: 24px;
   }
 
   .campuus-universities-grid {

@@ -5,6 +5,8 @@ import { db } from '../firebase';
 import './CampuusAmbassador.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import StoriesModal from '../components/StoriesModal';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import AmbassadorPostCard from '../components/AmbassadorPostCard';
 import CampaignCard from '../components/CampaignCard';
 import img1 from '../assets/IMG-20260418-WA0090.jpg';
@@ -17,6 +19,8 @@ const CampuusAmbassador = () => {
   const [activeStoryIndex, setActiveStoryIndex] = useState(0);
   const [activeBenefitIndex, setActiveBenefitIndex] = useState(0);
   const [expandedFaq, setExpandedFaq] = useState(null);
+  const [stories, setStories] = useState([]);
+  const [storiesModalOpen, setStoriesModalOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [emailSuccess, setEmailSuccess] = useState(false);
   const [generatedBadgeEmail, setGeneratedBadgeEmail] = useState(null);
@@ -120,29 +124,26 @@ const CampuusAmbassador = () => {
     },
   ];
 
-  const stories = [
-    {
-      id: 1,
-      title: 'How I Built My First AI Project',
-      excerpt: 'Join me as I share my journey of leveraging Lexi AI to understand healthcare data...',
-      date: 'June 25, 2025',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-    },
-    {
-      id: 2,
-      title: 'Lexi AI Transformed My Learning',
-      excerpt: 'Discover how an ambassador program changed the way I approach problem-solving...',
-      date: 'March 26, 2024',
-      image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
-    },
-    {
-      id: 3,
-      title: 'My Internship with Lexi AI',
-      excerpt: "It's been a whirlwind journey learning full-stack development and working on real-world healthcare solutions...",
-      date: 'May 31, 2024',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
-    },
-  ];
+  // Fetch campaigns from Firestore with real-time listener
+  useEffect(() => {
+    const q = query(collection(db, 'stories'), orderBy('createdAt', 'desc'))
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      try {
+        const storiesData = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+        }))
+        setStories(storiesData)
+      } catch (error) {
+        console.error('Error fetching stories:', error)
+      }
+    }, (error) => {
+      console.error('Error listening to stories:', error)
+    })
+
+    return () => unsubscribe()
+  }, [])
 
   const universities = [
     'University of Lagos',
@@ -182,14 +183,6 @@ const CampuusAmbassador = () => {
       answer: 'Yes! Each ambassador gets paired with a mentor and access to our learning resources and community support.',
     },
   ];
-
-  const handleStoryNav = (direction) => {
-    if (direction === 'next') {
-      setActiveStoryIndex((prev) => (prev + 1) % stories.length);
-    } else {
-      setActiveStoryIndex((prev) => (prev - 1 + stories.length) % stories.length);
-    }
-  };
 
   const handleBenefitNav = (direction) => {
     const isDesktop = window.innerWidth > 768;
@@ -418,28 +411,50 @@ const CampuusAmbassador = () => {
       </section>
 
       {/* Blog Stories Section */}
-      <section className="campuus-blog-stories">
-        <div className="campuus-container">
-          <h2 className="campuus-section-title">Read their stories</h2>
-          <div className="campuus-blog-grid">
-            {stories.map((story) => (
-              <article key={story.id} className="campuus-blog-card">
-                <div className="campuus-blog-image" style={{ backgroundImage: `url(${story.image})` }}></div>
-                <div className="campuus-blog-content">
-                  <h3>{story.title}</h3>
-                  <p>{story.excerpt}</p>
-                  <time>{story.date}</time>
+      <div className="campaigns-section">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center !important', marginBottom: '40px' }}>
+          <div>
+            <h2 className="campaigns-section-title mb-0">Read their stories</h2>
+          </div>
+          <button
+            onClick={() => setStoriesModalOpen(true)}
+            className="share-story-btn"
+          >
+            <i className="bi bi-pencil-square"></i> Share Your Story
+          </button>
+        </div>
+        {stories.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#666' }}>
+            <i className="bi bi-chat-left-text" style={{ fontSize: '48px', marginBottom: '16px', display: 'block', color: '#ddd' }}></i>
+            <p style={{ fontSize: '18px', fontWeight: 500, margin: '0 0 8px 0', color: '#333' }}>No stories yet</p>
+            <p style={{ fontSize: '14px', color: '#999', margin: 0 }}>Be the first to share your experience!</p>
+          </div>
+        ) : (
+          <div className="campaigns-grid">
+            {stories.map(story => (
+              <div key={story.id} className="campaign-card">
+                {story.storyImage ? (
+                  <div className="story-image-container">
+                    <img src={story.storyImage} alt={story.authorName} className="story-image" />
+                  </div>
+                ) : (
+                  <div className="story-image-placeholder">
+                    <i className="bi bi-person-circle"></i>
+                  </div>
+                )}
+                <div className="campaign-header">
+                  <h3 className="campaign-title">{story.storyTitle}</h3>
                 </div>
-              </article>
+                <p className="campaign-description">{story.storyContent.substring(0, 150)}...</p>
+                <div className="campaign-meta">
+                  <span><i className="bi bi-person"></i> {story.authorName}</span>
+                  {story.authorInstitution && story.authorInstitution !== 'Not specified' && <span><i className="bi bi-building"></i> {story.authorInstitution}</span>}
+                </div>
+              </div>
             ))}
           </div>
-          <div className="campuus-blog-action">
-            <a href="#stories" className="campuus-btn campuus-btn-primary">
-              Read More Stories
-            </a>
-          </div>
-        </div>
-      </section>
+        )}
+      </div>
 
       {/* Events Section - Admin-created campaigns shown as events */}
       <section className="campuus-events-section">
@@ -536,6 +551,13 @@ const CampuusAmbassador = () => {
         </div>
       </section>
 
+      <StoriesModal
+        isOpen={storiesModalOpen}
+        onClose={() => setStoriesModalOpen(false)}
+        onStoryAdded={() => {
+          // Stories will be automatically updated from Firestore listener
+        }}
+      />
       <Footer />
     </div>
   );
