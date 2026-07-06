@@ -12,7 +12,60 @@ import '../../styles/Messages.css'
 const templates = {
   welcome: {
     subject: 'Welcome to Lexi AI Campus Ambassador Program!',
-    message: `Welcome to the Lexi AI Campus Ambassador Program! We're thrilled to have you on board.\n\nAs a Campus Ambassador, you'll play a crucial role in bringing AI-powered healthcare solutions to your campus community. Your mission is to educate, engage, and inspire students about the future of healthcare.\n\nBest regards,\nLexi AI Team`
+    message: `Congratulations!
+
+We are delighted to inform you that your application for the Lexi AI by MedxVerse National Campus Ambassador Programme has been successfully approved.
+
+After a careful review of applications received from across the country, your passion for innovation, leadership potential, and commitment to advancing digital healthcare distinguished you as one of the successful candidates. We are excited to officially welcome you to the MedxVerse community.
+
+As a Lexi AI by MedxVerse National Campus Ambassador, you will play an important role in representing MedxVerse on your campus by:
+
+* Promoting the adoption of Lexi AI and the MedxVerse platform.
+* Organizing awareness campaigns, outreach activities, and campus engagements.
+* Building a vibrant community of students passionate about healthcare, technology, and artificial intelligence.
+* Providing valuable feedback that will help us improve our products and services.
+* Collaborating with ambassadors from other institutions across Nigeria.
+
+What Happens Next?
+
+Please complete the following steps:
+
+1. Accept your offer by replying to this email within 72 hours.
+2. Join the official Campus Ambassador WhatsApp community using the invitation link that will be shared with you.
+3. Complete your onboarding form and ambassador profile.
+4. Attend the mandatory virtual orientation session, where you will receive training on your responsibilities, available resources, and programme benefits.
+5. Begin your journey as an official representative of MedxVerse and Lexi AI.
+
+Ambassador Benefits
+
+As a Campus Ambassador, you will enjoy:
+
+* An official **MedxVerse Campus Ambassador Certificate**.
+* Exclusive leadership and innovation training.
+* Direct mentorship from the MedxVerse leadership team.
+* Priority access to internships, volunteer opportunities, and future recruitment programmes.
+* Networking opportunities with healthcare professionals, innovators, and technology leaders.
+* Performance-based rewards, recognition, and incentives.
+* Early access to new MedxVerse and Lexi AI products and features.
+* Opportunities to represent MedxVerse at conferences, campus events, and innovation programmes.
+
+Your appointment reflects our confidence in your ability to inspire others and contribute meaningfully to our mission of making healthcare more accessible through technology.
+
+Join Other Ambassadors
+WhatsApp: https://bit.ly/Medxverse_National_Campus_Ambassadors
+
+We are excited to work with you as we build the future of digital healthcare together.
+
+Once again, congratulations, and welcome to the Lexi AI by MedxVerse National Campus Ambassador Programme.
+
+We look forward to making a lasting impact with you.
+
+Warm regards,
+
+Timilehin Seyi. O
+Founder & Chief Executive Officer
+MedxVerse Telemedicine & Virtual Care Ltd
+Building the Future of Digital Healthcare`
   },
   approval: {
     subject: 'Congratulations! Your Application Has Been Approved',
