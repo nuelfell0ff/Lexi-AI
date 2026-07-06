@@ -79,5 +79,6 @@ export const NIGERIAN_UNIVERSITIES = [
   'Tai Solarin University of Education',
   'Confluence University of Science and Technology',
   'University of Delta',
-  'Dennis Osadebay University'
+  'Dennis Osadebay University',
+  'Oduduwa university,Ipetumodu'
 ]
